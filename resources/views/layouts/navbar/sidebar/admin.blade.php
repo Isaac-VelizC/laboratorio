@@ -1,39 +1,66 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="../../index3.html" class="brand-link">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#168a82">
+    <a href="{{ url('/') }}" class="brand-link">
       <img src="../../dist/img/AdminLTELogo.png"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">SIS-LABORATORIO</span>
     </a>
     <div class="sidebar">
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item">
-            <a href="../widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+      <nav class="mt-4">
+        <ul class="nav nav-pills nav-sidebar flex-column text-md nav-compact nav-flat nav-child-indent nav-collapse-hide-child" data-widget="treeview" role="menu" data-accordion="false">
+         <li class="nav-item dropdown">
+           <a href="{{ url('/') }}" class="nav-link nav-home">
+             <i class="nav-icon fas fa-tachometer-alt"></i>
+             <p>
+               Panel de Control
+             </p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="" class="nav-link nav-appointments">
+             <i class="nav-icon fas fa-calendar"></i>
+             <p>
+             Citas
+             </p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="" class="nav-link nav-clients">
+             <i class="nav-icon fas fa-users"></i>
+             <p>
+             Pacientes
+             </p>
+           </a>
+         </li>
+         @if (Auth::user()->type == 1)
+          <li class="nav-header">Mantenimiento</li>
+          <li class="nav-item dropdown">
+            <a href="" class="nav-link nav-tests">
+              <i class="nav-icon fas fa-th-list"></i>
               <p>
-                Widgets
+                Pruebas
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="../widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+          <li class="nav-item dropdown">
+            <a href="" class="nav-link nav-user_list">
+              <i class="nav-icon fas fa-users-cog"></i>
               <p>
-                Widgets
+                Usuarios
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="../widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+          <li class="nav-item dropdown">
+            <a href="" class="nav-link nav-system_info">
+              <i class="nav-icon fas fa-cogs"></i>
               <p>
-                Widgets
+                Configuración & Publicidad
               </p>
             </a>
           </li>
-        </ul>
-      </nav>
+         @endif
+       </ul>
+     </nav>
     </div>
   </aside>
