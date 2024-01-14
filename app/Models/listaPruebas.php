@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class listaPruebas extends Model
 {
     use HasFactory;
+    protected $table = 'lista_pruebas';
+
+    protected $fillable = [
+        'name',
+        'description',
+        'cost',
+        'status',
+        'delete_flag'
+    ];
 }

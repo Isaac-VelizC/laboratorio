@@ -12,7 +12,7 @@
           border-radius: 50px;
     }
 </style>
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<nav class="main-header navbar navbar-expand navbar-light" style="background-color:#168a82">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -28,7 +28,7 @@
         <div class="btn-group nav-link">
               <button type="button" class="btn btn-rounded badge badge-light dropdown-toggle dropdown-icon" data-toggle="dropdown">
                 <span><img src="{{ Auth::user()->avatar }}" class="img-circle elevation-2 user-img" alt="User Image"></span>
-                <span class="ml-3">{{ Auth::user()->name }}</span>
+                <span class="ml-4">{{ Auth::user()->name }}</span>
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <div class="dropdown-menu" role="menu">
@@ -44,9 +44,6 @@
                     </form>
               </div>
           </div>
-      </li>
-      <li class="nav-item">
-        
       </li>
     </ul>
   </nav>

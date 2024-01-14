@@ -28,4 +28,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware(['auth'])->group(function () {
     //calendario
     Route::get('/user/cliente', [ClienteController::class, 'index'])->name('cliente.perfil');
+    Route::get('/user/cliente/citas', [ClienteController::class, 'misCitas'])->name('cliente.citas');
+    Route::get('/user/cliente/pruebas', [ClienteController::class, 'resultados'])->name('cliente.resultados');
 });
