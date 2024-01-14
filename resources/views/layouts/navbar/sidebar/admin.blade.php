@@ -26,7 +26,7 @@
            </a>
          </li>
          <li class="nav-item">
-           <a href="" class="nav-link nav-clients">
+           <a href="{{ route('admin.list.paciente') }}" class="nav-link nav-clients">
              <i class="nav-icon fas fa-users"></i>
              <p>
              Pacientes
@@ -36,7 +36,7 @@
          @if (Auth::user()->type == 1)
           <li class="nav-header">Mantenimiento</li>
           <li class="nav-item dropdown">
-            <a href="" class="nav-link nav-tests">
+            <a href="{{ route('admin.list.prueba') }}" class="nav-link nav-tests">
               <i class="nav-icon fas fa-th-list"></i>
               <p>
                 Pruebas
@@ -44,7 +44,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a href="" class="nav-link nav-user_list">
+            <a href="{{ route('admin.list.user') }}" class="nav-link nav-user_list">
               <i class="nav-icon fas fa-users-cog"></i>
               <p>
                 Usuarios

@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css')}}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     @if (auth()->check())
@@ -56,6 +58,9 @@
     <script src="{{ asset('dist/js/demo.js')}}"></script>
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js')}}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+    <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+    <script src="{{ asset('plugins/toastr/toastr.min.js')}}"></script>
+
     <script>
         $(function () {
           $("#example1").DataTable();
