@@ -142,8 +142,63 @@ class AdminController extends Controller
     }
     public function pruebasList() {
         $i = 1;
-        $pruebas = listaPruebas::all();
+        $pruebas = listaPruebas::where('delete_flag', 0)->get();
         return view('admin.pruebas.index', compact('pruebas', 'i'));
     }
-    
+    public function pruebaNew(Request $request) {
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'cost' => 'required|numeric|min:1',
+                'status' => 'required|numeric',
+                'description' => 'required|string',
+            ]);
+
+            listaPruebas::create([
+                'name' => $request->name,
+                'cost' => $request->cost,
+                'status' => $request->status,
+                'description' => $request->description,
+            ]);
+
+            return back()->with('success', 'Prueba creado con éxito');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error al crear la Prueba. ' . $th->getMessage());
+        }
+    }
+    public function pruebaNewShow($id) {
+        $prueba = listaPruebas::find($id);
+        return view('admin.pruebas.show', compact('prueba'));
+    }
+    public function pruebaEditar(Request $request, $id) {
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'cost' => 'required|numeric|min:1',
+                'status' => 'required|numeric',
+                'description' => 'required|string',
+            ]);
+
+            listaPruebas::find($id)->update([
+                'name' => $request->name,
+                'cost' => $request->cost,
+                'status' => $request->status,
+                'description' => $request->description,
+            ]);
+
+            return back()->with('success', 'Prueba actualizado con éxito');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error al actualizar la prueba. ' . $th->getMessage());
+        }
+    }
+    public function deletePruebaNew(Request $request) {
+        try {
+            $test = listaPruebas::find($request->id);
+            $test->delete_flag = 1;
+            $test->update();
+            return back()->with('message', 'Prueba eliminado correctamente');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al eliminar el Prueba: ' . $e->getMessage());
+        }
+    }
 }

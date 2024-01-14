@@ -42,5 +42,10 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/admin/pacientes', [AdminController::class, 'pacientesList'])->name('admin.list.paciente');
     Route::delete('/admin/pacientes/borrar', [AdminController::class, 'deletepacienteNew'])->name('admin.paciente.delete');
+
     Route::get('/admin/pruebas', [AdminController::class, 'pruebasList'])->name('admin.list.prueba');
+    Route::post('/admin/pruebas/create', [AdminController::class, 'pruebaNew'])->name('admin.new.prueba');
+    Route::post('/admin/pruebas/edit/{id}', [AdminController::class, 'pruebaEditar'])->name('admin.edit.prueba');
+    Route::get('/admin/pruebas/show/{id}', [AdminController::class, 'pruebaNewShow'])->name('admin.prueba.show');
+    Route::delete('/admin/pruevbas/borrar', [AdminController::class, 'deletePruebaNew'])->name('admin.prueba.delete');
 });
