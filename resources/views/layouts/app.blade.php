@@ -14,26 +14,18 @@
 </head>
 <body>
     @if (auth()->check())
-        <div class="wrapper">
-            @if (in_array('Cliente', Auth::user()->getRoleNames()->toArray()))
-                @include('layouts.navbar.sidebar.cliente')
-            @else
-                @include('layouts.navbar.sidebar.admin')
-            @endif
-                @include('layouts.navbar.nav')                
-                <div class="content-wrapper">
-                    <section class="content">
-                        @yield('content')
-                    </section>
-                </div>
-            <footer class="main-footer">
-              <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.0.0
-              </div>
-              <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-              reserved.
-            </footer>
-        </div>
+        @if (in_array('Cliente', Auth::user()->getRoleNames()->toArray()))
+            @include('layouts.navbar.sidebar.cliente')
+        @else
+            @include('layouts.navbar.sidebar.admin')
+        @endif
+            @include('layouts.navbar.nav')             
+            <div class="content-wrapper">
+                <br>
+                <section class="content">
+                    @yield('content')
+                </section>
+            </div>
     @else
         @yield('content')
     @endif

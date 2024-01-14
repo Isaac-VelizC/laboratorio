@@ -80,6 +80,7 @@ class RegisterController extends Controller
                 'lastname' => $data['lastname'],
             ]);
 
+            $user->assignRole('Cliente');
             // Creación del cliente asociado al usuario
             listaCliente::create([
                 'gender' => $data['gender'],
