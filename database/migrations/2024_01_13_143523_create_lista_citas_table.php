@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code', 100);
             $table->dateTime('schedule');
-            $table->text('prescription_path');
+            $table->text('prescription_path')->nullable();
             $table->integer('status')->default(0);
             $table->unsignedBigInteger('client_id')->nullable();
             $table->foreign('client_id')->references('id')->on('lista_clientes')->onDelete('cascade');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\listaCita;
 use App\Models\listaCliente;
+use App\Models\listaHistorial;
 use App\Models\listaPruebas;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -199,6 +201,38 @@ class AdminController extends Controller
             return back()->with('message', 'Prueba eliminado correctamente');
         } catch (\Exception $e) {
             return back()->with('error', 'Error al eliminar el Prueba: ' . $e->getMessage());
+        }
+    }
+    public function listasCitas() {
+        $i = 1;
+        $citas = listaCita::all();
+        return view('admin.citas.index', compact('citas', 'i'));
+    }
+    public function citaShow($id) {
+        $i = 1;
+        $h = 1;
+        $cita = listaCita::find($id);
+        $hists = listaHistorial::where('appointment_id', $cita->id)->get();
+        return view('admin.citas.show', compact('cita', 'hists', 'i', 'h'));
+    }
+    public function update_appointment_status(Request $request, $id) {
+        try {
+            $request->validate([
+                'remarks' => 'required|string|max:255',
+                'status' => 'required|numeric',
+                
+            ]);
+            listaCita::find($id)->update(['status' => $request->status]);
+
+            listaHistorial::create([
+                'appointment_id' => $id,
+                'status' => $request->status,
+                'remarks' => $request->remarks,
+            ]);
+
+            return back()->with('message', 'Se cambio el estado con éxito');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error al cambiae el estado. ' . $th->getMessage());
         }
     }
 }

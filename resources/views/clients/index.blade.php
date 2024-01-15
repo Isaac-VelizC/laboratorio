@@ -6,59 +6,60 @@
     <div class="card-body">
         <div class="container-fluid">
             <div id="msg"></div>
-            <form action="" id="manage-user">  
+            <form action="{{ route('cliente.update.perfil', $cliente->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf  
                 <input type="hidden" name="id" value="{{ $user->id }}">
                 <div class="row">
                     <div class="form-group col-md-4">
-                        <input type="text" name="firstname" id="firstname" placeholder="Nombre" autofocus required class="form-control form-control-sm form-control-border" value="{{ isset($user->firstname) ? $user->firstname : '' }}">
+                        <input type="text" name="nombres" id="nombres" placeholder="Nombre" autofocus required class="form-control form-control-sm form-control-border" value="{{ isset($user->nombres) ? $user->nombres : '' }}">
                         <small class="mx-2">Nombre</small>
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="text" name="middlename" id="middlename" placeholder="(opcional)" class="form-control form-control-sm form-control-border" value="{{ isset($user->middlename) ? $user->middlename : '' }}">
+                        <input type="text" name="apellido_pa" id="apellido_pa" placeholder="(opcional)" class="form-control form-control-sm form-control-border" value="{{ isset($user->apellido_pa) ? $user->apellido_pa : '' }}">
                         <small class="mx-2">Segundo Nombre</small>
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="text" name="lastname" id="lastname" placeholder="Apellido" required class="form-control form-control-sm form-control-border" value="{{ isset($user->lastname) ? $user->lastname : '' }}">
+                        <input type="text" name="apellido_ma" id="apellido_ma" placeholder="Apellido" required class="form-control form-control-sm form-control-border" value="{{ isset($user->apellido_ma) ? $user->apellido_ma : '' }}">
                         <small class="mx-2">Apellido</small>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4">
+                        <input type="text" name="ci" id="ci" required class="form-control form-control-sm form-control-border" value="{{ isset($user->ci) ? $user->ci : '' }}">
+                        <small class="mx-2">Cedula de Itentidad</small>
+                    </div>
+                    <div class="form-group col-md-4">
                         <select name="gender" id="gender" class="form-control form-control-sm form-control-border" required>
-                            <option value="Male" {{ isset($user->gender) && $user->gender =='Male' ? 'selected' : '' }}>Masculino</option>
-                            <option value="Female" {{ isset($user->gender) && $user->gender =='Female' ? 'selected' : '' }}>Femenino</option>
+                            <option value="Male" {{ isset($cliente->gender) && $cliente->gender =='Male' ? 'selected' : '' }}>Masculino</option>
+                            <option value="Female" {{ isset($cliente->gender) && $cliente->gender =='Female' ? 'selected' : '' }}>Femenino</option>
                         </select>
                         <small class="mx-2">Sexo</small>
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="date" name="dob" id="dob" placeholder="(optional)" required class="form-control form-control-sm form-control-border"  value="{{ isset($user->dob) ? $user->dob : '' }}">
+                        <input type="date" name="dob" id="dob" placeholder="(optional)" required class="form-control form-control-sm form-control-border"  value="{{ isset($cliente->dob) ? $cliente->dob : '' }}">
                         <small class="mx-2">Fecha de Nacimiento</small>
                     </div>
-                    <div class="form-group col-md-4">
-                        <input type="text" name="contact" id="contact" placeholder="+57-3XX-XXXXXXX" required class="form-control form-control-sm form-control-border" value="{{ isset($user->contact) ? $user->contact : '' }}">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <input type="text" name="address" id="address" class="form-control form-control-sm rounded-0" value="{{ isset($cliente->address) ? $cliente->address : '' }}">
+                        <small class="mx-2">Dirección</small>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" name="contact" id="contact" placeholder="+57-3XX-XXXXXXX" required class="form-control form-control-sm form-control-border" value="{{ isset($cliente->contact) ? $cliente->contact : '' }}">
                         <small class="mx-2">Teléfono</small>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-12">
-                        <small class="mx-2">Dirección</small>
-                        <textarea name="address" id="address" rows="3" class="form-control form-control-sm rounded-0">{{ isset($user->address) ? $user->address : '' }}</textarea>
-                    </div>
-                </div>
-                <div class="row">
-                      <div class="form-group col-md-10">
+                      <div class="form-group col-md-4">
                         <input type="email" name="email" id="email" placeholder="correo@mail.com" required class="form-control form-control-sm form-control-border" value="{{ isset($user->email) ? $user->email : '' }}">
                         <small class="mx-2">Correo electrónico</small>
                     </div>
-                </div>
-                <div class="row">
-                      <div class="form-group col-md-10">
+                      <div class="form-group col-md-4">
                         <input type="password" name="password" id="password" class="form-control form-control-sm form-control-border">
                         <small class="mx-2">Contraseña</small>
                     </div>
-                </div>
-                <div class="row">
-                      <div class="form-group col-md-10">
+                      <div class="form-group col-md-4">
                         <input type="password" name="cpass" id="cpass" class="form-control form-control-sm form-control-border">
                         <small class="mx-2">Confirmar Contraseña</small>
                     </div>
@@ -73,7 +74,7 @@
                   </div>
                   <div class="form-group d-flex justify-content-center">
                     @if (isset($user->avatar))
-                        <img src="{{ $user->avatar }}" alt="" id="cimg" class="img-fluid img-thumbnail">
+                        <img src="{{ asset('storage/'.$user->avatar) }}" alt="" id="cimg" class="img-fluid img-thumbnail">
                     @else
                         <img src="{{ asset('dist/img/no-image-available.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
                     @endif
@@ -110,43 +111,6 @@
 	        reader.readAsDataURL(input.files[0]);
 	    }
 	}
-	$('#manage-user').submit(function(e){
-		e.preventDefault();
-		var _this = $(this)
-		$('.pop-msg').remove()
-		var el = $('<div>')
-			el.addClass("pop-msg alert")
-			el.hide()
-		if($('#password').val() != $('#cpass').val()){
-			el.addClass('alert-danger')
-			el.text("Password does not match")
-			$('#password').focus()
-			$('#password, #cpass').addClass('is-invalid');
-			$('#manage-user').append(el)
-			el.show('slow')
-			return false;
-		}
-		start_loader()
-		$.ajax({
-			url:_base_url_+'classes/Users.php?f=save_client',
-			data: new FormData($(this)[0]),
-		    cache: false,
-		    contentType: false,
-		    processData: false,
-		    method: 'POST',
-		    type: 'POST',
-			success:function(resp){
-				if(resp ==1){
-					location.reload()
-				}else if(resp == 3){
-					$('#msg').html('<div class="alert alert-danger">Correo existe actualmente</div>')
-				}else{
-					$('#msg').html('<div class="alert alert-danger">Ocurre un error</div>')
-				}
-				end_loader()
-			}
-		})
-	})
 
 </script>
 @endsection

@@ -24,7 +24,7 @@ class listaCita extends Model
     }
 
     // Relación con el modelo AppointmentTestList
-    public function tests()
+    public function pruebas()
     {
         return $this->hasMany(listaPruebaCita::class, 'appointment_id');
     }

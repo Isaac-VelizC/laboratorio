@@ -61,18 +61,18 @@
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
-                                <input type="text" name="middlename" id="middlename" placeholder="Primer Apellido" class="form-control form-control-sm form-control-border @error('middlename') is-invalid @enderror">
+                                <input type="text" name="apellido_pa" id="apellido_pa" placeholder="Primer Apellido" class="form-control form-control-sm form-control-border @error('apellido_pa') is-invalid @enderror">
                                 <small class="mx-2">Primer Apellido</small>
-                                @error('middlename')
+                                @error('apellido_pa')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
-                                <input type="text" name="lastname" id="lastname" placeholder="Segundo Apellido (Opcional)" required class="form-control form-control-sm form-control-border @error('lastname') is-invalid @enderror">
+                                <input type="text" name="apellido_ma" id="apellido_ma" placeholder="Segundo Apellido (Opcional)" class="form-control form-control-sm form-control-border @error('apellido_ma') is-invalid @enderror">
                                 <small class="mx-2">Segundo Apellido</small>
-                                @error('lastname')
+                                @error('apellido_ma')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -80,6 +80,15 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="form-group col-md-4">
+                                <input type="text" name="ci" id="ci" placeholder="" required class="form-control form-control-sm form-control-border @error('ci') is-invalid @enderror">
+                                <small class="mx-2">Cedula de Itentidad</small>
+                                @error('ci')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                             <div class="form-group col-md-4">
                                 <select name="gender" id="gender" class="form-control form-control-sm form-control-border @error('gender') is-invalid @enderror" required>
                                     <option value="Masculino">Masculino</option>
@@ -101,7 +110,9 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-4">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
                                 <input type="text" name="contact" id="contact" placeholder="" required class="form-control form-control-sm form-control-border @error('contact') is-invalid @enderror">
                                 <small class="mx-2">Teléfono</small>
                                 @error('contact')
@@ -110,11 +121,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <small class="mx-2">Dirección</small>
+                            <div class="form-group col-md-6">
                                 <input name="address" id="address" rows="3" class="form-control form-control-sm rounded-0 @error('address') is-invalid @enderror">
+                                <small class="mx-2">Dirección</small>
                                 @error('address')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

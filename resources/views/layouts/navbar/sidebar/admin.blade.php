@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#168a82">
     <a href="{{ url('/') }}" class="brand-link">
-      <img src="../../dist/img/AdminLTELogo.png"
+      <img src="{{ asset('dist/img/AdminLTELogo.png')}}"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
@@ -18,7 +18,7 @@
            </a>
          </li>
          <li class="nav-item">
-           <a href="" class="nav-link nav-appointments">
+           <a href="{{ route('admin.list.citas') }}" class="nav-link nav-appointments">
              <i class="nav-icon fas fa-calendar"></i>
              <p>
              Citas

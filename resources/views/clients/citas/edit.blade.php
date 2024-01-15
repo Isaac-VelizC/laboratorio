@@ -1,29 +1,24 @@
-<style>
-	img#cimg{
-		height: 17vh;
-		width: 25vw;
-		object-fit: scale-down;
-	}
-</style>
-<div class="modal fade" id="modal-lg">
+<div class="modal fade" id="modal-edit{{ $item->id }}">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Agregar nueva cita</h4>
+          <h4 class="modal-title">Modicifar cita</h4>
         </div>
-            <form method="POST" action="{{ route('cliente.citas.new') }}">
+            <form method="POST" action="{{ route('cliente.citas.edit', $item->id) }}">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="schedule" class="control-label">Fecha y hora</label>
-                            <input type="datetime-local" name="schedule" id="schedule" class="form-control form-control-border" placeholder="Ingresa el horario de la cita" value ="" required>
+                            <input type="datetime-local" name="schedule" id="schedule" class="form-control form-control-border" placeholder="Ingresa el horario de la cita" value="{{ $item->schedule }}" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="test_ids" class="control-label">Pruebas</label>
                             <select name="test_ids[]" id="select2bs4" class="form-control form-control-border" placeholder="Ingresa el nombre de la cita" multiple>
                                 @foreach ($pruebas as $test)
-                                    <option value="{{ $test->id }}">{{ $test->name }}</option>
+                                    <option value="{{ $test->id }}" {{ in_array($test->id, $item->pruebas->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                        {{ $test->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
