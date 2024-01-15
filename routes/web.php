@@ -58,4 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/citas/show/{id}', [AdminController::class, 'citaShow'])->name('admin.cita.show');
     Route::post('/admin/appointment/status/{id}', [AdminController::class, 'update_appointment_status'])->name('admin.cita.status');
     Route::get('/admin/citas/form/{id}', [AdminController::class, 'llenar_fomraulario'])->name('admin.llenar.form');
+    Route::post('/admin/citas/form/add', [AdminController::class, 'addFormularioPDF'])->name('admin.guardar.informe');
+    
+    Route::get('/admin/configuracion', [AdminController::class, 'showSystemInfo'])->name('admin.system.info');
 });

@@ -6,6 +6,7 @@ use App\Models\listaCita;
 use App\Models\listaCliente;
 use App\Models\listaHistorial;
 use App\Models\listaPruebas;
+use App\Models\SystemInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -145,7 +146,9 @@ class AdminController extends Controller
     public function pruebasList() {
         $i = 1;
         $pruebas = listaPruebas::where('delete_flag', 0)->get();
-        return view('admin.pruebas.index', compact('pruebas', 'i'));
+        $form = SystemInfo::find(10);
+        $valorDefecto = $form->meta_value;
+        return view('admin.pruebas.index', compact('pruebas', 'i', 'valorDefecto'));
     }
     public function pruebaNew(Request $request) {
         try {
@@ -238,5 +241,13 @@ class AdminController extends Controller
     public function llenar_fomraulario($id) {
         $prueba = listaPruebas::find($id);
         return view('admin.citas.informa',compact('prueba'));
+    }
+    public function addFormularioPDF(Request $request) {
+        dd('Crear PDF');
+    }
+    public function showSystemInfo() {
+        $infos = [];
+        $info = SystemInfo::all();
+        return view('admin.config', compact('info'));
     }
 }

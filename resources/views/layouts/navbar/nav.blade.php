@@ -27,7 +27,7 @@
       <li class="nav-item">
         <div class="btn-group nav-link">
               <button type="button" class="btn btn-rounded badge badge-light dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                <span><img src="{{ Auth::user()->avatar }}" class="img-circle elevation-2 user-img" alt="User Image"></span>
+                <span><img src="{{ Auth::user()->avatar ? asset('storage/'.Auth::user()->avatar) : asset('dist/img/avata-1.png') }}" class="img-circle elevation-2 user-img" alt="User Image"></span>
                 <span class="ml-4">{{ Auth::user()->name }}</span>
                 <span class="sr-only">Toggle Dropdown</span>
               </button>

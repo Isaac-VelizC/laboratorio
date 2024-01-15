@@ -12,14 +12,14 @@
            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
        </div>
    @endif
+   @include('admin.citas.pagos')
 <div class="content py-5">
     <div class="card card-outline card-primary rounded-0 shadow">
         <div class="card-header">
             <h4 class="card-title"><b>Detalles de tu Cita Reservada</b></h4>
             <div class="card-tools">
                 @if ($cita->status == 4)
-                    <button class="btn btn-info bg-gradient-info btn-flat btn-sm" type="button" id="upload_report"><i class="fa fa-upload"></i> Subir informe</button>
-                    <button class="btn btn-danger bg-gradient-danger btn-flat btn-sm" type="button" id="upload_report"><i class="fa fa-upload"></i> Pago</button>
+                <button class="btn btn-danger bg-gradient-danger btn-flat btn-sm" type="button" data-toggle="modal" data-target="#modal_show_pago"><i class="fa fa-upload"></i> Pago</button>
                 @endif
                 @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
                     <button class="btn btn-default bg-gradient-navy btn-flat btn-sm" type="button" data-toggle="modal" data-target="#modal-estado"> Cambiar Estado</button>

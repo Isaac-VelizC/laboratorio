@@ -37,7 +37,7 @@
 <div class="h-100 d-flex align-items-center w-100" id="login">
     <div class="col-7 h-100 d-flex align-items-center justify-content-center">
         <div class="w-100">
-            <center><img src="logo" alt="" id="logo-img"></center>
+            <center><img src="{{ asset('dist/img/avatar-1.png') }}" alt="" id="logo-img"></center>
             <h1 class="text-center py-5 login-title"><b>Sistema de Laboratorio Clínico</b></h1>
         </div>
     </div>

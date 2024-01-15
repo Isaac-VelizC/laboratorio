@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#168a82">
     <a href="{{ url('/') }}" class="brand-link">
-      <img src="{{ asset('dist/img/AdminLTELogo.png')}}"
+      <img src="{{ asset('dist/img/avatar-1.png') }}"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
@@ -52,7 +52,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a href="" class="nav-link nav-system_info">
+            <a href="{{ route('admin.system.info') }}" class="nav-link nav-system_info">
               <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Configuración & Publicidad

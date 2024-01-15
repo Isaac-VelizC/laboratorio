@@ -72,7 +72,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             <button class="btn btn-sm btn-primary mr-2" type="submit">Guardar</button>
-                            <a class="btn btn-sm btn-secondary" href="{{ route('admin.list.user') }}">Cancelar</a>
+                            <a class="btn btn-sm btn-secondary" href="{{ route('admin.list.user') }}">Salir</a>
                         </div>
                     </div>
                 </div>

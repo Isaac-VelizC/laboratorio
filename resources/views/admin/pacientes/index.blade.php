@@ -62,10 +62,12 @@
                                 </button>
                                 <div class="dropdown-menu" role="menu">
                                     <a class="dropdown-item view_data" href="javascript:void(0)" data-toggle="modal" data-target="#modal_show_paciente{{$item->id}}"><span class="fa fa-eye text-dark"></span> Ver</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item delete_data" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-toggle="modal" data-target="#modal-confirmacion">
-                                        <span class="fa fa-trash text-danger"></span> Eliminar
-                                    </a>
+                                    @if (auth()->user()->type == 3)
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item delete_data" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-toggle="modal" data-target="#modal-confirmacion">
+                                            <span class="fa fa-trash text-danger"></span> Eliminar
+                                        </a>
+                                    @endif
 								</div>
                             </td>
                         </tr>

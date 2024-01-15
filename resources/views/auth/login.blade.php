@@ -7,6 +7,7 @@
       width:calc(100%) !important;
     }
     body{
+      background-image: url('{{ asset('dist/img/cover-1700242845.png') }}');
       background-size:cover;
       background-repeat:no-repeat;
     }
@@ -31,7 +32,7 @@
   <div class="h-100 d-flex align-items-center w-100" id="login">
     <div class="col-7 h-100 d-flex align-items-center justify-content-center">
       <div class="w-100">
-        <center><img src="f" alt="" id="logo-img"></center>
+        <center><img src="{{ asset('dist/img/avatar-1.png') }}" alt="" id="logo-img"></center>
         <h1 class="text-center py-5 login-title"><b>Sistema de Laboratorio Clinico</b></h1>
       </div>
     </div>

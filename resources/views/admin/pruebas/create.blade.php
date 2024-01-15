@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name" class="control-label">Formulario</label>
-                    <textarea rows="3" name="description" id="description" class="form-control form-control-sm rounded-0"></textarea>
+                    <textarea rows="3" name="description" id="description" class="form-control form-control-sm rounded-0">{!! $valorDefecto !!}</textarea>
                 </div>
             </div>
             <div class="modal-footer">
