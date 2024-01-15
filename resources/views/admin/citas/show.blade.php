@@ -21,12 +21,21 @@
                     <button class="btn btn-info bg-gradient-info btn-flat btn-sm" type="button" id="upload_report"><i class="fa fa-upload"></i> Subir informe</button>
                     <button class="btn btn-danger bg-gradient-danger btn-flat btn-sm" type="button" id="upload_report"><i class="fa fa-upload"></i> Pago</button>
                 @endif
-                <button class="btn btn-default bg-gradient-navy btn-flat btn-sm" type="button" data-toggle="modal" data-target="#modal-estado"> Cambiar Estado</button>
-                @can('Cliente')
-                    <button class="btn btn-primary btn-flat btn-sm" type="button" id="edit_data"><i class="fa fa-edit"></i> Editar</button>
-                    <button class="btn btn-danger btn-flat btn-sm" type="button" id="delete_data"><i class="fa fa-trash"></i> Eliminar</button>
-                @endcan
+                @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
+                    <button class="btn btn-default bg-gradient-navy btn-flat btn-sm" type="button" data-toggle="modal" data-target="#modal-estado"> Cambiar Estado</button>
+                @endif
+                @role('Cliente')
+                    <?php if(isset($cita->status) && $cita->status == 0): ?>
+                    <button class="btn btn-danger bg-gradient-maroon btn-flat btn-sm" type="button"> Cancelar Cita</button>
+                    <?php endif; ?>
+                    <button class="btn btn-danger btn-flat btn-sm" type="button"  onclick="confirmDelete({{ $cita->id }})" data-toggle="modal" data-target="#modal-confirmacion">
+                        <i class="fa fa-trash"></i> Eliminar
+                    </button>
+                    <a class="btn btn-default border btn-flat btn-sm" href="{{ route('cliente.citas') }}" id="delete_data"><i class="fa fa-angle-left"></i> Volver</a>
+                @endrole
+                @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
                 <a class="btn btn-default border btn-flat btn-sm" href="{{ route('admin.list.citas') }}" id="delete_data"><i class="fa fa-angle-left"></i> Volver</a>
+                @endif
             </div>
         </div>
         <div class="card-body">
@@ -104,7 +113,9 @@
                                 <th class="text-center">#</th>
                                 <th>Nombre</th>
                                 <th>Costo</th>
-                                <th>Llenar Informa</th>
+                                @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
+                                    <th>Llenar Informa</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -113,7 +124,9 @@
                                     <td class="py-1 px-2 text-center">{{ $i++ }}</td>
                                     <td class="py-1 px-2">{{ $item->test->name }}</td>
                                     <td class="py-1 px-2 text-right">{{ number_format($item->test->cost ,2) }}</td>
-                                    <td><a href="">Llenar</a></td>
+                                    @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
+                                        <td><a href="{{ route('admin.llenar.form', $item->id) }}">Llenar</a></td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -180,4 +193,34 @@
     </div>
 </div>
 @include('admin.citas.modal_estado')
+@role('Cliente')
+<div class="modal fade" id="modal-confirmacion">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación</h4>
+            </div>
+            <form id="deleteForm" method="post" action="{{ route('admin.citas.delete') }}">
+                @csrf
+                @method('DELETE')
+                <input type="hidden" name="id" value="">
+                <div class="modal-body">
+                    <p>¿Estás seguro de eliminar este usuario de forma permanente?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Continuar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(userId) {
+        // Actualizar el valor del campo 'id' en el formulario antes de mostrar el modal
+        $('#modal-confirmacion').find('input[name="id"]').val(userId);
+    }
+</script>
+@endrole
 @endsection

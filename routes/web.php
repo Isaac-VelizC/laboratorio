@@ -57,4 +57,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/citas/all', [AdminController::class, 'listasCitas'])->name('admin.list.citas');
     Route::get('/admin/citas/show/{id}', [AdminController::class, 'citaShow'])->name('admin.cita.show');
     Route::post('/admin/appointment/status/{id}', [AdminController::class, 'update_appointment_status'])->name('admin.cita.status');
+    Route::get('/admin/citas/form/{id}', [AdminController::class, 'llenar_fomraulario'])->name('admin.llenar.form');
 });

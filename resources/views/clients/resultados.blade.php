@@ -25,17 +25,19 @@
 					</tr>
 				</thead>
 				<tbody>
+					@foreach ($citas as $item)
 						<tr>
-							<td class="text-center"></td>
-							<td class="">jh</td>
-							<td class=""><p class="m-0 truncate-1">nombr></p></td>
-                            <td class="">
-                                <a href='' target='_blank' download=''>descars</a>
+							<td class="text-center">{{ $i++ }}</td>
+							<td class="">{{ $item->code }}</td>
+							<td class=""><p class="m-0 truncate-1">Prueba</p></td>
+							<td class="">
+								<a href='' target='_blank' download='{{ $item->code }}.pdf'>{{ $item->code }}.pdf</a>
 							</td>
 							<td align="center">
-                                <a href='' target='_blank' class="text-muted"><i class="fa fa-eye"></i> <b>Ver</b></a>
+								<a href='' target='_blank' class="text-muted"><i class="fa fa-eye"></i> <b>Ver</b></a>
 							</td>
 						</tr>
+					@endforeach
 				</tbody>
 			</table>
 		</div>

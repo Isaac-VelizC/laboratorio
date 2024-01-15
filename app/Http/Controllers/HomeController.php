@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\listaCita;
+use App\Models\listaCliente;
+use App\Models\listaPruebas;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +27,29 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = auth()->user();
+        if ($user->type == 3) {
+            $cliente = listaCliente::where('user_id', $user->id)->first();
+            $reservadas = listaCita::where('client_id', $cliente->id)->count();
+            $pendientes = listaCita::where('client_id', $cliente->id)->where('status', 0)->count();
+            $aprobadas = listaCita::where('client_id', $cliente->id)
+            ->whereIn('status', [1, 2, 3])
+            ->count();
+            $terminadas = listaCita::where('client_id', $cliente->id)->where('status', 6)->count();
+            return view('home', compact('pendientes', 'reservadas', 'terminadas', 'aprobadas'));
+        } else {
+            $testListCount = listaPruebas::where('delete_flag', 0)
+                        ->where('status', 1)
+                        ->count();
+            $citaListTotalCount = listaCita::count();
+            $citaListStatus0Count = listaCita::where('status', 0)
+            ->count();
+            $citaListStatus123Count = listaCita::whereIn('status', [1, 2, 3])
+            ->count();
+            $citaListStatus6Count = listaCita::where('status', 6)
+            ->count();
+            $clientListTotalCount = listaCliente::count();
+            return view('home', compact('testListCount', 'citaListTotalCount', 'citaListStatus0Count', 'citaListStatus123Count', 'citaListStatus6Count', 'clientListTotalCount'));
+        }
     }
 }

@@ -235,4 +235,8 @@ class AdminController extends Controller
             return back()->with('error', 'Ocurrió un error al cambiae el estado. ' . $th->getMessage());
         }
     }
+    public function llenar_fomraulario($id) {
+        $prueba = listaPruebas::find($id);
+        return view('admin.citas.informa',compact('prueba'));
+    }
 }

@@ -102,8 +102,11 @@ class ClienteController extends Controller
     }
     
     public function resultados() {
-        
-        return view('clients.resultados');
+        $i = 1;
+        $user = User::find(auth()->user()->id);
+        $cliente = listaCliente::where('user_id', $user->id)->first();
+        $citas = listaCita::find($cliente->id)->where('status', 6)->get();
+        return view('clients.resultados', compact('citas'));
     }
     
     public function actualizarPerfil(Request $request, $id) {

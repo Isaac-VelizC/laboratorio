@@ -65,7 +65,7 @@
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu" role="menu">
-                                        <a class="dropdown-item" href=""><span class="fa fa-eye text-dark"></span> Ver</a>
+                                        <a class="dropdown-item" href="{{ route('admin.cita.show', $item->id) }}"><span class="fa fa-eye text-dark"></span> Ver</a>
                                         @if ($item->status <= 1)
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item edit_data" href="javascript:void(0)" data-id ="{{ $item->id }}" data-toggle="modal" data-target="#modal-edit{{ $item->id }}"><span class="fa fa-edit text-primary"></span> Editar</a>
