@@ -125,7 +125,7 @@
                                     <td class="py-1 px-2">{{ $item->test->name }}</td>
                                     <td class="py-1 px-2 text-right">{{ number_format($item->test->cost ,2) }}</td>
                                     @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
-                                        <td><a href="{{ route('admin.llenar.form', $item->id) }}">Llenar</a></td>
+                                        <td><a href="{{ route('admin.llenar.form', [$item->id, $cita->id]) }}">Llenar</a></td>
                                     @endif
                                 </tr>
                             @endforeach

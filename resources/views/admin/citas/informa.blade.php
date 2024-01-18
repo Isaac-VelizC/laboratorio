@@ -2,12 +2,15 @@
 
 @section('content')
 <div class="col-lg-12">
-	<div class="card card-outline card-dark rounded-0 shadow">
-		<div class="card-header">
-			<h5 class="card-title">Información del Sistema</h5>
-		</div>
-		<div class="card-body">
-			<form method="POST" action="{{ route('admin.guardar.informe') }}">
+    <div class="card card-outline card-dark rounded-0 shadow">
+        <div class="card-header">
+            <h5 class="card-title">Información del Sistema</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ route('admin.guardar.informe') }}">
+                @csrf
+                <input type="hidden" name="cita" value="{{ $cliente->id }}">
+                <input type="hidden" name="prueba" value="{{ $prueba->id }}">
                 <div class="form-group">
                     <label for="name" class="control-label">Formulario</label>
                     <textarea rows="3" name="description" id="description" class="form-control form-control-sm rounded-0">{{ $prueba->description }}</textarea>
@@ -17,13 +20,11 @@
                         <button class="btn btn-sm btn-primary" type="submit">Guardar</button>
                     </div>
                 </div>
-			</form>
-		</div>
-	</div>
+            </form>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.tiny.cloud/1/s3ijv308t7r50xn8yt1whdc04z4t01ll60glxr6y9sqq9lfo/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    
-
 <script>
     tinymce.init({
     selector: 'textarea',

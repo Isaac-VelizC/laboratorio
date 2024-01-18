@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/admin/pacientes', [AdminController::class, 'pacientesList'])->name('admin.list.paciente');
     Route::delete('/admin/pacientes/borrar', [AdminController::class, 'deletepacienteNew'])->name('admin.paciente.delete');
+    Route::post('/admin/createpacoent', [AdminController::class, 'storePaciente'])->name('admin.create.client');
 
     Route::get('/admin/pruebas', [AdminController::class, 'pruebasList'])->name('admin.list.prueba');
     Route::post('/admin/pruebas/create', [AdminController::class, 'pruebaNew'])->name('admin.new.prueba');
@@ -57,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/citas/all', [AdminController::class, 'listasCitas'])->name('admin.list.citas');
     Route::get('/admin/citas/show/{id}', [AdminController::class, 'citaShow'])->name('admin.cita.show');
     Route::post('/admin/appointment/status/{id}', [AdminController::class, 'update_appointment_status'])->name('admin.cita.status');
-    Route::get('/admin/citas/form/{id}', [AdminController::class, 'llenar_fomraulario'])->name('admin.llenar.form');
+    Route::get('/admin/citas/form/{id}/{cita}', [AdminController::class, 'llenar_fomraulario'])->name('admin.llenar.form');
     Route::post('/admin/citas/form/add', [AdminController::class, 'addFormularioPDF'])->name('admin.guardar.informe');
     
     Route::get('/admin/configuracion', [AdminController::class, 'showSystemInfo'])->name('admin.system.info');

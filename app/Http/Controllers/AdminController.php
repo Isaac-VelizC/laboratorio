@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\listaCita;
 use App\Models\listaCliente;
 use App\Models\listaHistorial;
+use App\Models\listaPruebaCita;
 use App\Models\listaPruebas;
 use App\Models\SystemInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use TCPDF;
 
 class AdminController extends Controller
 {
@@ -129,6 +131,45 @@ class AdminController extends Controller
         $pacientes = listaCliente::all();
         return view('admin.pacientes.index', compact('pacientes', 'i'));
     }
+    public function storePaciente(Request $request) {
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'apellido_pa' => ['required', 'string', 'max:255'],
+                'apellido_ma' => ['nullable', 'string', 'max:255'],
+                'ci' => ['required', 'string', 'max:255', 'unique:users'],
+                'gender' => ['required', 'in:Masculino,Femenino'],
+                'dob' => ['nullable', 'date'],
+                'contact' => ['required', 'string', 'max:255'],
+                'address' => ['nullable', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+            $user = User::create([
+                'name' => $request->ci,
+                'nombres' => $request->name,
+                'apellido_pa' => $request->apellido_pa,
+                'apellido_ma' => $request->apellido_ma,
+                'ci' => $request->ci,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'type' => 3,
+            ]);
+
+            $user->assignRole('Cliente');
+            // Creación del cliente asociado al usuario
+            listaCliente::create([
+                'gender' => $request->gender,
+                'dob' => $request->dob,
+                'contact' => $request->contact,
+                'address' => $request->address,
+                'user_id' => $user->id,
+            ]);
+            return back()->with('message', 'Paciente registrado correctamente');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Error al registrar: ' . $th->getMessage());
+        }
+    }
     public function deletepacienteNew(Request $request) {
         try {
             $cli = listaCliente::find($request->id);
@@ -238,13 +279,34 @@ class AdminController extends Controller
             return back()->with('error', 'Ocurrió un error al cambiae el estado. ' . $th->getMessage());
         }
     }
-    public function llenar_fomraulario($id) {
+    public function llenar_fomraulario($id, $cita) {
+        $cita = listaCita::find($cita);
+        $cliente = listaCliente::find($cita->client_id);
         $prueba = listaPruebas::find($id);
-        return view('admin.citas.informa',compact('prueba'));
+        return view('admin.citas.informa',compact('prueba', 'cliente', 'cita'));
     }
     public function addFormularioPDF(Request $request) {
-        dd('Crear PDF');
+        // Obtén el contenido HTML de $prueba->description
+        $html = $request->description;
+        // Crea una instancia de TCPDF
+        $pdf = new TCPDF();
+        // Agrega una nueva página al PDF
+        $pdf->AddPage();
+        // Agrega el contenido HTML al PDF
+        $pdf->writeHTML($html, true, false, true, false, '');
+        // Genera un nombre de archivo único
+        $filename = 'pdf_' . time() . '.pdf';
+        // Guarda el PDF en el sistema de archivos
+        $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
+        // Guarda la ruta del archivo en la base de datos
+        listaPruebaCita::where('appointment_id', $request->cita)
+            ->where('test_id', $request->prueba)->update([
+            'informe' => 'pdfs/' . $filename,
+        ]);
+    
+        return redirect()->back()->with('success', 'PDF generado y guardado correctamente');
     }
+    
     public function showSystemInfo() {
         $infos = [];
         $info = SystemInfo::all();

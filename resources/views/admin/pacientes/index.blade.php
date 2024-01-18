@@ -10,20 +10,23 @@
 </style>
 
 @if(session('message'))
-       <div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
-           <span>{{ session('message') }}</span>
-           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-       </div>
-   @endif
-   @if(session('error'))
-       <div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
-           <span>{{ session('error') }}</span>
-           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-       </div>
-   @endif
+    <div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
+       <span>{{ session('message') }}</span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+@if(session('error'))
+    <div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
+        <span>{{ session('error') }}</span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <div class="card card-outline card-primary rounded-0 shadow">
 	<div class="card-header">
 		<h3 class="card-title">Lista de Pacientes</h3>
+        <div class="card-tools">
+			<a href="javascript:void(0)" class="btn btn-flat btn-sm btn-primary" data-toggle="modal" data-target="#modal_create_pacientes"><span class="fas fa-plus"></span> Nuevo</a>
+		</div>
 	</div>
 	<div class="card-body">
 		<div class="container-fluid">
@@ -79,6 +82,7 @@
 		</div>
 	</div>
 </div>
+@include('admin.pacientes.create')
 <div class="modal fade" id="modal-confirmacion">
     <div class="modal-dialog">
         <div class="modal-content">
