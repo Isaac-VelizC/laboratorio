@@ -11,7 +11,7 @@
         <div class="modal-header">
           <h4 class="modal-title">Agregar nueva cita</h4>
         </div>
-            <form method="POST" action="{{ route('cliente.citas.new') }}">
+            <form method="POST" action="{{ route('cliente.citas.new') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">

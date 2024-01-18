@@ -83,21 +83,11 @@
                     <div class="col-2 border bg-gradient-primary text-light">Prescripción</div>
                     <div class="col-4 border ">
                         @if (isset($cita->prescription_path))
-                            <a href='#' target='_blank' download=''>{{ $cita->prescription_path }}</a>
+                            <a href='{{ asset('storage/'.$cita->prescription_path) }}' target='_blank' download='{{ $cita->prescription_path }}'>{{ $cita->prescription_path }}</a>
                         @else
                             N/A
                         @endif
-                    </div>                 
-                    <?php if(isset($status) && $status == 6): ?>
-                    <div class="col-2 border bg-gradient-primary text-light">Informe Cargado</div>
-                    <div class="col-10 border ">
-                        <?php if(isset($cita->code) && is_file(base_app."uploads/reports/".$cita->code.".pdf")): ?>
-                            <a href='<?= base_url."uploads/reports/".$cita->code.".pdf" ?>' target='_blank' download='<?= $cita->code.".pdf" ?>'><?= $cita->code.".pdf" ?></a>
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
                     </div>
-                    <?php endif; ?>
                 </div>
                 <hr>
                 <fieldset>
@@ -105,7 +95,8 @@
                     <table class="table table-striped table-bordered">
                         <colgroup>
                             <col width="10%">
-                            <col width="20%">
+                            <col width="10%">
+                            <col width="45%">
                             <col width="45%">
                         </colgroup>
                         <thead>
@@ -113,9 +104,12 @@
                                 <th class="text-center">#</th>
                                 <th>Nombre</th>
                                 <th>Costo</th>
-                                @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
-                                    <th>Llenar Informa</th>
+                                @if ($cita->status >= 1)
+                                    @if(auth()->user()->type == 1 || auth()->user()->type == 2)
+                                        <th>Llenar Informa</th>
+                                    @endif
                                 @endif
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -124,8 +118,13 @@
                                     <td class="py-1 px-2 text-center">{{ $i++ }}</td>
                                     <td class="py-1 px-2">{{ $item->test->name }}</td>
                                     <td class="py-1 px-2 text-right">{{ number_format($item->test->cost ,2) }}</td>
-                                    @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
-                                        <td><a href="{{ route('admin.llenar.form', [$item->id, $cita->id]) }}">Llenar</a></td>
+                                    @if ($cita->status >= 1)
+                                        @if(auth()->user()->type == 1 || auth()->user()->type == 2)
+                                            <td><a href="{{ route('admin.llenar.form', [$item->id, $cita->id]) }}">Llenar</a></td>
+                                        @endif
+                                    @endif
+                                    @if ($item->informe)
+                                        <td><a href="{{ asset('storage/'.$item->informe) }}" download='{{ $item->informe }}'>{{ $item->informe }}</a></td>
                                     @endif
                                 </tr>
                             @endforeach

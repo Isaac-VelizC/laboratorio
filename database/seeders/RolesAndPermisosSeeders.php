@@ -16,7 +16,7 @@ class RolesAndPermisosSeeders extends Seeder
     {
         // Crear roles
         Role::create(['name' => 'Admin']);
-        Role::create(['name' => 'Personal']);
+        Role::create(['name' => 'Bioquimico']);
         Role::create(['name' => 'Cliente']);
         
         // Crear permisos
@@ -38,7 +38,7 @@ class RolesAndPermisosSeeders extends Seeder
         $userAdmin = User::find(1);
         $userAdmin->assignRole('Admin');
         $userSecretary = User::find(2);
-        $userSecretary->assignRole('Personal');
+        $userSecretary->assignRole('Bioquimico');
         $userClient = User::find(3);
         $userClient->assignRole('Cliente');
     }

@@ -32,7 +32,7 @@ class ClienteController extends Controller
                 'schedule' => 'required|date',
                 'test_ids' => 'required|array',
                 'test_ids.*' => 'required|integer',
-                'prescription' => 'nullable|string',
+                'prescription' => 'nullable|file',
             ]);
             // Manejar errores de validación
             if ($validator->fails()) {
@@ -57,6 +57,14 @@ class ClienteController extends Controller
                 'client_id' => $cli->id,
                 'status' => 0,
             ]);
+
+            if ($request->hasFile('prescription')) {
+                $image = $request->file('prescription');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $image->storeAs('uploads', $imageName, 'public');
+                $cita->prescription_path = 'uploads/'.$imageName;
+                $cita->save();
+            }
     
             foreach ($request->test_ids as $test_id) {
                 listaPruebaCita::create([
@@ -65,7 +73,7 @@ class ClienteController extends Controller
                 ]);
             }
     
-            return back()->with('success', 'Prueba agendada con éxito');
+            return back()->with('message', 'Prueba agendada con éxito');
         } catch (\Throwable $th) {
             return back()->with('error', 'Ocurrió un error al agendar la prueba. ' . $th->getMessage());
         }
@@ -105,7 +113,9 @@ class ClienteController extends Controller
         $i = 1;
         $user = User::find(auth()->user()->id);
         $cliente = listaCliente::where('user_id', $user->id)->first();
-        $citas = listaCita::find($cliente->id)->where('status', 6)->get();
+        $citas = listaCita::where('client_id', $cliente->id)
+        ->where('status', 6)
+        ->get();
         return view('clients.resultados', compact('citas'));
     }
     

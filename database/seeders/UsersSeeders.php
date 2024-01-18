@@ -17,7 +17,7 @@ class UsersSeeders extends Seeder
         User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('AdminPassword'),
+            'password' => bcrypt('admin'),
             'nombres' => 'Tarea',
             'apellido_pa' => 'Completo',
             'ci' => '9786757',
@@ -28,7 +28,7 @@ class UsersSeeders extends Seeder
         User::create([
             'name' => 'Joel',
             'email' => 'joel@gmail.com',
-            'password' => bcrypt('JoelPassword'),
+            'password' => bcrypt('joel'),
             'nombres' => 'Joel',
             'apellido_pa' => 'Perez',
             'ci' => '9898786',
@@ -39,7 +39,7 @@ class UsersSeeders extends Seeder
         User::create([
             'name' => 'javier',
             'email' => 'javier@gmail.com',
-            'password' => bcrypt('javierPassword'),
+            'password' => bcrypt('javier'),
             'nombres' => 'Javier',
             'apellido_pa' => 'Tito',
             'ci' => '86756544',

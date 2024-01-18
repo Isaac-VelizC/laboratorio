@@ -303,8 +303,7 @@ class AdminController extends Controller
             ->where('test_id', $request->prueba)->update([
             'informe' => 'pdfs/' . $filename,
         ]);
-    
-        return redirect()->back()->with('success', 'PDF generado y guardado correctamente');
+        return redirect()->back()->with('message', 'PDF generado y guardado correctamente');
     }
     
     public function showSystemInfo() {
