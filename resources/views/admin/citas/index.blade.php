@@ -13,7 +13,6 @@
 		<h3 class="card-title">Lista de Citas Reservadas</h3>
 	</div>
 	<div class="card-body">
-		<div class="container-fluid">
         <div class="container-fluid">
 			<table class="table table-bordered table-hover table-striped">
 				<colgroup>
@@ -96,7 +95,6 @@
 					@endforeach
 				</tbody>
 			</table>
-		</div>
 		</div>
 	</div>
 </div>
