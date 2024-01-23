@@ -14,46 +14,166 @@
 		object-fit: contain;
 		/* border-radius: 100% 100%; */
 	}
+	.slider{
+		margin: 0 auto;
+		width: 800px;
+		height: 400px;
+		overflow: hidden;
+	}
+
+	.slides {
+        width: 800%; /* Cambiar a 800% para acomodar las 4 imágenes */
+        transition: transform 1s ease-in-out; /* Transición suave de 1 segundo */
+    }
+
+	.slides input {
+		display: none;
+	}
+
+	.slide{
+		width: 25%;
+		position: relative;
+		transition: 5s;
+	}
+
+	.slide img {
+		width: 100%;
+	}
+
+
+	.manual-navegacao{
+		position: absolute;
+		width: 800px;
+		margin-top: -80px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.manual-btn{
+		border: 2px solid #fff;
+		padding: 5px;
+		border-radius: 10px;
+		cursor: pointer;
+		transition: 1s;
+	}
+
+	.manual-btn:not(:last-child){
+		margin-right: 30px;
+	}
+
+	.manual-btn:hover{
+		background-color: #fff;
+	}
+
+	#radio1:checked ~ .first{
+		margin-left: 0;
+	}
+
+	#radio2:checked ~ .first{
+		margin-left: -25%;
+	}
+
+	#radio3:checked ~ .first{
+		margin-left: -50%;
+	}
+
+	.navegacao-auto div{
+		border: 2px solid #20acff;
+		padding: 5px;
+		border-radius: 10px;
+		cursor: pointer;
+		transition: 1s;
+	}
+
+	.navegacao-auto{
+		position: absolute;
+		width: 800px;
+		margin-top: 320px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.navegacao-auto div:not(:last-child){
+		margin-right: 30px;
+	}
+
+	#radio1:checked ~ .navegacao-auto .auto-btn1{
+		background-color: #fff;
+	}
+
+	#radio2:checked ~ .navegacao-auto .auto-btn2{
+		background-color: #fff;
+	}
+
+	#radio3:checked ~ .navegacao-auto .auto-btn3{
+		background-color: #fff;
+	}
 </style>
 <div class="col-lg-12">
 	<div class="card card-outline card-dark rounded-0 shadow">
 		<div class="card-header">
 			<h5 class="card-title">Información del Sistema</h5>
-			<!-- <div class="card-tools">
-				<a class="btn btn-block btn-sm btn-default btn-flat border-primary new_department" href="javascript:void(0)"><i class="fa fa-plus"></i> Add New</a>
-			</div> -->
 		</div>
+		@if(session('message'))
+			<div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
+				<span>{{ session('message') }}</span>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		@endif
+		@if(session('error'))
+			<div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
+				<span>{{ session('error') }}</span>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		@endif
 		<div class="card-body">
-			<form action="" id="system-frm">
-			<div id="msg" class="form-group"></div>
-			<div class="form-group">
-				<label for="name" class="control-label">Nombre del Sistema</label>
-				<input type="text" class="form-control form-control-sm" name="name" id="name" value="">
-			</div>
-			<div class="form-group">
-				<label for="short_name" class="control-label">Nombre Corto del Sistema</label>
-				<input type="text" class="form-control form-control-sm" name="short_name" id="short_name" value="">
-			</div>
-			<div class="form-group">
-				<label for="" class="control-label">Logo del Sistema</label>
-				<div class="custom-file">
-	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="img" onchange="displayImg(this,$(this))">
-	              <label class="custom-file-label" for="customFile">Seleccionar archivo</label>
-	            </div>
-			</div>
-			<div class="form-group d-flex justify-content-center">
-				<img src="" alt="" id="cimg" class="img-fluid img-thumbnail">
-			</div>
-			<div class="form-group">
-				<label for="" class="control-label">Publicidad</label>
-				<div class="custom-file">
-	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="cover" onchange="displayImg2(this,$(this))">
-	              <label class="custom-file-label" for="customFile">Escoger Archivo</label>
-	            </div>
-			</div>
-			<div class="form-group d-flex justify-content-center">
-				<img src="" alt="" id="cimg2" class="img-fluid img-thumbnail bg-gradient-dark border-dark">
-			</div>
+			<form method="POST" action="{{ route('admin.system.update') }}" id="system-frm" enctype="multipart/form-data">
+				@csrf
+				<div id="msg" class="form-group"></div>
+				<div class="form-group">
+					<label for="name" class="control-label">Nombre del Sistema</label>
+					<input type="text" class="form-control form-control-sm" name="name" id="name" value="{{ $name->meta_value }}">
+				</div>
+				<div class="form-group">
+					<label for="short_name" class="control-label">Nombre Corto del Sistema</label>
+					<input type="text" class="form-control form-control-sm" name="short_name" id="short_name" value="{{ $shortname->meta_value }}">
+				</div>
+				<div class="form-group">
+					<label for="" class="control-label">Logo del Sistema</label>
+					<div class="custom-file">
+					<input type="file" class="custom-file-input rounded-circle" id="customFile" name="img" onchange="displayImg(this,$(this))">
+					<label class="custom-file-label" for="customFile">Seleccionar archivo</label>
+					</div>
+				</div>
+				<div class="form-group d-flex justify-content-center">
+					<img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
+				</div>
+				<div class="form-group">
+					<label for="" class="control-label">Publicidad</label>
+					<div class="custom-file">
+					<input type="file" class="custom-file-input rounded-circle" id="customFile" name="cover[]" multiple>
+					<label class="custom-file-label" for="customFile">Escoger Archivo</label>
+					</div>
+				</div>
+				<div class="form-group d-flex justify-content-center">
+					<div class="slider">
+                        <div class="slides">
+                            @php
+                                $imagenes = \App\Models\ImagenFile::all();
+                            @endphp
+                            @foreach ($imagenes as $key => $imagen)
+                                <div class="slide">
+                                    <img src="{{ asset('storage/publicidad/' . $imagen->path) }}" alt="Imagen{{ $key + 1 }}">
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="manual-navegacao">
+                            @foreach ($imagenes as $key => $imagen)
+                                <label for="radio{{ $key + 1 }}" class="manual-btn"></label>
+                            @endforeach
+                        </div>
+                    </div>
+				</div>
 			</form>
 		</div>
 		<div class="card-footer">
@@ -63,7 +183,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 </div>
 <script>
@@ -116,5 +235,20 @@
 		        ]
 		    })
 	})
+</script>
+<script>
+    let count = 0; // Iniciar en 0 para evitar el primer salto
+    document.getElementById("radio1").checked = true;
+
+    setInterval(nextImage, 5000);
+
+    function nextImage() {
+        count++;
+        if (count >= 4) {
+            count = 0;
+        }
+        let transformValue = "translateX(" + (-count * 25) + "%)";
+        document.querySelector(".slides").style.transform = transformValue;
+    }
 </script>
 @endsection

@@ -62,4 +62,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/citas/form/add', [AdminController::class, 'addFormularioPDF'])->name('admin.guardar.informe');
     
     Route::get('/admin/configuracion', [AdminController::class, 'showSystemInfo'])->name('admin.system.info');
+    Route::post('/admin/configuracion/update', [AdminController::class, 'updateInfoSystem'])->name('admin.system.update');
 });

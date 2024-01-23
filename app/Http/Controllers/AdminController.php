@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImagenFile;
 use App\Models\listaCita;
 use App\Models\listaCliente;
 use App\Models\listaHistorial;
@@ -307,8 +308,42 @@ class AdminController extends Controller
     }
     
     public function showSystemInfo() {
-        $infos = [];
-        $info = SystemInfo::all();
-        return view('admin.config', compact('info'));
+        $name = SystemInfo::find(1);
+        $shortname = SystemInfo::find(3);
+        $logo = SystemInfo::find(5);
+        $user_avatar = SystemInfo::find(4);
+        return view('admin.config', compact('name', 'logo', 'shortname', 'user_avatar'));
+    }
+    public function updateInfoSystem(Request $request) {
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'short_name' => 'required|string|max:255',
+            ]);
+            SystemInfo::find(1)->update(['meta_value' => $request->name]);
+            SystemInfo::find(3)->update(['meta_value' => $request->short_name]);
+            $logo = SystemInfo::find(5);
+            if ($request->hasFile('img')) {
+                $image = $request->file('img');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $image->storeAs('uploads', $imageName, 'public');
+                $logo->meta_value = 'uploads/'.$imageName;
+                $logo->save();
+            }
+            $archivos = $request->file('cover');
+            if ($archivos) {
+                foreach ($archivos as $archivo) {
+                    // Generar un nombre único para cada archivo
+                    $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
+                    // Almacenar el archivo en la carpeta de almacenamiento
+                    Storage::putFileAs('public/publicidad', $archivo, $nombreArchivo);
+                    // Crear un nuevo registro en la tabla imagen_files
+                    ImagenFile::create(['path' => $nombreArchivo]);
+                }
+            }
+            return back()->with('message', 'La actualización se realizo con éxito');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
+        }
     }
 }
