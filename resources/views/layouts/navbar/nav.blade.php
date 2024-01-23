@@ -32,8 +32,10 @@
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <div class="dropdown-menu" role="menu">
-                <a class="dropdown-item" href="{{ route('cliente.perfil') }}"><span class="fa fa-user"></span> Mi Cuenta</a>
-                <div class="dropdown-divider"></div>
+                @role('Cliente')
+                  <a class="dropdown-item" href="{{ route('cliente.perfil') }}"><span class="fa fa-user"></span> Mi Cuenta</a>
+                  <div class="dropdown-divider"></div>
+                @endrole
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
                       <span class="fas fa-sign-out-alt"></span>
