@@ -19,7 +19,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="text" name="apellido_pa" id="apellido_pa" placeholder="Primer Apellido" class="form-control form-control-sm form-control-border @error('apellido_pa') is-invalid @enderror">
+                        <input type="text" name="apellido_pa" id="apellido_pa" placeholder="Primer Apellido" class="form-control form-control-sm form-control-border @error('apellido_pa') is-invalid @enderror" required>
                         <small class="mx-2">Primer Apellido</small>
                         @error('apellido_pa')
                             <span class="invalid-feedback" role="alert">
@@ -70,8 +70,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <input type="text" name="contact" id="contact" placeholder="" required class="form-control form-control-sm form-control-border @error('contact') is-invalid @enderror">
+                    <div class="form-group col-md-4">
+                        <input type="text" name="contact" id="contact" class="form-control form-control-sm form-control-border @error('contact') is-invalid @enderror">
                         <small class="mx-2">Teléfono</small>
                         @error('contact')
                             <span class="invalid-feedback" role="alert">
@@ -79,7 +79,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <input name="address" id="address" rows="3" class="form-control form-control-sm rounded-0 @error('address') is-invalid @enderror">
                         <small class="mx-2">Dirección</small>
                         @error('address')
@@ -88,12 +88,21 @@
                             </span>
                         @enderror
                     </div>
+                    <div class="form-group col-md-4">
+                        <input type="email" name="email" id="email" placeholder="Correo" class="form-control form-control-sm form-control-border">
+                        <small class="mx-2">Correo</small>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4">
-                        <input type="email" name="email" id="email" placeholder="correo" required class="form-control form-control-sm form-control-border @error('email') is-invalid @enderror">
-                        <small class="mx-2">Correo</small>
-                        @error('email')
+                        <input type="text" name="username" id="username" placeholder="Username" required class="form-control form-control-sm form-control-border @error('username') is-invalid @enderror">
+                        <small class="mx-2">Username</small>
+                        @error('username')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

@@ -46,8 +46,8 @@
             <form id="clogin-frm" method="POST" action="{{ route('login') }}">
                 @csrf
               <div class="input-group mb-3">
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                @error('email')
+                <input id="username_or_email" type="text" class="form-control @error('username_or_email') is-invalid @enderror" name="username_or_email" value="{{ old('username_or_email') }}" required autofocus>
+                @error('username_or_email')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

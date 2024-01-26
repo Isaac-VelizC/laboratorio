@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use TCPDF;
 
 class AdminController extends Controller
@@ -130,7 +131,8 @@ class AdminController extends Controller
     public function pacientesList() {
         $i = 1;
         $pacientes = listaCliente::all();
-        return view('admin.pacientes.index', compact('pacientes', 'i'));
+        $pruebas = listaPruebas::where('status', 1)->where('delete_flag', 0)->get();
+        return view('admin.pacientes.index', compact('pacientes', 'i', 'pruebas'));
     }
     public function storePaciente(Request $request) {
         try {
@@ -143,11 +145,17 @@ class AdminController extends Controller
                 'dob' => ['nullable', 'date'],
                 'contact' => ['required', 'string', 'max:255'],
                 'address' => ['nullable', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
+                'username' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('users', 'name')
+                ],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
             $user = User::create([
-                'name' => $request->ci,
+                'name' => $request->username,
                 'nombres' => $request->name,
                 'apellido_pa' => $request->apellido_pa,
                 'apellido_ma' => $request->apellido_ma,

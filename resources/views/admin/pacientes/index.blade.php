@@ -71,9 +71,12 @@
                                             <span class="fa fa-trash text-danger"></span> Eliminar
                                         </a>
                                     @endif
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item view_data" href="javascript:void(0)" data-toggle="modal" data-target="#modal_cita_paciente{{ $item->id }}"><span class="fa fa-plus text-dark"></span> Cita</a>
 								</div>
                             </td>
                         </tr>
+						@include('admin.pacientes.new_cita')
 						@include('admin.pacientes.show')
                     @endforeach
 				</tbody>

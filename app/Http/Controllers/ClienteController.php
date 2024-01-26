@@ -38,10 +38,16 @@ class ClienteController extends Controller
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
             }
-    
             $user = auth()->user();
-            $cli = listaCliente::where('user_id', $user->id)->first();
-    
+            if ($request->idPaciente) {
+                $idUser = $request->idPaciente;
+            } else {
+                $idUser = $user->id;
+            }
+            $cli = listaCliente::where('user_id', $idUser)->first();
+            if (!$cli) {
+                return back()->with('error', 'No se encontró el cliente para el usuario.');
+            }
             $prefix = date("Ym") . "-";
             $latestCode = listaCita::where('code', 'like', $prefix . '%')->max('code');
     
