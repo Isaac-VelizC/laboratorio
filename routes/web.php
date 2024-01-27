@@ -63,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/admin/configuracion', [AdminController::class, 'showSystemInfo'])->name('admin.system.info');
     Route::post('/admin/configuracion/update', [AdminController::class, 'updateInfoSystem'])->name('admin.system.update');
+    Route::get('/admin/delete/img/{id}', [AdminController::class, 'deleteImg'])->name('admin.delete.img');
 
     
     Route::post('/select',[AdminController::class, 'selectPruebas'])->name('search.pruebas');

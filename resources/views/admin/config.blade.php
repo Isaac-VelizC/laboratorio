@@ -14,6 +14,7 @@
 		object-fit: contain;
 	}
 </style>
+
 <div class="col-lg-12">
 	<div class="card card-outline card-dark rounded-0 shadow">
 		<div class="card-header">
@@ -67,12 +68,16 @@
 					  <label class="custom-file-label" for="customFile">Escoger Archivo</label>
 					</div>
 				</div>
-				<div class="form-group d-flex justify-content-center">
+				@error('cover')
+					<div class="alert alert-danger">{{ $message }}</div>
+				@enderror
+				<div class="">
 					@php
 						$files = \App\Models\ImagenFile::all();
 					@endphp
 					@foreach ($files as $file)
-						<img src="{{ asset('storage/publicidad/'.$file->path) }}" alt="" id="cimg2" class="img-fluid img-thumbnail bg-gradient-dark border-dark">
+						<img src="{{ asset('storage/publicidad/'.$file->path) }}" alt="" class="img-fluid img-thumbnail bg-gradient-dark border-dark">
+						<a href="{{ route('admin.delete.img', $file->id) }}" class="btn btn-link">Borrar</a>
 					@endforeach
 				</div>
 			</form>

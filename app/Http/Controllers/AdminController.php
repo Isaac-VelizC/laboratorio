@@ -360,11 +360,8 @@ class AdminController extends Controller
             $archivos = $request->file('cover');
             if ($archivos) {
                 foreach ($archivos as $archivo) {
-                    // Generar un nombre único para cada archivo
                     $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
-                    // Almacenar el archivo en la carpeta de almacenamiento
                     Storage::putFileAs('public/publicidad', $archivo, $nombreArchivo);
-                    // Crear un nuevo registro en la tabla imagen_files
                     ImagenFile::create(['path' => $nombreArchivo]);
                 }
             }
@@ -372,5 +369,9 @@ class AdminController extends Controller
         } catch (\Throwable $th) {
             return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
         }
+    }
+    public function deleteImg($id) {
+        ImagenFile::find($id)->delete();
+        return back()->with('message', 'La imagen se borro exitosamente');
     }
 }

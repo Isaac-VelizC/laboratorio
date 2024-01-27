@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/select2.min.css')}}"/>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     @if (auth()->check())
