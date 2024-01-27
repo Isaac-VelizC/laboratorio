@@ -19,8 +19,7 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}"/>
-  <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/select2.min.css')}}"/>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     @if (auth()->check())
@@ -41,7 +40,6 @@
     @else
         @yield('content')
     @endif
-    @yield('scripts')
     <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
     <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
@@ -64,8 +62,8 @@
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
     <script src="{{ asset('plugins/toastr/toastr.min.js')}}"></script>
     <!-- Select2 -->
-    <script src="{{ asset('plugins/select2/js/select2.min.js')}}"></script>
-
+    <script src="{{ asset('plugins/select2.min.js')}}"></script>
+    @yield('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
@@ -90,13 +88,6 @@
                 "info": true,
                 "autoWidth": false,
             });
-            //Initialize Select2 Elements
-            $('#select2').select2()
-
-            //Initialize Select2 Elements
-            $('#select2bs4').select2({
-            theme: 'bootstrap4'
-            })
         });
       </script>
 </body>

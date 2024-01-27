@@ -11,15 +11,15 @@
                 <div class="form-group">
                     <select id="status" name="status" class="form-control form-control-sm form-border" required>
                         <option value="0" <?= isset($status) && $status == 0 ? 'selected' : '' ?>>Pendiente</option>
-                        <option value="1" <?= isset($status) && $status == 1 ? 'selected' : '' ?>>Aprobado</option>>
+                        <option value="1" <?= isset($status) && $status == 1 ? 'selected' : '' ?>>Aprobado</option>
+                        <option value="2" <?= isset($status) && $status == 2 ? 'selected' : '' ?>>Muestra Recogida</option>
                         <option value="4" <?= isset($status) && $status == 4 ? 'selected' : '' ?>>Finalizado</option>
-                        <option value="5" <?= isset($status) && $status == 5 ? 'selected' : '' ?>>Cancelado</option>
                     </select>
                     <small class="mx-2">Estado</small>
                 </div>
                 <div class="form-group">
-                    <small class="mx-2">Observaciones</small>
-                    <textarea name="remarks" id="remarks" rows="3" class="form-control form-control-sm rounded-0" required></textarea>
+                    <small class="mx-2">Observaciones (Opcionak)</small>
+                    <textarea name="remarks" id="remarks" rows="3" class="form-control form-control-sm rounded-0"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

@@ -10,7 +10,7 @@
                         <table class="printer-ticket">
                             <thead>
                                <tr>
-                                   <th class="title" colspan="3">INSTITUTO TECTICO IGLA</th>
+                                   <th class="title" colspan="3">SIS-LABORATORIO PEREZ</th>
                                </tr>
                                <tr>
                                    <th colspan="3">{{ now() }}</th>

@@ -18,7 +18,7 @@
         <div class="card-header">
             <h4 class="card-title"><b>Detalles de tu Cita Reservada</b></h4>
             <div class="card-tools">
-                @if ($cita->status == 4)
+                @if ($cita->status >= 1)
                 <button class="btn btn-danger bg-gradient-danger btn-flat btn-sm" type="button" data-toggle="modal" data-target="#modal_show_pago"><i class="fa fa-upload"></i> Pago</button>
                 @endif
                 @if(auth()->user()->type == 1 || auth()->user()->type == 2 )

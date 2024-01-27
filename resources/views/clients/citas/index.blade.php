@@ -51,7 +51,7 @@
                         @foreach ($citas as $item)
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
-                                <td class="">fecha</td>
+                                <td class="">{{ date("Y-m-d H:i",strtotime($item->created_at)) }}</td>
                                 <td class="">{{ $item->code }}</td>
                                 <td class="">
                                     @foreach ($item->pruebas as $h)

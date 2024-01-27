@@ -193,6 +193,13 @@ class AdminController extends Controller
             return back()->with('error', 'Error al eliminar el usuario: ' . $e->getMessage());
         }
     }
+    public function selectPruebas(Request $request) {
+        $tags = [];
+        if ($search = $request->name) {
+            $tags = listaPruebas::where('name', 'LIKE', "%$search%")->where('delete_flag', 0)->get();
+        }
+        return response()->json($tags);
+    }
     public function pruebasList() {
         $i = 1;
         $pruebas = listaPruebas::where('delete_flag', 0)->get();
@@ -271,7 +278,7 @@ class AdminController extends Controller
     public function update_appointment_status(Request $request, $id) {
         try {
             $request->validate([
-                'remarks' => 'required|string|max:255',
+                'remarks' => 'nullable|string|max:255',
                 'status' => 'required|numeric',
                 
             ]);
@@ -280,7 +287,7 @@ class AdminController extends Controller
             listaHistorial::create([
                 'appointment_id' => $id,
                 'status' => $request->status,
-                'remarks' => $request->remarks,
+                'remarks' => $request->remarks ?: 'Sin observaciones',
             ]);
 
             return back()->with('message', 'Se cambio el estado con éxito');

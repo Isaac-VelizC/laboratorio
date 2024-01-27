@@ -21,11 +21,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="test_ids" class="control-label">Pruebas</label>
-                            <select name="test_ids[]" id="select2bs4" class="form-control form-control-border" placeholder="Ingresa el nombre de la cita" multiple>
-                                @foreach ($pruebas as $test)
-                                    <option value="{{ $test->id }}">{{ $test->name }}</option>
-                                @endforeach
-                            </select>
+                            <select id="tags" name="test_ids[]" multiple="multiple"></select>
                         </div>
                     </div>  
                     <div class="row">
@@ -43,3 +39,38 @@
       </div>
     </div>
 </div>
+@section('scripts')
+
+<script src="{{ asset('assets/js/jquery-3.6.0.min.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $("#tags").select2({
+            placeholder:'Buscar Prueba',
+            allowClear:true,
+            theme: "classic",
+            ajax:{
+                url:"{{ route('search.pruebas') }}",
+                type: "post",
+                $delay:250,
+                dataType:'json',
+                data: function(params) {
+                    return{
+                        name:params.term,
+                        "_token":"{{ csrf_token() }}",
+                    };
+                },
+                processResults:function(data){
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                id: item.id,
+                                text:item.name
+                            }
+                        })
+                    };
+                },
+            },
+        });
+    });
+</script>
+@endsection
