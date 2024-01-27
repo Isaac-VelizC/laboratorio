@@ -4,7 +4,10 @@
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">SIS-LABORATORIO</span>
+           @php
+               $short_name = \App\Models\SystemInfo::find(3);
+           @endphp
+         <span class="brand-text font-weight-light">{{ $short_name->meta_value }}</span>
     </a>
     <div class="sidebar">
       <nav class="mt-2">

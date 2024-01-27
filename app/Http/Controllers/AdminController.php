@@ -299,27 +299,39 @@ class AdminController extends Controller
         $cita = listaCita::find($cita);
         $cliente = listaCliente::find($cita->client_id);
         $prueba = listaPruebas::find($id);
-        return view('admin.citas.informa',compact('prueba', 'cliente', 'cita'));
+        if (!$prueba) {
+            return back()->with('message', 'No se encontro la prueba');
+        } else if(!$cita) {
+            return back()->with('message', 'No se encontro la cita');
+        } else if (!$cliente) {
+            return back()->with('message', 'No se encontro al cliente');
+        } else {
+            return view('admin.citas.informa',compact('prueba', 'cliente', 'cita'));
+        }
     }
     public function addFormularioPDF(Request $request) {
-        // Obtén el contenido HTML de $prueba->description
-        $html = $request->description;
-        // Crea una instancia de TCPDF
-        $pdf = new TCPDF();
-        // Agrega una nueva página al PDF
-        $pdf->AddPage();
-        // Agrega el contenido HTML al PDF
-        $pdf->writeHTML($html, true, false, true, false, '');
-        // Genera un nombre de archivo único
-        $filename = 'pdf_' . time() . '.pdf';
-        // Guarda el PDF en el sistema de archivos
-        $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
-        // Guarda la ruta del archivo en la base de datos
-        listaPruebaCita::where('appointment_id', $request->cita)
-            ->where('test_id', $request->prueba)->update([
-            'informe' => 'pdfs/' . $filename,
-        ]);
-        return redirect()->back()->with('message', 'PDF generado y guardado correctamente');
+        try {    
+            // Obtén el contenido HTML de $prueba->description
+            $html = $request->description;
+            // Crea una instancia de TCPDF
+            $pdf = new TCPDF();
+            // Agrega una nueva página al PDF
+            $pdf->AddPage();
+            // Agrega el contenido HTML al PDF
+            $pdf->writeHTML($html, true, false, true, false, '');
+            // Genera un nombre de archivo único
+            $filename = 'pdf_' . time() . '.pdf';
+            // Guarda el PDF en el sistema de archivos
+            $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
+            // Guarda la ruta del archivo en la base de datos
+            listaPruebaCita::where('appointment_id', $request->cita)
+                ->where('test_id', $request->prueba)->update([
+                'informe' => 'pdfs/' . $filename,
+            ]);
+            return redirect()->back()->with('message', 'PDF generado y guardado correctamente');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
+        }
     }
     
     public function showSystemInfo() {

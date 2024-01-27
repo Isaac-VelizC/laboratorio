@@ -58,7 +58,33 @@
                                     <p class="m-0 truncate-1">{{ $h->test->name }}, </p>
                                     @endforeach
                                 </td>
-                                <td class="text-center">Estado</td>
+                                <td class="text-center">
+                                    <?php 
+									switch ($item->status){
+										case 0:
+											echo '<span class="rounded-pill badge badge-secondary ">Pendiente</span>';
+											break;
+										case 1:
+											echo '<span class="rounded-pill badge badge-primary ">Aprobado</span>';
+											break;
+                                        case 2:
+                                            echo '<span class="rounded-pill badge badge-warning ">Muestra Recolectada</span>';
+                                            break;
+                                        case 3:
+                                            echo '<span class="rounded-pill badge badge-primary bg-teal ">Entregado al laboratorio</span>';
+                                            break;
+                                        case 4:
+                                            echo '<span class="rounded-pill badge badge-success ">Finalizada</span>';
+                                            break;
+                                        case 5:
+                                            echo '<span class="rounded-pill badge badge-danger ">Cancelada</span>';
+                                            break;
+										case 6:
+											echo '<span class="rounded-pill badge-light badge border text-dark ">Informe subido</span>';
+											break;
+									}
+								?>
+                                </td>
                                 <td align="center">
                                     <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                             Acción

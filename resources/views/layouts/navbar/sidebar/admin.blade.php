@@ -1,10 +1,14 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#168a82">
     <a href="{{ url('/') }}" class="brand-link">
-      <img src="{{ asset('dist/img/avatar-1.png') }}"
+      @php
+          $short_name = \App\Models\SystemInfo::find(3);
+          $logo = \App\Models\SystemInfo::find(5);
+      @endphp
+      <img src=" {{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">SIS-LABORATORIO</span>
+      <span class="brand-text font-weight-light">{{ $short_name->meta_value }}</span>
     </a>
     <div class="sidebar">
       <nav class="mt-4">

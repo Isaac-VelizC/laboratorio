@@ -29,12 +29,18 @@
 						<tr>
 							<td class="text-center">{{ $i++ }}</td>
 							<td class="">{{ $item->code }}</td>
-							<td class=""><p class="m-0 truncate-1">Prueba</p></td>
 							<td class="">
-								<a href='' target='_blank' download='{{ $item->code }}.pdf'>{{ $item->code }}.pdf</a>
+								@foreach ($item->pruebas as $brt)
+									<p class="m-0 truncate-1">{{ $brt->test->name }}</p>
+								@endforeach
+							</td>
+							<td class="">
+								@foreach ($item->pruebas as $brt)
+									<a href='{{ asset('storage/'.$brt->informe) }}' download='{{ $brt->informe }}'>{{ $brt->informe }}</a>
+								@endforeach
 							</td>
 							<td align="center">
-								<a href='' target='_blank' class="text-muted"><i class="fa fa-eye"></i> <b>Ver</b></a>
+								<a href='{{ route('admin.cita.show', $item->id) }}' class="text-muted"><i class="fa fa-eye"></i> <b>Ver</b></a>
 							</td>
 						</tr>
 					@endforeach

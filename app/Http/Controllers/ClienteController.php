@@ -120,9 +120,9 @@ class ClienteController extends Controller
         $user = User::find(auth()->user()->id);
         $cliente = listaCliente::where('user_id', $user->id)->first();
         $citas = listaCita::where('client_id', $cliente->id)
-        ->where('status', 6)
+        ->where('status', 4)
         ->get();
-        return view('clients.resultados', compact('citas'));
+        return view('clients.resultados', compact('citas', 'i'));
     }
     
     public function actualizarPerfil(Request $request, $id) {

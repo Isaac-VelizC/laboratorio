@@ -32,8 +32,12 @@
   <div class="h-100 d-flex align-items-center w-100" id="login">
     <div class="col-7 h-100 d-flex align-items-center justify-content-center">
       <div class="w-100">
-        <center><img src="{{ asset('dist/img/avatar-1.png') }}" alt="" id="logo-img"></center>
-        <h1 class="text-center py-5 login-title"><b>Sistema de Laboratorio Clinico</b></h1>
+        @php
+            $name = \App\Models\SystemInfo::find(1);
+            $logo = \App\Models\SystemInfo::find(5);
+        @endphp
+        <center><img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" alt="" id="logo-img"></center>
+        <h1 class="text-center py-5 login-title"><b>{{ $name->meta_value }}</b></h1>
       </div>
     </div>
     <div class="col-5 h-100 bg-gradient">

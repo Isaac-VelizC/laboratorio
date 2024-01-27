@@ -76,6 +76,11 @@
                 .catch( error => {
                     console.error( error );
                 } );
+        ClassicEditor
+                .create( document.querySelector( '#descriptionInforme' ) )
+                .catch( error => {
+                    console.error( error );
+                } );
     </script>
     <script>
         $(function () {
