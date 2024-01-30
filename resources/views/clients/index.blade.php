@@ -4,9 +4,21 @@
 
 <div class="card card-outline card-primary">
     <div class="card-body">
+        @if(session('success'))
+            <div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
+            <span>{{ session('success') }}</span>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if(session('error'))
+            <div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
+                <span>{{ session('error') }}</span>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="container-fluid">
             <div id="msg"></div>
-            <form action="{{ route('cliente.update.perfil', $cliente->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('cliente.update.perfil', $cliente->user->id) }}" method="POST" enctype="multipart/form-data" id="manage-user">
                 @csrf  
                 <input type="hidden" name="id" value="{{ $user->id }}">
                 <div class="row">
@@ -41,13 +53,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <input type="text" name="address" id="address" class="form-control form-control-sm rounded-0" value="{{ isset($cliente->address) ? $cliente->address : '' }}">
                         <small class="mx-2">Dirección</small>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <input type="text" name="contact" id="contact" placeholder="+57-3XX-XXXXXXX" required class="form-control form-control-sm form-control-border" value="{{ isset($cliente->contact) ? $cliente->contact : '' }}">
                         <small class="mx-2">Teléfono</small>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="text" name="name" id="name" required class="form-control form-control-sm form-control-border" value="{{ isset($cliente->user->name) ? $cliente->user->name : '' }}">
+                        <small class="mx-2">Username</small>
                     </div>
                 </div>
                 <div class="row">
@@ -78,15 +94,13 @@
                     @else
                         <img src="{{ asset('dist/img/no-image-available.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
                     @endif
-                  </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <button type="submit" class="btn btn-sm btn-primary" form="manage-user">Actualizar</button>
+                        </div>
+                    </div>
             </form>
-        </div>
-    </div>
-    <div class="card-footer">
-        <div class="col-md-12">
-            <div class="row">
-                <button class="btn btn-sm btn-primary" form="manage-user">Actualizar</button>
-            </div>
         </div>
     </div>
 </div>

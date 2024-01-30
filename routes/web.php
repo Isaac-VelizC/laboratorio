@@ -29,7 +29,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware(['auth'])->group(function () {
     //calendario
     Route::get('/user/cliente', [ClienteController::class, 'index'])->name('cliente.perfil');
-    Route::get('/user/update/{id}', [ClienteController::class, 'actualizarPerfil'])->name('cliente.update.perfil');
+    Route::post('/user/update/{id}', [ClienteController::class, 'actualizarPerfil'])->name('cliente.update.perfil');
     Route::get('/user/cliente/citas', [ClienteController::class, 'misCitas'])->name('cliente.citas');
     Route::post('/user/cliente/citas/store', [ClienteController::class, 'storeCitas'])->name('cliente.citas.new');
     Route::post('/user/cliente/citas/update/{id}', [ClienteController::class, 'updateCitas'])->name('cliente.citas.edit');

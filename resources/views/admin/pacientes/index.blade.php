@@ -55,7 +55,7 @@
                         <tr>
                             <td class="text-center">{{ $i++ }}</td>
                             <td class="">{{ $item->created_at }}</td>
-                            <td class=""><p class="m-0 truncate-1">{{ $item->user->nombres }} {{ $item->user->apellido_pa }} {{ $item->user->apellido_pa }}</p></td>
+                            <td class=""><p class="m-0 truncate-1">{{ $item->user->nombres }} {{ $item->user->apellido_pa }} {{ $item->user->apellido_ma }}</p></td>
                             <td class=""><p class="m-0 truncate-1">{{ $item->user->email }}</p></td>
                             <td class=""><p class="m-0 truncate-1">{{ $item->contact }}</p></td>
                             <td align="center">

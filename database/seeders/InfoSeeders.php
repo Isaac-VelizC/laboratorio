@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ImagenFile;
 use App\Models\SystemInfo;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,7 +33,7 @@ class InfoSeeders extends Seeder
         ]);
         SystemInfo::create([
             'meta_field' => 'logo',
-            'meta_value' => 'uploads/logo-1689027717.png',
+            'meta_value' => 'uploads/1706040611.png',
         ]);
         SystemInfo::create([
             'id' => 10,
@@ -116,5 +117,8 @@ class InfoSeeders extends Seeder
            
            </table>',
         ]);
+
+        ImagenFile::create(['path' => 'cover1.png',]);
+        ImagenFile::create(['path' => 'cover2.png']);
     }
 }

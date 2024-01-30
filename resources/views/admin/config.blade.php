@@ -61,13 +61,6 @@
 					<label class="custom-file-label" for="customFile">Escoger Archivo</label>
 					</div>
 				</div>
-				<div class="form-group">
-					<label for="" class="control-label">Publicidad</label>
-					<div class="custom-file">
-					  <input type="file" class="custom-file-input rounded-circle" id="customFile" name="cover[]" onchange="displayImg2(this,$(this))" multiple>
-					  <label class="custom-file-label" for="customFile">Escoger Archivo</label>
-					</div>
-				</div>
 				@error('cover')
 					<div class="alert alert-danger">{{ $message }}</div>
 				@enderror

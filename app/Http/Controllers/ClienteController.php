@@ -127,6 +127,12 @@ class ClienteController extends Controller
     
     public function actualizarPerfil(Request $request, $id) {
         try {
+            $user = User::find($id);
+            if (!$user) {
+                // Manejar el caso en el que el usuario no se encuentra
+                return back()->with('error', 'Usuario no encontrado.');
+            }
+            
             $request->validate([
                 'nombres' => 'required|string|max:255',
                 'name' => 'required|string|max:255|unique:users,name,' . $id,
@@ -135,15 +141,9 @@ class ClienteController extends Controller
                 'apellido_pa' => 'required|string|max:255',
                 'apellido_ma' => 'nullable|string|max:255',
                 'ci' => 'required|string|max:255|unique:users,ci,' . $id,
-                'type' => 'required|in:1,2',
                 'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-
-            $user = User::find($id);
-            if (!$user) {
-                // Manejar el caso en el que el usuario no se encuentra
-                return back()->with('error', 'Usuario no encontrado.');
-            }
+            
 
             $user->update([
                 'name' => $request->name,
@@ -152,9 +152,24 @@ class ClienteController extends Controller
                 'apellido_pa' => $request->apellido_pa,
                 'apellido_ma' => $request->apellido_ma,
                 'ci' => $request->ci,
-                'type' => $request->type,
                 'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
             ]);
+
+            if ($user->type == 3) {
+                $cliente = listaCliente::where('user_id', $user->id)->first();
+            
+                if ($cliente) {
+                    $cliente->update([
+                        'gender' => $request->gender,
+                        'contact' => $request->contact,
+                        'dob' => $request->dob,
+                        'address' => $request->address
+                    ]);
+                } else {
+                    return back()->with('error', 'Cliente no encontrado.');
+                }
+            }
+            
 
             if ($request->hasFile('img')) {
                 $image = $request->file('img');
@@ -163,7 +178,6 @@ class ClienteController extends Controller
                 $user->avatar = 'avatars/'.$imageName;
                 $user->save();
             }
-
             return back()->with('success', 'Usuario actualizado con éxito');
         } catch (\Throwable $th) {
             // Manejar la excepción según tus necesidades
