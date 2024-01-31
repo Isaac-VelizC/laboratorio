@@ -295,10 +295,12 @@ class AdminController extends Controller
             return back()->with('error', 'Ocurrió un error al cambiae el estado. ' . $th->getMessage());
         }
     }
-    public function llenar_fomraulario($id, $cita) {
-        $cita = listaCita::find($cita);
+    public function llenar_fomraulario($id, $citaId) {
+        $cita = listaCita::find($citaId);
         $cliente = listaCliente::find($cita->client_id);
         $prueba = listaPruebas::find($id);
+        $form = listaPruebaCita::where('appointment_id', $citaId)->where('test_id', $id)->first();
+        $descripcion = $form->descripcion;
         if (!$prueba) {
             return back()->with('message', 'No se encontro la prueba');
         } else if(!$cita) {
@@ -306,29 +308,34 @@ class AdminController extends Controller
         } else if (!$cliente) {
             return back()->with('message', 'No se encontro al cliente');
         } else {
-            return view('admin.citas.informa',compact('prueba', 'cliente', 'cita'));
+            return view('admin.citas.informa',compact('prueba', 'cliente', 'cita', 'descripcion'));
         }
     }
     public function addFormularioPDF(Request $request) {
-        try {    
-            // Obtén el contenido HTML de $prueba->description
-            $html = $request->description;
-            // Crea una instancia de TCPDF
-            $pdf = new TCPDF();
-            // Agrega una nueva página al PDF
-            $pdf->AddPage();
-            // Agrega el contenido HTML al PDF
-            $pdf->writeHTML($html, true, false, true, false, '');
-            // Genera un nombre de archivo único
-            $filename = 'pdf_' . time() . '.pdf';
-            // Guarda el PDF en el sistema de archivos
-            $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
-            // Guarda la ruta del archivo en la base de datos
-            listaPruebaCita::where('appointment_id', $request->cita)
-                ->where('test_id', $request->prueba)->update([
-                'informe' => 'pdfs/' . $filename,
-            ]);
-            return redirect()->back()->with('message', 'PDF generado y guardado correctamente');
+        try {
+            $rol = auth()->user()->type;
+            $edit = listaPruebaCita::where('appointment_id', $request->cita)->where('test_id', $request->prueba)->first();
+            $edit->descripcion = $request->description;
+            $edit->update();
+            $citaEdit = listaCita::find($request->cita);
+            if ($rol == 1) {
+                $citaEdit->status = 2;
+                $citaEdit->update();
+            } else if ($rol == 2) {
+                $html = $request->description;
+                $pdf = new TCPDF();
+                $pdf->AddPage();
+                $pdf->writeHTML($html, true, false, true, false, '');
+                $filename = $citaEdit->code . '.pdf';
+                $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
+                listaPruebaCita::where('appointment_id', $request->cita)
+                    ->where('test_id', $request->prueba)->update([
+                    'informe' => 'pdfs/' . $filename,
+                ]);
+                $citaEdit->status = 4;
+                $citaEdit->update();
+            }
+            return redirect()->back()->with('message', 'Guardado correctamente');
         } catch (\Throwable $th) {
             return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
         }

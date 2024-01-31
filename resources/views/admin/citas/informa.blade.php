@@ -23,23 +23,31 @@
                 @csrf
                 <div class="container-fluid" id="outprint">
                     <div class="row">
+                        <div class="col-2 border bg-gradient-primary text-light">Código de Cita</div>
+                        <div class="col-4 border">{{ isset($cita->code) ? $cita->code :"" }}</div>
+                        <div class="col-2 border bg-gradient-primary text-light">Calendario</div>
+                        <div class="col-4 border">{{ isset($cita->schedule) ? date("M d, Y h:i A", strtotime($cita->schedule)) :"" }}</div>    
                         <div class="col-2 border bg-gradient-primary text-light">Nombre Paciente</div>
-                        <div class="col-10 border">{{ isset($cliente) ? $cliente->user->nombres .' '. $cliente->user->apellido_pa.' '. $cliente->user->apellido_ma :"" }}</div>
+                        <div class="col-6 border">{{ isset($cliente) ? $cliente->user->nombres .' '. $cliente->user->apellido_pa.' '. $cliente->user->apellido_ma :"" }}</div>
+                        <div class="col-2 border bg-gradient-primary text-light">Cedula Identidad</div>
+                        <div class="col-2 border">{{ isset($cliente) ? $cliente->user->ci :"" }}</div>
                         <div class="col-1 border bg-gradient-primary text-light">Sexo</div>
-                        <div class="col-3 border">{{ isset($cliente) ? $cliente->gender :"" }}</div>
-                        <div class="col-1 border bg-gradient-primary text-light">Teléfono</div>
-                        <div class="col-3 border">{{ isset($cliente) ? $cliente->contact :"" }}</div>
+                        <div class="col-2 border">{{ isset($cliente) ? $cliente->gender :"" }}</div>
+                        <div class="col-2 border bg-gradient-primary text-light">Fecha Nacimiento</div>
+                        <div class="col-2 border">{{ isset($cliente) ? $cliente->dob :"" }}</div>
                         <div class="col-1 border bg-gradient-primary text-light">Correo</div>
-                        <div class="col-3 border">{{ isset($cliente) ? $cliente->user->email :"" }}</div>
+                        <div class="col-4 border">{{ isset($cliente) ? $cliente->user->email :"" }}</div>
                         <div class="col-2 border bg-gradient-primary text-light">Dirección</div>
-                        <div class="col-10 border">{{ isset($cliente) ? $cliente->address :"" }}</div>
+                        <div class="col-4 border">{{ isset($cliente) ? $cliente->address :"" }}</div>
+                        <div class="col-2 border bg-gradient-primary text-light">Teléfono</div>
+                        <div class="col-4 border">{{ isset($cliente) ? $cliente->contact :"" }}</div>
                     </div>
                 </div>
-                <input type="hidden" name="cita" value="{{ $cliente->id }}">
+                <input type="hidden" name="cita" value="{{ $cita->id }}">
                 <input type="hidden" name="prueba" value="{{ $prueba->id }}">
                 <div class="form-group">
                     <label for="name" class="control-label">Formulario</label>
-                    <textarea rows="3" name="description" id="descriptionInforme" class="form-control form-control-sm rounded-0">{{ $prueba->description }}</textarea>
+                    <textarea rows="3" name="description" id="descriptionInforme" class="form-control form-control-sm rounded-0">{{ $descripcion }}</textarea>
                 </div>
                 <div class="col-md-12">
                     <div class="row">

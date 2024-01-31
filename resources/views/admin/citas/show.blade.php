@@ -120,7 +120,7 @@
                                     <td class="py-1 px-2 text-right">{{ number_format($item->test->cost ,2) }}</td>
                                     @if ($cita->status >= 1)
                                         @if(auth()->user()->type == 1 || auth()->user()->type == 2)
-                                            <td><a href="{{ route('admin.llenar.form', [$item->id, $cita->id]) }}">Llenar</a></td>
+                                            <td><a href="{{ route('admin.llenar.form', [$item->test->id, $cita->id]) }}">Llenar</a></td>
                                         @endif
                                     @endif
                                     @if ($item->informe)

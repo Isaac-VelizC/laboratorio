@@ -73,9 +73,11 @@ class ClienteController extends Controller
             }
     
             foreach ($request->test_ids as $test_id) {
+                $prueba = listaPruebas::find($test_id);
                 listaPruebaCita::create([
                     'appointment_id' => $cita->id,
                     'test_id' => $test_id,
+                    'descripcion' => $prueba->description
                 ]);
             }
     

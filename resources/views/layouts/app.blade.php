@@ -62,7 +62,6 @@
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
     <script src="{{ asset('plugins/toastr/toastr.min.js')}}"></script>
-    <!-- Select2 -->
     <script src="{{ asset('plugins/select2.min.js')}}"></script>
     @yield('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>

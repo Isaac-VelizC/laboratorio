@@ -12,6 +12,7 @@ class listaPruebaCita extends Model
 
     protected $fillable = [
         'informe',
+        'descripcion',
         'appointment_id',
         'test_id',
     ];

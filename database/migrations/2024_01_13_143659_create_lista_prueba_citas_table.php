@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('lista_prueba_citas', function (Blueprint $table) {
             $table->id();
             $table->string('informe')->nullable();
+            $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('appointment_id');
             $table->unsignedBigInteger('test_id');
             $table->foreign('appointment_id')->references('id')->on('lista_citas')->onDelete('cascade');
