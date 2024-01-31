@@ -17,15 +17,6 @@
                 </div>
                 <div class="col-12 col-sm-12 col-md-6 col-lg-3">
                     <div class="info-box bg-gradient-light shadow">
-                        <span class="info-box-icon  bg-gradient-primary elevation-1"><i class="fas fa-calendar"></i></span>
-                        <div class="info-box-content">
-                        <span class="info-box-text">Citas Reservadas</span>
-                        <span class="info-box-number text-right">{{ $citaListTotalCount }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
-                    <div class="info-box bg-gradient-light shadow">
                         <span class="info-box-icon  bg-gradient-primary elevation-1"><i class="fas fa-spinner"></i></span>
                         <div class="info-box-content">
                         <span class="info-box-text">Citas Pendientes</span>
@@ -67,15 +58,6 @@
         <h3>Sistema de Laboratorio</h3>
         <hr class="border-primary">
         <div class="row">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3">
-                <div class="info-box bg-gradient-light shadow">
-                    <span class="info-box-icon bg-gradient-primary elevation-1"><i class="fas fa-calendar"></i></span>
-                    <div class="info-box-content">
-                    <span class="info-box-text">Citas Reservadas</span>
-                    <span class="info-box-number text-right">{{ $reservadas }}</span>
-                    </div>
-                </div>
-            </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="info-box bg-gradient-light shadow">
                     <span class="info-box-icon bg-gradient-primary elevation-1"><i class="fas fa-spinner"></i></span>

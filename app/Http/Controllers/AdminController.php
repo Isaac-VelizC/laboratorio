@@ -35,13 +35,13 @@ class AdminController extends Controller
     public function storeUserNew(Request $request) {
         try {    
             $request->validate([
-                'nombres' => 'required|string|max:255',
+                'nombres' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
                 'name' => 'required|string|max:255|unique:users',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
-                'apellido_pa' => 'required|string|max:255',
-                'apellido_ma' => 'string|max:255',
-                'ci' => 'required|string|max:255|unique:users',
+                'apellido_pa' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+                'apellido_ma' => 'nullable|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+                'ci' => 'required|string|regex:/^\d{7}(?:-[0-9A-Z]{1,2})?$/|unique:users',
                 'type' => 'required|in:1,2',
                 'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -73,12 +73,12 @@ class AdminController extends Controller
     public function updateUserNew(Request $request, $id) {
         try {
             $request->validate([
-                'nombres' => 'required|string|max:255',
+                'nombres' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
                 'name' => 'required|string|max:255|unique:users,name,' . $id,
                 'email' => 'required|string|email|max:255|unique:users,email,' . $id,
                 'password' => 'nullable|string|min:8',
-                'apellido_pa' => 'required|string|max:255',
-                'apellido_ma' => 'nullable|string|max:255',
+                'apellido_pa' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+                'apellido_ma' => 'nullable|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
                 'ci' => 'required|string|max:255|unique:users,ci,' . $id,
                 'type' => 'required|in:1,2',
                 'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -137,9 +137,9 @@ class AdminController extends Controller
     public function storePaciente(Request $request) {
         try {
             $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'apellido_pa' => ['required', 'string', 'max:255'],
-                'apellido_ma' => ['nullable', 'string', 'max:255'],
+                'name' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+                'apellido_pa' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+                'apellido_ma' => 'nullable|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
                 'ci' => ['required', 'string', 'max:255', 'unique:users'],
                 'gender' => ['required', 'in:Masculino,Femenino'],
                 'dob' => ['nullable', 'date'],
@@ -380,5 +380,9 @@ class AdminController extends Controller
     public function deleteImg($id) {
         ImagenFile::find($id)->delete();
         return back()->with('message', 'La imagen se borro exitosamente');
+    }
+    public function addPacienteCita($id) {
+        $cliente = listaCliente::find($id);
+        return view('admin.pacientes.new_cita', compact('cliente'));
     }
 }

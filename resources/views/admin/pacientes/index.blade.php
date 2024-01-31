@@ -72,11 +72,10 @@
                                         </a>
                                     @endif
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item view_data" href="javascript:void(0)" data-toggle="modal" data-target="#modal_cita_paciente{{ $item->id }}"><span class="fa fa-plus text-dark"></span> Cita</a>
+                                    <a class="dropdown-item view_data" href="{{ route('admin.cita.new.add', $item->id) }}"><span class="fa fa-plus text-dark"></span> Cita</a>
 								</div>
                             </td>
                         </tr>
-						@include('admin.pacientes.new_cita')
 						@include('admin.pacientes.show')
                     @endforeach
 				</tbody>
@@ -107,8 +106,8 @@
         </div>
     </div>
 </div>
-
 <script>
+    
     function confirmDelete(userId) {
         // Actualizar el valor del campo 'id' en el formulario antes de mostrar el modal
         $('#modal-confirmacion').find('input[name="id"]').val(userId);

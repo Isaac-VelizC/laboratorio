@@ -1,28 +1,44 @@
+@extends('layouts.app')
+@section('content')
 <style>
-	img#cimg{
-		height: 17vh;
-		width: 25vw;
-		object-fit: scale-down;
-	}
+    .img-thumb-path{
+        width:100px;
+        height:80px;
+        object-fit:scale-down;
+        object-position:center center;
+    }
 </style>
-<div class="modal fade" id="modal_cita_paciente{{ $item->id }}">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Agregar nueva cita</h4>
-        </div>
+
+@if(session('message'))
+    <div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
+       <span>{{ session('message') }}</span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+@if(session('error'))
+    <div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
+        <span>{{ session('error') }}</span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+<div class="card card-outline card-primary rounded-0 shadow">
+	<div class="card-header">
+		<h3 class="card-title">Registra Cita para Peciente</h3>
+	</div>
+	<div class="card-body">
+		<div class="container-fluid">
             <form method="POST" action="{{ route('cliente.citas.new') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
-                        <input type="hidden" name="idPaciente" value="{{ $item->user->id }}">
+                        <input type="hidden" name="idPaciente" value="{{ $cliente->user->id }}">
                         <div class="form-group col-md-6">
                             <label for="schedule" class="control-label">Fecha y hora</label>
                             <input type="datetime-local" name="schedule" id="schedule" class="form-control form-control-border" placeholder="Ingresa el horario de la cita" value ="" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="test_ids" class="control-label">Pruebas</label>
-                            <select id="tags" name="test_ids[]" multiple="multiple"></select>
+                            <select class="form-control" id="tags" name="test_ids[]" multiple="multiple"></select>
                         </div>
                     </div>  
                     <div class="row">
@@ -37,13 +53,11 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>
-      </div>
-    </div>
+		</div>
+	</div>
 </div>
 
-@section('scripts')
-
-<script src="{{ asset('assets/js/jquery-3.6.0.min.js')}}"></script>
+<script src="{{ asset('plugins/jquery-3.6.0.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         $("#tags").select2({

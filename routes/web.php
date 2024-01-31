@@ -66,5 +66,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/delete/img/{id}', [AdminController::class, 'deleteImg'])->name('admin.delete.img');
 
     
+    Route::get('/cita/ver/add/{id}', [AdminController::class, 'addPacienteCita'])->name('admin.cita.new.add');
+    
     Route::post('/select',[AdminController::class, 'selectPruebas'])->name('search.pruebas');
 });

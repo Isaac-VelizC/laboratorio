@@ -105,8 +105,13 @@
                                 <th>Nombre</th>
                                 <th>Costo</th>
                                 @if ($cita->status >= 1)
-                                    @if(auth()->user()->type == 1 || auth()->user()->type == 2)
-                                        <th>Llenar Informa</th>
+                                    @if(auth()->user()->type == 1)
+                                        <th>Llenar Informe</th>
+                                    @endif
+                                @endif
+                                @if ($cita->status >= 2)
+                                    @if(auth()->user()->type == 2)
+                                        <th>Llenar Informe</th>
                                     @endif
                                 @endif
                                 <th></th>
@@ -119,7 +124,12 @@
                                     <td class="py-1 px-2">{{ $item->test->name }}</td>
                                     <td class="py-1 px-2 text-right">{{ number_format($item->test->cost ,2) }}</td>
                                     @if ($cita->status >= 1)
-                                        @if(auth()->user()->type == 1 || auth()->user()->type == 2)
+                                        @if(auth()->user()->type == 1)
+                                            <td><a href="{{ route('admin.llenar.form', [$item->test->id, $cita->id]) }}">Llenar</a></td>
+                                        @endif
+                                    @endif
+                                    @if ($cita->status >= 2)
+                                        @if(auth()->user()->type == 2)
                                             <td><a href="{{ route('admin.llenar.form', [$item->test->id, $cita->id]) }}">Llenar</a></td>
                                         @endif
                                     @endif
