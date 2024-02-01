@@ -39,6 +39,7 @@
 						<th>Nombre</th>
 						<th>Cedula de Identidad</th>
 						<th>Tipo de Usuario</th>
+						<th>Estado</th>
 						<th>Acción</th>
 					</tr>
 				</thead>
@@ -50,6 +51,13 @@
                             <td>{{ $item->nombres }} {{ $item->apellido_pa }} {{ $item->apellido_ma }}</td>
                             <td ><p class="m-0 truncate-1">{{ $item->ci }} </p></td>
 							<td ><p class="m-0"> {{ $item->type == 1 ? "Administrador" : "Bioquimico"}}</p></td>
+                            <td>
+                                @if ($item->status == 0 )
+                                    <span class="rounded-pill badge badge-danger ">Inactivo</span>
+                                @else
+                                    <span class="rounded-pill badge badge-secondary ">Activo</span>
+                                @endif
+                            </td>
                             <td align="center">
                                 <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                         Acción
@@ -63,7 +71,7 @@
                                         <div class="dropdown-divider"></div>
                                     @endif
                                     <a class="dropdown-item delete_data" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-toggle="modal" data-target="#modal-default">
-                                        <span class="fa fa-trash text-danger"></span> Eliminar
+                                        <span class="fa fa-trash text-danger"></span> {{ $item->status == 0 ? 'Dar de Alta' : 'Dar de Baja' }}
                                     </a>
                                 </div>
                             </td>
@@ -85,10 +93,9 @@
             </div>
             <form id="deleteForm" method="post" action="{{ route('admin.user.delete') }}">
                 @csrf
-                @method('DELETE')
                 <input type="hidden" name="id" value="">
                 <div class="modal-body">
-                    <p>¿Estás seguro de eliminar este usuario de forma permanente?</p>
+                    <p>¿Quiere Continuar?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Continuar</button>

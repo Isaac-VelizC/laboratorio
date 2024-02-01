@@ -118,14 +118,16 @@ class AdminController extends Controller
     public function deleteUserNew(Request $request) {
         try {
             $user = User::findOrFail($request->id);
-            if ($user->avatar) {
-                Storage::delete('public/'.$user->avatar);
+            if ($user->status == 1) {
+                $user->status = 0;
+            } else {
+                $user->status = 1;
             }
-            $user->delete();
+            $user->update();
     
-            return back()->with('message', 'Usuario eliminado correctamente');
+            return back()->with('message', 'Usuario dado de baja correctamente');
         } catch (\Exception $e) {
-            return back()->with('error', 'Error al eliminar el usuario: ' . $e->getMessage());
+            return back()->with('error', 'Error al dar de baja el usuario: ' . $e->getMessage());
         }
     }
     public function pacientesList() {
@@ -311,30 +313,74 @@ class AdminController extends Controller
             return view('admin.citas.informa',compact('prueba', 'cliente', 'cita', 'descripcion'));
         }
     }
+
+    public function addFormularioAdmin(Request $request) {
+        try {
+            $edit = listaPruebaCita::where('appointment_id', $request->cita)->where('test_id', $request->prueba)->first();
+            if (!$edit) {
+                return back()->with('error', 'No se encontró la prueba de la cita.');
+            }
+            $edit->descripcion = $request->description;
+            $edit->estado = 1; // Corregí el nombre del campo "esatdo" a "estado"
+            $edit->update();
+            listaHistorial::create([
+                'appointment_id' => $request->cita,
+                'status' => 2,
+                'remarks' => 'Sin observaciones',
+            ]);
+            $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();
+            // Utilizar el método every() para verificar si todos tienen estado 1
+            $estadoForm = $todos->every(function ($item) {
+                return $item->estado == 1;
+            });
+            if ($estadoForm) {
+                $citaEdit = listaCita::find($request->cita);
+                if ($citaEdit) {
+                    $citaEdit->status = 2;
+                    $citaEdit->update();
+                } else {
+                    return back()->with('error', 'No se encontró la cita.');
+                }
+            }
+            return redirect()->back()->with('message', 'Guardado correctamente');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
+        }
+    }
     public function addFormularioPDF(Request $request) {
         try {
-            $rol = auth()->user()->type;
             $edit = listaPruebaCita::where('appointment_id', $request->cita)->where('test_id', $request->prueba)->first();
             $edit->descripcion = $request->description;
+            $edit->estado = 2; // Corregí el nombre del campo "esatdo" a "estado"
             $edit->update();
-            $citaEdit = listaCita::find($request->cita);
-            if ($rol == 1) {
-                $citaEdit->status = 2;
-                $citaEdit->update();
-            } else if ($rol == 2) {
-                $html = $request->description;
-                $pdf = new TCPDF();
-                $pdf->AddPage();
-                $pdf->writeHTML($html, true, false, true, false, '');
-                $filename = $citaEdit->code . '.pdf';
-                $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
-                listaPruebaCita::where('appointment_id', $request->cita)
-                    ->where('test_id', $request->prueba)->update([
-                    'informe' => 'pdfs/' . $filename,
-                ]);
+            
+            listaHistorial::create([
+                'appointment_id' => $request->cita,
+                'status' => 4,
+                'remarks' => 'Prueba finalizada',
+            ]);
+            
+            $html = $request->description;
+            $pdf = new TCPDF();
+            $pdf->AddPage();
+            $pdf->writeHTML($html, true, false, true, false, '');
+            $filename = $request->codigo . '.pdf';
+            $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
+            listaPruebaCita::where('appointment_id', $request->cita)
+                ->where('test_id', $request->prueba)->update([
+                'informe' => 'pdfs/' . $filename,
+            ]);
+
+            $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();
+            $estadoForm = $todos->every(function ($item) {
+                return $item->estado == 2;
+            });
+            if ($estadoForm) {
+                $citaEdit = listaCita::find($request->cita);
                 $citaEdit->status = 4;
                 $citaEdit->update();
             }
+            
             return redirect()->back()->with('message', 'Guardado correctamente');
         } catch (\Throwable $th) {
             return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());

@@ -19,7 +19,7 @@
             </div>
         @endif
         <div class="card-body">
-            <form method="POST" action="{{ route('admin.guardar.informe') }}">
+            <form method="POST" action="{{ auth()->user()->type == 1 ? route('admin.guardar.admin') : route('admin.guardar.informe') }}">
                 @csrf
                 <div class="container-fluid" id="outprint">
                     <div class="row">
@@ -43,6 +43,9 @@
                         <div class="col-4 border">{{ isset($cliente) ? $cliente->contact :"" }}</div>
                     </div>
                 </div>
+                @if (auth()->user()->type == 2)
+                    <input type="hidden" name="codigo" value="{{ $cita->code }}">
+                @endif
                 <input type="hidden" name="cita" value="{{ $cita->id }}">
                 <input type="hidden" name="prueba" value="{{ $prueba->id }}">
                 <div class="form-group">

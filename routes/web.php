@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/users/{id}/edit', [AdminController::class, 'editUserNew'])->name('admin.user.edit');
     Route::post('/admin/users/create', [AdminController::class, 'storeUserNew'])->name('admin.user.store');
     Route::post('/admin/users/{id}/edit', [AdminController::class, 'updateUserNew'])->name('admin.user.update');
-    Route::delete('/admin/users/borrar', [AdminController::class, 'deleteUserNew'])->name('admin.user.delete');
+    Route::post('/admin/users/borrar', [AdminController::class, 'deleteUserNew'])->name('admin.user.delete');
     
     Route::get('/admin/pacientes', [AdminController::class, 'pacientesList'])->name('admin.list.paciente');
     Route::delete('/admin/pacientes/borrar', [AdminController::class, 'deletepacienteNew'])->name('admin.paciente.delete');
@@ -60,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/appointment/status/{id}', [AdminController::class, 'update_appointment_status'])->name('admin.cita.status');
     Route::get('/admin/citas/form/{id}/{cita}', [AdminController::class, 'llenar_fomraulario'])->name('admin.llenar.form');
     Route::post('/admin/citas/form/add', [AdminController::class, 'addFormularioPDF'])->name('admin.guardar.informe');
-    
+    Route::post('/admin/citas/admin/add', [AdminController::class, 'addFormularioAdmin'])->name('admin.guardar.admin');
     Route::get('/admin/configuracion', [AdminController::class, 'showSystemInfo'])->name('admin.system.info');
     Route::post('/admin/configuracion/update', [AdminController::class, 'updateInfoSystem'])->name('admin.system.update');
     Route::get('/admin/delete/img/{id}', [AdminController::class, 'deleteImg'])->name('admin.delete.img');
