@@ -17,4 +17,9 @@ class listaPruebas extends Model
         'status',
         'delete_flag'
     ];
+
+    public function values()
+    {
+        return $this->hasMany(FormTypeValue::class, 'test_id');
+    }
 }

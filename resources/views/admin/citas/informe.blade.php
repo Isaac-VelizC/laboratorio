@@ -48,9 +48,22 @@
                 @endif
                 <input type="hidden" name="cita" value="{{ $cita->id }}">
                 <input type="hidden" name="prueba" value="{{ $prueba->id }}">
-                <div class="form-group">
-                    <label for="name" class="control-label">Formulario</label>
-                    <textarea rows="3" name="description" id="descriptionInforme" class="form-control form-control-sm rounded-0">{{ $descripcion }}</textarea>
+                <br>
+                <div class="row">
+                    @foreach ($inputs as $item)
+                        <div class="form-group col-4">
+                            <label for="name" class="control-label">{{ $item->name }}</label>
+                            <input class="form-control form-control-border" required 
+                                type="{{ $item->type }}" 
+                                name="{{ $item->name }}" 
+                                id="{{ $item->name }}" 
+                                placeholder="{{ $item->name }}"
+                            />
+                        </div>
+                    @endforeach
+                </div>
+                <div>
+                    <div id="editor">{!! $formulario !!}</div>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
@@ -62,5 +75,45 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('build/ckeditor5/build/ckeditor.js')}}"></script>
+<script>
+    InlineEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            window.editor = editor;
+            // Función para actualizar el contenido del editor con el valor del campo de entrada específico
+            function actualizarContenidoEditor(inputId) {
+    // Obtener el contenido del editor
+    let contenido = editor.getData();
+    // Obtener el valor del campo de entrada específico y eliminar espacios en blanco al inicio y al final
+    let inputValue = document.getElementById(inputId).value.trim();
+    // Crear un nuevo identificador para el valor
+    let nuevoIdentificador = inputId + '-' + inputValue;
+
+    // Construir una expresión regular que coincida con el identificador seguido de cualquier cantidad de caracteres, incluyendo puntos y números decimales
+    let regex = new RegExp(inputId + '(\\.?[0-9]+)?', 'g');
+    // Realizar el reemplazo en el contenido del editor
+    contenido = contenido.replace(regex, nuevoIdentificador);
+
+    // Actualizar el contenido del editor
+    editor.setData(contenido);
+}
+
+
+
+            // Agregar un evento a cada campo de entrada para llamar a la función actualizarContenidoEditor cuando cambie
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('input', () => {
+                    console.log(input.id);
+                    actualizarContenidoEditor(input.id);
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error al crear el editor:', error);
+        });
+
+</script>
 
 @endsection

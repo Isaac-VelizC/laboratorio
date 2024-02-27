@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\PruebaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -48,17 +49,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/pacientes', [AdminController::class, 'pacientesList'])->name('admin.list.paciente');
     Route::delete('/admin/pacientes/borrar', [AdminController::class, 'deletepacienteNew'])->name('admin.paciente.delete');
     Route::post('/admin/createpacoent', [AdminController::class, 'storePaciente'])->name('admin.create.client');
-
-    Route::get('/admin/pruebas', [AdminController::class, 'pruebasList'])->name('admin.list.prueba');
-    Route::post('/admin/pruebas/create', [AdminController::class, 'pruebaNew'])->name('admin.new.prueba');
-    Route::post('/admin/pruebas/edit/{id}', [AdminController::class, 'pruebaEditar'])->name('admin.edit.prueba');
+    //PUEBAS
+    Route::get('/admin/pruebas', [PruebaController::class, 'pruebasList'])->name('admin.list.prueba');
+    Route::get('/admin/add/new/test', [PruebaController::class, 'formNewTest'])->name('admin.form.new.prueba');
+    Route::post('/admin/pruebas/create', [PruebaController::class, 'pruebaNew'])->name('admin.new.prueba');
+    Route::get('/admin/pruebas/edit/{id}/view', [PruebaController::class, 'formEditTest'])->name('admin.form.edit.prueba');
+    Route::post('/admin/pruebas/edit/{id}', [PruebaController::class, 'pruebaEditar'])->name('admin.edit.prueba');
     Route::get('/admin/pruebas/show/{id}', [AdminController::class, 'pruebaNewShow'])->name('admin.prueba.show');
-    Route::delete('/admin/pruevbas/borrar', [AdminController::class, 'deletePruebaNew'])->name('admin.prueba.delete');
+    Route::delete('/admin/pruevbas/borrar', [PruebaController::class, 'deletePruebaNew'])->name('admin.prueba.delete');
 
     Route::get('/admin/citas/all', [AdminController::class, 'listasCitas'])->name('admin.list.citas');
     Route::get('/admin/citas/show/{id}', [AdminController::class, 'citaShow'])->name('admin.cita.show');
     Route::post('/admin/appointment/status/{id}', [AdminController::class, 'update_appointment_status'])->name('admin.cita.status');
-    Route::get('/admin/citas/form/{id}/{cita}', [AdminController::class, 'llenar_fomraulario'])->name('admin.llenar.form');
+    Route::get('/admin/citas/form/{id}/{cita}', [PruebaController::class, 'llenar_formulario'])->name('admin.llenar.form');
     Route::post('/admin/citas/form/add', [AdminController::class, 'addFormularioPDF'])->name('admin.guardar.informe');
     Route::post('/admin/citas/admin/add', [AdminController::class, 'addFormularioAdmin'])->name('admin.guardar.admin');
     Route::get('/admin/configuracion', [AdminController::class, 'showSystemInfo'])->name('admin.system.info');

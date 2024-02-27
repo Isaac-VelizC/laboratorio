@@ -20,7 +20,6 @@
   <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/select2.min.css')}}"/>
-
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     @if (auth()->check())
@@ -64,24 +63,7 @@
     <script src="{{ asset('plugins/toastr/toastr.min.js')}}"></script>
     <script src="{{ asset('plugins/select2.min.js')}}"></script>
     @yield('scripts')
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-                .create( document.querySelector( '#editordescripcionCreate' ) )
-                .catch( error => {
-                    console.error( error );
-                } );
-        ClassicEditor
-                .create( document.querySelector( '#editordescripcionEdit' ) )
-                .catch( error => {
-                    console.error( error );
-                } );
-        ClassicEditor
-                .create( document.querySelector( '#descriptionInforme' ) )
-                .catch( error => {
-                    console.error( error );
-                } );
-    </script>
+    
     <script>
         $(function () {
             $("#example1").DataTable();

@@ -12,10 +12,9 @@
 	<div class="card-header">
 		<h3 class="card-title">Lista de Pruebas</h3>
 		<div class="card-tools">
-			<a href="javascript:void(0)" id="create_new" class="btn btn-flat btn-sm btn-primary" data-toggle="modal" data-target="#modal-pruebas"><span class="fas fa-plus"></span> Nuevo</a>
+			<a href="{{ route('admin.form.new.prueba') }}" id="create_new" class="btn btn-flat btn-sm btn-primary" ><span class="fas fa-plus"></span> Nuevo</a>
 		</div>
 	</div>
-    @include('admin.pruebas.create')
 	<div class="card-body">
 		<div class="container-fluid">
         <div class="container-fluid">
@@ -60,7 +59,7 @@
                                 <div class="dropdown-menu" role="menu">
                                     <a class="dropdown-item view_data" href="{{ route('admin.prueba.show', $item->id) }}" data-id ="{{ $item->id }}"><span class="fa fa-eye text-dark"></span> Ver</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item edit_data" href="javascript:void(0)" data-toggle="modal" data-target="#modal-pruebas-edit{{$item->id}}"><span class="fa fa-edit text-primary"></span> Editar</a>
+                                    <a class="dropdown-item edit_data" href="{{ route('admin.form.edit.prueba', $item->id) }}"><span class="fa fa-edit text-primary"></span> Editar</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item delete_data" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-toggle="modal" data-target="#modal-confirmacion">
                                         <span class="fa fa-trash text-danger"></span> Eliminar
@@ -68,7 +67,6 @@
                                 </div>
                             </td>
                         </tr>
-                        @include('admin.pruebas.edit')
                     @endforeach
 				</tbody>
 			</table>
