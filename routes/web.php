@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\InformeController;
 use App\Http\Controllers\PruebaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -72,4 +73,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cita/ver/add/{id}', [AdminController::class, 'addPacienteCita'])->name('admin.cita.new.add');
     
     Route::post('/select',[AdminController::class, 'selectPruebas'])->name('search.pruebas');
+
+    //Informes
+    Route::get('/admin/informes/info', [InformeController:: class, 'index'])->name('admin.informe.info');
+    Route::post('/admin/informes1/info', [InformeController:: class, 'informe1'])->name('admin.informe1.info1');
 });

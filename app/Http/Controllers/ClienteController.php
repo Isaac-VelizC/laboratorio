@@ -7,6 +7,7 @@ use App\Models\listaCliente;
 use App\Models\listaPruebaCita;
 use App\Models\listaPruebas;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -38,6 +39,12 @@ class ClienteController extends Controller
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
             }
+
+            $estado = $this->controlHorarios($request->schedule);
+            if (!$estado) {
+                return back()->with('error', 'Horario no disponible');
+            }
+
             $user = auth()->user();
             if ($request->idPaciente) {
                 $idUser = $request->idPaciente;
@@ -115,6 +122,22 @@ class ClienteController extends Controller
         } catch (\Throwable $th) {
             return back()->with('error', 'Ocurrió un error al agendar la prueba. ' . $th->getMessage());
         }
+    }
+
+    public function controlHorarios($nuevaFecha)
+    {
+        // Convertir la nueva fecha a un objeto Carbon
+        $nuevaFecha = Carbon::parse($nuevaFecha);
+
+        // Definir el rango de tiempo adicional de 15 minutos
+        $fechaInicial = $nuevaFecha->subMinutes(15);
+        $fechaFinal = $nuevaFecha->copy()->addMinutes(15);
+
+        // Verificar si hay citas programadas dentro del rango de tiempo adicional
+        $citas = listaPruebaCita::whereBetween('fecha', [$fechaInicial, $fechaFinal])->exists();
+
+        // Devolver true si no hay citas programadas dentro del rango, de lo contrario, devolver false
+        return !$citas;
     }
     
     public function resultados() {

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('informe')->nullable();
             $table->text('descripcion')->nullable();
             $table->integer('estado')->default(0);
+            $table->dateTime('fecha')->default(now());
             $table->unsignedBigInteger('appointment_id');
             $table->unsignedBigInteger('test_id');
             $table->foreign('appointment_id')->references('id')->on('lista_citas')->onDelete('cascade');

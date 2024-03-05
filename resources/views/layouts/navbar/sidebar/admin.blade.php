@@ -40,6 +40,14 @@
          @if (Auth::user()->type == 1)
           <li class="nav-header">Mantenimiento</li>
           <li class="nav-item dropdown">
+            <a href="{{ route('admin.informe.info') }}" class="nav-link nav-tests">
+              <i class="nav-icon fa fa-file"></i>
+              <p>
+                Informes
+              </p>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
             <a href="{{ route('admin.list.prueba') }}" class="nav-link nav-tests">
               <i class="nav-icon fas fa-th-list"></i>
               <p>

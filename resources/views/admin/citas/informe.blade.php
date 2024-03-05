@@ -58,6 +58,7 @@
                                 name="{{ $item->name }}" 
                                 id="{{ $item->name }}" 
                                 placeholder="{{ $item->name }}"
+                                value="{{ $item->name }}"
                             />
                         </div>
                     @endforeach
@@ -82,30 +83,34 @@
         .create(document.querySelector('#editor'))
         .then(editor => {
             window.editor = editor;
+            
+            // Objeto para almacenar los valores antiguos de los inputs
+            let valoresAntiguos = {};
+
             // Función para actualizar el contenido del editor con el valor del campo de entrada específico
             function actualizarContenidoEditor(inputId) {
-    // Obtener el contenido del editor
-    let contenido = editor.getData();
-    // Obtener el valor del campo de entrada específico y eliminar espacios en blanco al inicio y al final
-    let inputValue = document.getElementById(inputId).value.trim();
-    // Crear un nuevo identificador para el valor
-    let nuevoIdentificador = inputId + '-' + inputValue;
+                // Obtener el contenido del editor
+                let contenido = editor.getData();
+                
+                // Obtener el valor del campo de entrada específico y eliminar espacios en blanco al inicio y al final
+                let inputValue = document.getElementById(inputId).value.trim();
+                
+                // Obtener el valor antiguo del input si existe
+                let valorAntiguo = valoresAntiguos[inputId] || '';
 
-    // Construir una expresión regular que coincida con el identificador seguido de cualquier cantidad de caracteres, incluyendo puntos y números decimales
-    let regex = new RegExp(inputId + '(\\.?[0-9]+)?', 'g');
-    // Realizar el reemplazo en el contenido del editor
-    contenido = contenido.replace(regex, nuevoIdentificador);
-
-    // Actualizar el contenido del editor
-    editor.setData(contenido);
-}
-
-
+                // Realizar el reemplazo en el contenido del editor
+                contenido = contenido.replace(valorAntiguo, inputValue);
+                
+                // Actualizar el valor antiguo del input
+                valoresAntiguos[inputId] = inputValue;
+                
+                // Actualizar el contenido del editor
+                editor.setData(contenido);
+            }
 
             // Agregar un evento a cada campo de entrada para llamar a la función actualizarContenidoEditor cuando cambie
             document.querySelectorAll('.form-control').forEach(input => {
                 input.addEventListener('input', () => {
-                    console.log(input.id);
                     actualizarContenidoEditor(input.id);
                 });
             });
@@ -113,7 +118,7 @@
         .catch(error => {
             console.error('Error al crear el editor:', error);
         });
-
 </script>
+
 
 @endsection

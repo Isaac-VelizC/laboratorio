@@ -33,8 +33,9 @@
                     <div class="row">
                         <input type="hidden" name="idPaciente" value="{{ $cliente->user->id }}">
                         <div class="form-group col-md-6">
-                            <label for="schedule" class="control-label">Fecha y hora</label>
-                            <input type="datetime-local" name="schedule" id="schedule" class="form-control form-control-border" placeholder="Ingresa el horario de la cita" value ="" required>
+                            <label for="schedule" class="control-label">Fecha y hora (entre las 7:30 AM y las 8:00 PM)</label>
+                            <input type="datetime-local" name="schedule" id="schedule" class="form-control form-control-border" 
+                            min="2024-01-01T07:30" max="2030-12-30T20:00" onchange="TDate()" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="test_ids" class="control-label">Pruebas</label>
@@ -46,7 +47,7 @@
                             <label for="prescription" class="control-label">Prescripción <small><em>(Si hay alguna)</em></small></label>
                             <input type="file" name="prescription" accept="application/msword, .doc, .docx, .txt, application/pdf" id="prescription" class="form-control form-control-border" >
                         </div>
-                    </div>      
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -56,9 +57,44 @@
 		</div>
 	</div>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
 <script src="{{ asset('plugins/jquery-3.6.0.min.js')}}"></script>
+
 <script>
+    function TDate() {
+        var UserDate = new Date(document.getElementById("schedule").value);
+        var CurrentDateTime = new Date();
+        // Verificar si la fecha seleccionada es menor que la fecha actual
+        if (UserDate < CurrentDateTime) {
+            alert("La fecha y hora debe ser posterior a la fecha y hora actual.");
+            return false;
+        }
+        // Obtener año, mes y día
+        var year = UserDate.getFullYear();
+        var month = String(UserDate.getMonth() + 1).padStart(2, '0'); // Añadir ceros iniciales si es necesario
+        var day = String(UserDate.getDate()).padStart(2, '0'); // Añadir ceros iniciales si es necesario
+
+        // Formatear la fecha en formato "YYYY-MM-DD"
+        var fecha = year + "-" + month + "-" + day;
+
+        // Establecer las horas mínimas y máximas permitidas
+        var minTime = "07:30";
+        var maxTime = "20:00";
+
+        // Concatenar la fecha actual con las horas mínimas y máximas
+        var minDateTimeString = fecha + "T" + minTime;
+        var maxDateTimeString = fecha + "T" + maxTime;
+
+        // Verificar si la hora seleccionada está dentro del rango permitido
+        if (UserDate < new Date(minDateTimeString) || UserDate > new Date(maxDateTimeString)) {
+            alert("La hora debe estar entre las 07:30 y las 20:00.");
+            return false;
+        }
+        
+        return true;
+    }
+
+
     $(document).ready(function() {
         $("#tags").select2({
             placeholder:'Buscar Prueba',

@@ -15,6 +15,7 @@ class listaPruebaCita extends Model
         'descripcion',
         'appointment_id',
         'test_id',
+        'fecha',
         'estado'
     ];
 
