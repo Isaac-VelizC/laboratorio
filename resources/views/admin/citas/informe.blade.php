@@ -46,32 +46,37 @@
                 @if (auth()->user()->type == 2)
                     <input type="hidden" name="codigo" value="{{ $cita->code }}">
                 @endif
-                <input type="hidden" name="cita" value="{{ $cita->id }}">
-                <input type="hidden" name="prueba" value="{{ $prueba->id }}">
+                <input type="hidden" name="cita" value="{{ $cita->id }}" required>
+                <input type="hidden" name="prueba" value="{{ $prueba->id }}" required>
                 <br>
                 <div class="row">
                     @foreach ($inputs as $item)
-                        <div class="form-group col-4">
-                            <label for="name" class="control-label">{{ $item->name }}</label>
+                        @php
+                            $cleanedName = str_replace('@', '', $item->name);
+                        @endphp
+                        <div class="form-group col-3">
+                            <label for="{{ $cleanedName }}" class="control-label">{{ $cleanedName }}</label>
                             <input class="form-control form-control-border" required 
-                                type="{{ $item->type }}" 
-                                name="{{ $item->name }}" 
-                                id="{{ $item->name }}" 
-                                placeholder="{{ $item->name }}"
-                                value="{{ $item->name }}"
+                                type="{{ $item->type }}"
+                                name="{{ $item->name }}"
+                                id="{{ $item->name }}"
+                                placeholder="{{ $cleanedName }}"
+                                onchange="guardarValores()"
                             />
                         </div>
                     @endforeach
                 </div>
-                <div>
-                    <div id="editor">{!! $formulario !!}</div>
-                </div>
+                <input type="hidden" name="valoresInputs" id="valoresInputs" required>
+                <input type="hidden" name="description" value="{{ $formulario }}" required>
                 <div class="col-md-12">
                     <div class="row">
                         <button class="btn btn-sm btn-primary" type="submit">Guardar</button>
                         <a class="btn btn-sm btn-danger" type="button" href="{{ route('admin.cita.show', $cita->id) }}">cerrar</a>
                     </div>
                 </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div id="editor" style="width: 21cm; height: 29.7cm; border: 1px solid black;">{!! $formulario !!}</div>
+                </div>                
             </form>
         </div>
     </div>
@@ -83,41 +88,24 @@
         .create(document.querySelector('#editor'))
         .then(editor => {
             window.editor = editor;
-            
-            // Objeto para almacenar los valores antiguos de los inputs
-            let valoresAntiguos = {};
-
-            // Función para actualizar el contenido del editor con el valor del campo de entrada específico
-            function actualizarContenidoEditor(inputId) {
-                // Obtener el contenido del editor
-                let contenido = editor.getData();
-                
-                // Obtener el valor del campo de entrada específico y eliminar espacios en blanco al inicio y al final
-                let inputValue = document.getElementById(inputId).value.trim();
-                
-                // Obtener el valor antiguo del input si existe
-                let valorAntiguo = valoresAntiguos[inputId] || '';
-
-                // Realizar el reemplazo en el contenido del editor
-                contenido = contenido.replace(valorAntiguo, inputValue);
-                
-                // Actualizar el valor antiguo del input
-                valoresAntiguos[inputId] = inputValue;
-                
-                // Actualizar el contenido del editor
-                editor.setData(contenido);
-            }
-
-            // Agregar un evento a cada campo de entrada para llamar a la función actualizarContenidoEditor cuando cambie
-            document.querySelectorAll('.form-control').forEach(input => {
-                input.addEventListener('input', () => {
-                    actualizarContenidoEditor(input.id);
-                });
-            });
         })
         .catch(error => {
             console.error('Error al crear el editor:', error);
         });
+    function guardarValores() {
+        var valores = {};
+
+        // Obtener todos los inputs dentro del bucle foreach
+        var inputs = document.querySelectorAll('.form-group.col-3 input');
+
+        inputs.forEach(function(input) {
+            valores[input.name] = input.value;
+        });
+
+        // Establecer los valores en el campo oculto
+        document.getElementById('valoresInputs').value = JSON.stringify(valores);
+    }
+
 </script>
 
 

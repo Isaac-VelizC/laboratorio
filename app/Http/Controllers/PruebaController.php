@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\FormTypeValue;
 use App\Models\listaCita;
 use App\Models\listaCliente;
+use App\Models\listaHistorial;
 use App\Models\listaPruebaCita;
 use App\Models\listaPruebas;
 use App\Models\SystemInfo;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use TCPDF;
 
 class PruebaController extends Controller
 {
@@ -174,6 +178,112 @@ class PruebaController extends Controller
         // Obtener la edad en años
         $edad = $diferencia->y;
         return $edad;
+    }
+    
+    public function addFormularioAdmin(Request $request) {
+        try {    
+            $rules = [];
+            foreach ($request->input() as $key => $value) {
+                $rules[$key] = 'required';
+            }
+            $validator = Validator::make($request->all(), $rules);
+            // Verificar si la validación falla
+            if ($validator->fails()) {
+                return back()->with('error', 'Todos los datos son requeridos. '. $validator);
+            }
+
+            $edit = listaPruebaCita::where('appointment_id', $request->cita)->where('test_id', $request->prueba)->first();
+            if (!$edit) {
+                return back()->with('error', 'No se encontró la prueba de la cita.');
+            }
+
+            $modificadoForm = $this->reemplazarValuesFormulario($request->valoresInputs, $request->description);
+
+            $edit->descripcion = $modificadoForm;
+            $edit->estado = 1;
+            $edit->update();
+            listaHistorial::create([
+                'appointment_id' => $request->cita,
+                'status' => 2,
+                'remarks' => 'Sin observaciones',
+            ]);
+            $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();
+            $estadoForm = $todos->every(function ($item) {
+                return $item->estado == 1;
+            });
+            if ($estadoForm) {
+                $citaEdit = listaCita::find($request->cita);
+                if ($citaEdit) {
+                    $citaEdit->status = 2;
+                    $citaEdit->update();
+                } else {
+                    return back()->with('error', 'No se encontró la cita.');
+                }
+            }
+            return redirect()->back()->with('message', 'Guardado correctamente');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
+        }
+    }
+
+    public function addFormularioPDF(Request $request) {
+        try {
+            $request->validate([
+                'valoresInputs' => 'required|string',
+                'description' => 'required|string',
+            ]);
+
+            $modificadoForm = $this->reemplazarValuesFormulario($request->valoresInputs, $request->description);
+
+            $edit = listaPruebaCita::where('appointment_id', $request->cita)->where('test_id', $request->prueba)->first();
+            $edit->descripcion = $modificadoForm;
+            $edit->estado = 2;
+            $edit->update();
+            
+            listaHistorial::create([
+                'appointment_id' => $request->cita,
+                'status' => 4,
+                'remarks' => 'Prueba finalizada',
+            ]);
+            $fecha = Carbon::now()->format('Y-m-d_H-i-s');
+            
+            $html = $modificadoForm;
+            $pdf = new TCPDF();
+            $pdf->AddPage();
+            $pdf->writeHTML($html, true, false, true, false, '');
+            $filename = $fecha . '.pdf';
+            $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
+            listaPruebaCita::where('appointment_id', $request->cita)
+                ->where('test_id', $request->prueba)->update([
+                'informe' => 'pdfs/' . $filename,
+            ]);
+
+            $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();
+            $estadoForm = $todos->every(function ($item) {
+                return $item->estado == 2;
+            });
+            if ($estadoForm) {
+                $citaEdit = listaCita::find($request->cita);
+                $citaEdit->status = 4;
+                $citaEdit->update();
+            }
+            
+            return redirect()->back()->with('message', 'Guardado correctamente');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
+        }
+    }
+
+    function reemplazarValuesFormulario($valoresInputs, $descripcion) {
+        // Decodificar la cadena JSON de los valores de los inputs
+        $valores = json_decode($valoresInputs, true);
+        // Recorrer los valores y reemplazarlos en la descripción
+        foreach ($valores as $nombreInput => $valorInput) {
+            // Reemplazar el nombre del input con su valor en la descripción
+            $descripcion = str_replace($nombreInput, $valorInput, $descripcion);
+        }
+        // Devolver la descripción modificada
+        return $descripcion;
     }
     
 }

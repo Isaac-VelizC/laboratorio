@@ -63,8 +63,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/citas/show/{id}', [AdminController::class, 'citaShow'])->name('admin.cita.show');
     Route::post('/admin/appointment/status/{id}', [AdminController::class, 'update_appointment_status'])->name('admin.cita.status');
     Route::get('/admin/citas/form/{id}/{cita}', [PruebaController::class, 'llenar_formulario'])->name('admin.llenar.form');
-    Route::post('/admin/citas/form/add', [AdminController::class, 'addFormularioPDF'])->name('admin.guardar.informe');
-    Route::post('/admin/citas/admin/add', [AdminController::class, 'addFormularioAdmin'])->name('admin.guardar.admin');
+    Route::post('/admin/citas/form/add', [PruebaController::class, 'addFormularioPDF'])->name('admin.guardar.informe');
+    Route::post('/admin/citas/admin/add', [PruebaController::class, 'addFormularioAdmin'])->name('admin.guardar.admin');
     Route::get('/admin/configuracion', [AdminController::class, 'showSystemInfo'])->name('admin.system.info');
     Route::post('/admin/configuracion/update', [AdminController::class, 'updateInfoSystem'])->name('admin.system.update');
     Route::get('/admin/delete/img/{id}', [AdminController::class, 'deleteImg'])->name('admin.delete.img');
