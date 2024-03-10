@@ -26,10 +26,10 @@ class UsersSeeders extends Seeder
         ]);
 
         User::create([
-            'name' => 'Joel',
-            'email' => 'joel@gmail.com',
-            'password' => bcrypt('joel'),
-            'nombres' => 'Joel',
+            'name' => 'Mauricio Perez',
+            'email' => 'Perez@gmail.com',
+            'password' => bcrypt('Perez'),
+            'nombres' => 'Perez',
             'apellido_pa' => 'Perez',
             'ci' => '9898786',
             'avatar' => 'uploads/avatar-7.png?v=1690989944',
