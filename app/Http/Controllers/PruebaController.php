@@ -101,10 +101,10 @@ class PruebaController extends Controller
                 'status' => 'required|numeric',
                 'description' => 'required|string',
             ]);
-            
-            FormTypeValue::where('test_id', $id)->delete();
-
-            $this->asignarTipo($request->valores, $id);
+            if ($request->valores !== null) {
+                FormTypeValue::where('test_id', $id)->delete();
+                $this->asignarTipo($request->valores, $id);
+            }
 
             listaPruebas::find($id)->update([
                 'name' => $request->name,

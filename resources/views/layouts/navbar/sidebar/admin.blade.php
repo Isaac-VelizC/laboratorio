@@ -40,14 +40,6 @@
          @if (Auth::user()->type == 1)
           <li class="nav-header">Mantenimiento</li>
           <li class="nav-item dropdown">
-            <a href="{{ route('admin.informe.info') }}" class="nav-link nav-tests">
-              <i class="nav-icon fa fa-file"></i>
-              <p>
-                Informes
-              </p>
-            </a>
-          </li>
-          <li class="nav-item dropdown">
             <a href="{{ route('admin.list.prueba') }}" class="nav-link nav-tests">
               <i class="nav-icon fas fa-th-list"></i>
               <p>
@@ -63,14 +55,23 @@
               </p>
             </a>
           </li>
-          <li class="nav-item dropdown">
-            <a href="{{ route('admin.system.info') }}" class="nav-link nav-system_info">
-              <i class="nav-icon fas fa-cogs"></i>
-              <p>
-                Configuración & Publicidad
-              </p>
-            </a>
-          </li>
+          <div class="nav-item dropdown">
+            <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="nav-icon fas fa-cogs"></i> Configuración
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a href="{{ route('admin.system.info') }}" style="color: black;" class="dropdown-item">
+                <p>
+                  Configuración & Publicidad
+                </p>
+              </a>
+              <a href="{{ route('admin.informe.info') }}" style="color: black;" class="dropdown-item">
+                <p>
+                  Informes
+                </p>
+              </a>
+            </div>
+          </div>
          @endif
        </ul>
      </nav>

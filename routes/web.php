@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/configuracion/update', [AdminController::class, 'updateInfoSystem'])->name('admin.system.update');
     Route::get('/admin/delete/img/{id}', [AdminController::class, 'deleteImg'])->name('admin.delete.img');
 
+    Route::get('/admin/pacientes/{id}/edit', [ClienteController::class, 'editPacienteNew'])->name('admin.paciente.edit');
+    Route::post('/admin/pacientes/{id}/edit', [ClienteController::class, 'updatePacienteNew'])->name('admin.paciente.update');
     
     Route::get('/cita/ver/add/{id}', [AdminController::class, 'addPacienteCita'])->name('admin.cita.new.add');
     

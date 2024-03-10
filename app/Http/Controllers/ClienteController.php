@@ -227,4 +227,46 @@ class ClienteController extends Controller
             return back()->with('error', 'Error al eliminar la cita: ' . $e->getMessage());
         }
     }
+
+    public function editPacienteNew($id) {
+        $cliente = listaCliente::find($id);
+        return view('admin.pacientes.edit', compact('cliente'));
+    }
+
+    public function updatePacienteNew(Request $request, $id) {
+        try {
+            $cliente = listaCliente::find($id);
+            if (!$cliente) {
+                // Manejar el caso en el que el usuario no se encuentra
+                return back()->with('error', 'Paciente no encontrado.');
+            }
+            $request->validate([
+                'nombres' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+                'name' => 'required|string|max:255|unique:users,name,' . $cliente->user_id,
+                'email' => 'required|string|email|max:255|unique:users,email,' . $cliente->user_id,
+                'password' => 'nullable|string|min:8',
+                'apellido_pa' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+                'apellido_ma' => 'nullable|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+                'ci' => 'required|string|max:255|unique:users,ci,' . $cliente->user_id,
+                'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            dd($request);
+            $user = User::find($cliente->user_id);
+            
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'nombres' => $request->nombres,
+                'apellido_pa' => $request->apellido_pa,
+                'apellido_ma' => $request->apellido_ma,
+                'ci' => $request->ci,
+                'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
+            ]);
+
+            return back()->with('success', 'Usuario actualizado con éxito');
+        } catch (\Throwable $th) {
+            // Manejar la excepción según tus necesidades
+            return back()->with('error', 'Ocurrió un error al actualizar el usuario. ' . $th->getMessage());
+        }
+    }
 }

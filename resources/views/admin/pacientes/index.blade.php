@@ -64,6 +64,7 @@
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" href="{{ route('admin.paciente.edit', $item->id) }}"><span class="fa fa-edit text-primary"></span> Editar</a>
                                     <a class="dropdown-item view_data" href="javascript:void(0)" data-toggle="modal" data-target="#modal_show_paciente{{$item->id}}"><span class="fa fa-eye text-dark"></span> Ver</a>
                                     @if (auth()->user()->type == 3)
                                         <div class="dropdown-divider"></div>

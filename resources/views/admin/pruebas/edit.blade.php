@@ -36,7 +36,7 @@
                                 <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Inactivo</option>
                             </select>
                         </div>
-                        <input type="hidden" id="contenidoInput" name="description" value="">
+                        <input type="hidden" id="contenidoInput" name="description" value="{{ $item->description }}">
                         <input type="hidden" id="valores" name="valores" value="">
                     </div>
                     <div class="form-group">

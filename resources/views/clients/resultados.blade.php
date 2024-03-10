@@ -10,7 +10,7 @@
 			<table id="example1" class="table table-bordered table-hover table-striped">
 				<colgroup>
 					<col width="5%">
-					<col width="25%">
+					<col width="10%">
 					<col width="25%">
 					<col width="25%">
 					<col width="20%">
@@ -36,11 +36,14 @@
 							</td>
 							<td class="">
 								@foreach ($item->pruebas as $brt)
-									<a href='{{ asset('storage/'.$brt->informe) }}' download='{{ $brt->informe }}'>{{ $brt->informe }}</a>
+									<a href='{{ asset('storage/'.$brt->informe) }}' target="_blank">{{ $brt->informe }} , </a>
 								@endforeach
 							</td>
 							<td align="center">
-								<a href='{{ route('admin.cita.show', $item->id) }}' class="text-muted"><i class="fa fa-eye"></i> <b>Ver</b></a>
+								@foreach ($item->pruebas as $brt)
+									<a class="btn btn-primary" href='{{ asset('storage/'.$brt->informe) }}' download='{{ $brt->informe }}'>Descargar</a>
+								@endforeach
+								<!--a href='{{ route('admin.cita.show', $item->id) }}' class="text-muted"><i class="fa fa-eye"></i> <b>Ver</b></a-->
 							</td>
 						</tr>
 					@endforeach
