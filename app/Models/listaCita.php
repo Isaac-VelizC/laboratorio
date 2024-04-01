@@ -10,11 +10,14 @@ class listaCita extends Model
     use HasFactory;
     protected $table = 'lista_citas';
     protected $fillable = [
+        'hora_id',
         'code',
-        'schedule',
+        'horario',
+        'fecha',
         'client_id',
-        'prescription_path',
+        'prescription',
         'status',
+        'user_id'
     ];
 
     // Relación con el modelo Client
@@ -33,5 +36,11 @@ class listaCita extends Model
     public function history()
     {
         return $this->hasOne(listaHistorial::class, 'appointment_id');
+    }
+
+    // Relación con el modelo User
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

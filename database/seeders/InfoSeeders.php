@@ -38,84 +38,10 @@ class InfoSeeders extends Seeder
         SystemInfo::create([
             'id' => 10,
             'meta_field' => 'form',
-            'meta_value' => '<table style="border-collapse: collapse; width: 99.9726%; height: 100.125px;" border="1"><colgroup><col style="width: 34.5726%;"><col style="width: 22.6604%;">
-           <tbody>
-           
-           <tr style="height: 18.6625px;">
-           
-           <td style="height: 18.6625px; text-align: center; line-height: 1.1;"><span style="font-size: 10pt; font-family: arial, helvetica, sans-serif;">Doctor</span></td>
-           
-           <td style="height: 18.6625px; text-align: center; line-height: 1.1;">F. Petici&oacute;n</td>
-           
-           <td style="height: 18.6625px; text-align: center; line-height: 1.1;">Edad</td>
-           
-           <td style="height: 18.6625px; text-align: center; line-height: 1.1;">N&deg; Consulta</td>
-           
-           </tr>
-           
-           <tr style="height: 10px;">
-           
-           <td style="height: 10px; text-align: center; line-height: 1.1;">&nbsp;</td>
-           
-           <td style="height: 10px; text-align: center; line-height: 1.1;">&nbsp;</td>
-           
-           <td style="height: 10px; text-align: center; line-height: 1.1;">&nbsp;</td>
-           
-           <td style="height: 10px; text-align: center; line-height: 1.1;">&nbsp;</td>
-           
-           </tr>
-           
-           <tr style="height: 18.6625px;">
-           
-           <td style="height: 18.6625px; text-align: center; line-height: 1.1;"><span style="font-size: 10pt; font-family: arial, helvetica, sans-serif;">Nombre del pacien
-           
-           <td style="height: 18.6625px; text-align: center; line-height: 1.1;">N&deg; Asegurado</td>
-           
-           <td style="height: 18.6625px; text-align: center; line-height: 1.1;">Sexo</td>
-           
-           <td style="height: 18.6625px; text-align: center; line-height: 1.1;">N&deg; Historia</td>
-           
-           </tr>
-           
-           <tr style="height: 17.6px;">
-           
-           <td style="height: 17.6px; text-align: center; line-height: 1.1;">&nbsp;</td>
-           
-           <td style="height: 17.6px; text-align: center; line-height: 1.1;">&nbsp;</td>
-           
-           <td style="height: 17.6px; text-align: center; line-height: 1.1;">&nbsp;</td>
-           
-           <td style="height: 17.6px; text-align: center; line-height: 1.1;">&nbsp;</td>
-           
-           </tr>
-           
-           <tr style="height: 17.6px;">
-           
-           <td style="text-align: center; line-height: 1.1; height: 17.6px;">Origen</td>
-           
-           <td style="text-align: center; line-height: 1.1; height: 17.6px;">Entidad</td>
-           
-           <td style="text-align: center; line-height: 1.1; height: 17.6px;">Cliente</td>
-           
-           <td style="text-align: center; line-height: 1.1; height: 17.6px;">N&deg; Orden</td>
-           
-           </tr>
-           
-           <tr style="height: 17.6px;">
-           
-           <td style="text-align: center; line-height: 1.1; height: 17.6px;"><strong>LABORATORIOS PEREZ</strong></td>
-           
-           <td style="text-align: center; line-height: 1.1; height: 17.6px;"><strong>LABORATORIOS PEREZ</strong></td>
-           
-           <td style="text-align: center; line-height: 1.1; height: 17.6px;">&nbsp;</td>
-           
-           <td style="text-align: center; line-height: 1.1; height: 17.6px;">&nbsp;</td>
-           
-           </tr>
-           
-           </tbody>
-           
-           </table>',
+            'meta_value' => '
+            <figure class="table">
+            <table><tbody><tr><td>Doctor</td><td>F. Petición</td><td>Edad</td><td>N° Historia</td></tr><tr><td>&nbsp; Tarea Completo </td><td>&nbsp; 232</td><td>&nbsp; 18</td><td>&nbsp; 79</td></tr><tr><td>Nombre del Paciente</td><td>N° Asegurado</td><td>Sexo</td><td>N° Consulta</td></tr><tr><td>&nbsp; Roberto Bolaños Gomez</td><td>&nbsp; 765</td><td>&nbsp; Masculino</td><td>&nbsp; 876</td></tr><tr><td>Origén</td><td>Entidad</td><td>Cliente</td><td>N° Orden</td></tr><tr><td><strong>LABORATORIO PEREZ</strong></td><td><strong>LABORATORIO PEREZ</strong></td><td>&nbsp; 97</td><td>&nbsp; 45</td></tr></tbody></table></figure><p>&nbsp;</p><figure class="table"><table><tbody><tr><td><strong>Inmunología</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>Determinación</td><td>Resultado</td><td>Unidades</td><td>Valores de Referencia</td><td>!</td></tr><tr><td><strong>Resultado Toxoplasmosis IgM</strong></td><td><strong>87</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>Cut Off</td><td><strong>98</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>Conclusión</td><td colspan="4"><strong>La muestra&nbsp; Simio &nbsp;presenta Anticuerpos de tipo IgM contra Toxoplasma Gondii.</strong></td></tr><tr><td><strong>Resultado Toxoplasmosis IgG</strong></td><td><strong>23</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>Cut Off</td><td><strong>12 &nbsp;</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>Conclusión</td><td colspan="4"><strong>La muestra&nbsp; Simio &nbsp;presenta Anticuerpos de tipo IgG contra Toxoplasma Gondii.</strong></td></tr><tr><td colspan="5"><strong>YIH Prueba Rápida</strong></td></tr><tr><td colspan="5">&nbsp;Método: Prueba Rápida de detección de anticuerpos contra VIH.</td></tr><tr><td colspan="5"><strong>asi es  &nbsp; contra el virus de inmunodeficiencia humana.</strong></td></tr><tr><td><strong>Reagina Plasmática Rápida. (R.P.R.)</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td colspan="5">Método: Aglutinación Látex cuantitativo.</td></tr><tr><td colspan="5"><strong>End Fin</strong></td></tr></tbody></table></figure>
+            ',
         ]);
 
         ImagenFile::create(['path' => 'cover1.png',]);

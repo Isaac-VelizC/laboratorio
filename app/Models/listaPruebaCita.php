@@ -11,10 +11,10 @@ class listaPruebaCita extends Model
     protected $table = 'lista_prueba_citas';
 
     protected $fillable = [
-        'informe',
-        'descripcion',
+        'formulario',
         'appointment_id',
         'test_id',
+        'pdf',
         'fecha',
         'estado'
     ];

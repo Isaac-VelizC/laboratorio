@@ -39,9 +39,7 @@ class HomeController extends Controller
                 $terminadas = listaCita::where('client_id', $cliente->id)->where('status', 4)->count();
                 return view('home', compact('pendientes', 'reservadas', 'terminadas', 'aprobadas'));
             } else {
-                $testListCount = listaPruebas::where('delete_flag', 0)
-                            ->where('status', 1)
-                            ->count();
+                $testListCount = listaPruebas::where('delete', 0)->where('status', 1)->count();
                 $citaListTotalCount = listaCita::count();
                 $citaListStatus0Count = listaCita::where('status', 0)->count();
                 $citaListStatus123Count = listaCita::whereIn('status', [1, 2, 3])->count();

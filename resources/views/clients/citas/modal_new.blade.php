@@ -1,10 +1,3 @@
-<style>
-	img#cimg{
-		height: 17vh;
-		width: 25vw;
-		object-fit: scale-down;
-	}
-</style>
 <div class="modal fade" id="modal-lg">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -15,13 +8,23 @@
                 @csrf
                 <div class="modal-body">
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="schedule" class="control-label">Fecha y hora</label>
-                            <input type="datetime-local" name="schedule" id="schedule" class="form-control form-control-border" placeholder="Ingresa el horario de la cita" value ="" required>
+                        <div class="form-group col-md-4">
+                            <label for="date" class="control-label">Fecha</label>
+                            <input type="date" name="date" id="date" class="form-control" required>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+                            <label for="time" class="control-label">Hora (entre 7:30 AM a 8:00 PM)</label>
+                            <input type="time" name="time" id="time" class="form-control" min="07:30" max="20:00" required>
+                        </div>
+                        <div class="form-group col-md-4">
                             <label for="test_ids" class="control-label">Pruebas</label>
-                            <select id="tags" name="test_ids[]" multiple="multiple"></select>
+                            <select class="choices form-select multiple-remove" id="tags" name="test_ids[]" multiple="multiple">
+                                <optgroup label="Figures">
+                                    @foreach ($pruebas as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </optgroup>
+                            </select>
                         </div>
                     </div>  
                     <div class="row">
@@ -33,44 +36,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </form>
       </div>
     </div>
 </div>
-@section('scripts')
-
-<script src="{{ asset('assets/js/jquery-3.6.0.min.js')}}"></script>
-<script>
-    $(document).ready(function() {
-        $("#tags").select2({
-            placeholder:'Buscar Prueba',
-            allowClear:true,
-            theme: "classic",
-            ajax:{
-                url:"{{ route('search.pruebas') }}",
-                type: "post",
-                $delay:250,
-                dataType:'json',
-                data: function(params) {
-                    return{
-                        name:params.term,
-                        "_token":"{{ csrf_token() }}",
-                    };
-                },
-                processResults:function(data){
-                    return {
-                        results: $.map(data, function(item) {
-                            return {
-                                id: item.id,
-                                text:item.name
-                            }
-                        })
-                    };
-                },
-            },
-        });
-    });
-</script>
-@endsection

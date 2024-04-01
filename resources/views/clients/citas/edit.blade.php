@@ -9,17 +9,23 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="schedule" class="control-label">Fecha y hora</label>
-                            <input type="datetime-local" name="schedule" id="schedule" class="form-control form-control-border" placeholder="Ingresa el horario de la cita" value="{{ $item->schedule }}" required>
+                            <label for="date" class="control-label">Fecha</label>
+                            <input type="date" name="date" id="date" class="form-control" value="{{ $item->fecha }}" required>
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="time" class="control-label">Hora (entre 7:30 AM a 8:00 PM)</label>
+                            <input type="time" name="time" id="time" class="form-control" min="07:30" max="20:00" value="{{ $item->horario }}" required>
+                        </div>
+                        <div class="form-group col-md-12">
                             <label for="test_ids" class="control-label">Pruebas</label>
-                            <select name="test_ids[]" id="select2bs4" class="form-control form-control-border" placeholder="Ingresa el nombre de la cita" multiple>
-                                @foreach ($pruebas as $test)
-                                    <option value="{{ $test->id }}" {{ in_array($test->id, $item->pruebas->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                        {{ $test->name }}
-                                    </option>
-                                @endforeach
+                            <select class="choices form-select multiple-remove" id="select2bs4" name="test_ids[]" multiple="multiple">
+                                <optgroup label="Figures">
+                                    @foreach ($pruebas as $test)
+                                        <option value="{{ $test->id }}" {{ in_array($test->id, $item->pruebas->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                            {{ $test->name }}
+                                        </option>
+                                    @endforeach
+                                </optgroup>
                             </select>
                         </div>
                     </div>  
@@ -32,7 +38,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </form>
       </div>

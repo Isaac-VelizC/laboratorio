@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('nombres', 250);
             $table->string('apellido_pa', 250)->nullable();
             $table->string('apellido_ma', 250)->nullable();
-            $table->string('ci', 250);
+            $table->string('ci', 250)->unique();
             $table->string('avatar')->nullable();
             $table->dateTime('last_login')->nullable();
-            $table->tinyInteger('type')->default(0);
+            $table->integer('type')->default(0);
             $table->integer('status')->default(1);
             $table->rememberToken();
             $table->timestamps();

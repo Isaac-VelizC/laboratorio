@@ -21,15 +21,6 @@ class RolesAndPermisosSeeders extends Seeder
         
         // Crear permisos
         Permission::create(['name' => 'GestionCitas']);
-        /*Permission::create(['name' => 'GestionDocente']);
-        Permission::create(['name' => 'GestionEstudiante']);
-        Permission::create(['name' => 'Informes']);
-        Permission::create(['name' => 'GestionCurso']);
-        Permission::create(['name' => 'GestionCalendario']);
-        Permission::create(['name' => 'GestionRecetas']);
-        Permission::create(['name' => 'EvaluacionDocente']);
-        Permission::create(['name' => 'ProgramacionCurso']);
-        Permission::create(['name' => 'GestionPagos']);*/
         $adminRole = Role::findByName('Admin');
         $adminRole->givePermissionTo([
             'GestionCitas',

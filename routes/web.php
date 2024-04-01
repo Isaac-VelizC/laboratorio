@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $redirectPath = auth()->guest() ? 'login' : route('home');
     return redirect($redirectPath);
-});
+})->name('home');
 
 
 Auth::routes();
@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/users/{id}/edit', [AdminController::class, 'editUserNew'])->name('admin.user.edit');
     Route::post('/admin/users/create', [AdminController::class, 'storeUserNew'])->name('admin.user.store');
     Route::post('/admin/users/{id}/edit', [AdminController::class, 'updateUserNew'])->name('admin.user.update');
-    Route::post('/admin/users/borrar', [AdminController::class, 'deleteUserNew'])->name('admin.user.delete');
+    Route::delete('/admin/users/borrar', [AdminController::class, 'deleteUserNew'])->name('admin.user.delete');
     
     Route::get('/admin/pacientes', [AdminController::class, 'pacientesList'])->name('admin.list.paciente');
     Route::delete('/admin/pacientes/borrar', [AdminController::class, 'deletepacienteNew'])->name('admin.paciente.delete');
@@ -79,4 +79,11 @@ Route::middleware(['auth'])->group(function () {
     //Informes
     Route::get('/admin/informes/info', [InformeController:: class, 'index'])->name('admin.informe.info');
     Route::post('/admin/informes1/info', [InformeController:: class, 'informe1'])->name('admin.informe1.info1');
+    
+    Route::get('/admin/informesBioquimico/info', [InformeController:: class, 'informeBioquimico'])->name('admin.informe.info2');
+    Route::post('/admin/informes2/info', [InformeController:: class, 'informeBioquimicoList'])->name('admin.informe1.info22');
+    Route::get('/admin/informesPacientes/info', [InformeController:: class, 'informePaciente'])->name('admin.informe.info3');
+    Route::post('/admin/informes3/info', [InformeController:: class, 'informePacienteList'])->name('admin.informe1.info33');
+
+    Route::get('/admin/pago/{id}/pdf', [InformeController::class, 'generatePDFPago'])->name('admin.pdf.pago');
 });

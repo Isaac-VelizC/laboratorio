@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('lista_prueba_citas', function (Blueprint $table) {
             $table->id();
-            $table->string('informe')->nullable();
-            $table->text('descripcion')->nullable();
-            $table->integer('estado')->default(0);
-            $table->dateTime('fecha')->default(now());
             $table->unsignedBigInteger('appointment_id');
             $table->unsignedBigInteger('test_id');
             $table->foreign('appointment_id')->references('id')->on('lista_citas')->onDelete('cascade');
             $table->foreign('test_id')->references('id')->on('lista_pruebas')->onDelete('cascade');
+            $table->string('pdf')->nullable();
+            $table->text('formulario');
+            $table->integer('estado')->default(0);
+            $table->dateTime('fecha')->default(now());
             $table->timestamps();
         });
     }

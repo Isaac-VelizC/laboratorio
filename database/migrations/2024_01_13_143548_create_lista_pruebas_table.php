@@ -17,7 +17,8 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('cost', 10, 2)->default(0);
             $table->integer('status')->default(1);
-            $table->integer('delete_flag')->default(0);
+            $table->integer('delete')->default(0);
+            $table->date('fecha')->default(now());
             $table->timestamps();
         });
     }

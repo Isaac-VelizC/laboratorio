@@ -15,74 +15,91 @@
 	}
 </style>
 
-<div class="col-lg-12">
-	<div class="card card-outline card-dark rounded-0 shadow">
-		<div class="card-header">
-			<h5 class="card-title">Información del Sistema</h5>
+<div class="page-heading">
+	@if(session('success'))
+		<div class="alert alert-success alert-dismissible show fade">
+			{{ session('success') }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
-		@if(session('message'))
-			<div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
-				<span>{{ session('message') }}</span>
-				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		@endif
-		@if(session('error'))
-			<div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
-				<span>{{ session('error') }}</span>
-				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		@endif
-		<div class="card-body">
-			<form method="POST" action="{{ route('admin.system.update') }}" id="system-frm" enctype="multipart/form-data">
-				@csrf
-				<div id="msg" class="form-group"></div>
-				<div class="form-group">
-					<label for="name" class="control-label">Nombre del Sistema</label>
-					<input type="text" class="form-control form-control-sm" name="name" id="name" value="{{ $name->meta_value }}">
-				</div>
-				<div class="form-group">
-					<label for="short_name" class="control-label">Nombre Corto del Sistema</label>
-					<input type="text" class="form-control form-control-sm" name="short_name" id="short_name" value="{{ $shortname->meta_value }}">
-				</div>
-				<div class="form-group">
-					<label for="" class="control-label">Logo del Sistema</label>
-					<div class="custom-file">
-					<input type="file" class="custom-file-input rounded-circle" id="customFile" name="img" onchange="displayImg(this,$(this))">
-					<label class="custom-file-label" for="customFile">Seleccionar archivo</label>
+	@endif
+	@if(session('error'))
+		<div class="alert alert-danger alert-dismissible show fade">
+			{{ session('error') }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	@endif
+	<div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Información del Sistema</h3>
+            </div>
+        </div>
+    </div>
+	<section class="section">
+        <div class="card">
+			<div class="card-body">
+				<form class="form form-vertical" method="POST" action="{{ route('admin.system.update') }}" id="system-frm" enctype="multipart/form-data">
+					@csrf
+					<div class="form-body">
+						<div class="row">
+							<div class="col-4">
+								<div class="form-group has-icon-left">
+									<label for="first-name-icon">Nombre del Sistema</label>
+									<div class="position-relative">
+										<input type="text" class="form-control" name="name" id="name" value="{{ $name->meta_value }}">
+									</div>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group has-icon-left">
+									<label for="first-name-icon">Nombre Corto del Sistema</label>
+									<div class="position-relative">
+										<input type="text" class="form-control" name="short_name" id="short_name" value="{{ $shortname->meta_value }}">
+									</div>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group has-icon-left">
+									<label for="first-name-icon">Logo del Sistema</label>
+									<div class="position-relative">
+										<input type="file" class="form-control" id="customFile" name="img" onchange="displayImg(this,$(this))">
+									</div>
+								</div>
+							</div>
+							<div class="form-group d-flex justify-content-center">
+								<img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
+							</div>
+							<div class="col-4">
+								<div class="form-group has-icon-left">
+									<label for="first-name-icon">Publicidad</label>
+									<div class="position-relative">
+										<input type="file" class="form-control" id="customFile" name="cover[]" multiple>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary me-1 mb-1">Actualizar</button>
+								</div>
+							</div>
+							
+						</div>
 					</div>
-				</div>
-				<div class="form-group d-flex justify-content-center">
-					<img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
-				</div>
-				<div class="form-group">
-					<label for="" class="control-label">Publicidad</label>
-					<div class="custom-file">
-					<input type="file" class="custom-file-input rounded-circle" id="customFile" name="cover[]" multiple>
-					<label class="custom-file-label" for="customFile">Escoger Archivo</label>
+					<div>
+						@php
+							$files = \App\Models\ImagenFile::all();
+						@endphp
+						@foreach ($files as $file)
+							<img src="{{ asset('storage/publicidad/'.$file->path) }}" alt="" width="250" height="250" class="img-fluid img-thumbnail bg-gradient-dark border-dark">
+							<a href="{{ route('admin.delete.img', $file->id) }}" class="btn btn-link">
+								<i class="bi bi-trash"></i>
+							</a>
+						@endforeach
 					</div>
-				</div>
-				@error('cover')
-					<div class="alert alert-danger">{{ $message }}</div>
-				@enderror
-				<div class="">
-					@php
-						$files = \App\Models\ImagenFile::all();
-					@endphp
-					@foreach ($files as $file)
-						<img src="{{ asset('storage/publicidad/'.$file->path) }}" alt="" class="img-fluid img-thumbnail bg-gradient-dark border-dark">
-						<a href="{{ route('admin.delete.img', $file->id) }}" class="btn btn-link">Borrar</a>
-					@endforeach
-				</div>
-			</form>
-		</div>
-		<div class="card-footer">
-			<div class="col-md-12">
-				<div class="row">
-					<button class="btn btn-sm btn-primary" form="system-frm">Actualizar</button>
-				</div>
+				</form>
 			</div>
 		</div>
-	</div>
+	</section>
 </div>
 <script>
 	function displayImg(input,_this) {

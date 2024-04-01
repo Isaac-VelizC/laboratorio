@@ -24,13 +24,14 @@ class ClienteController extends Controller
         $user = User::find(auth()->user()->id);
         $cliente = listaCliente::where('user_id', $user->id)->first();
         $citas = listaCita::where('client_id', $cliente->id)->get();
-        $pruebas = listaPruebas::where('status', 1)->where('delete_flag', 0)->get();
+        $pruebas = listaPruebas::where('status', 1)->where('delete', 0)->get();
         return view('clients.citas.index', compact('citas', 'i', 'pruebas'));
     }
     public function storeCitas(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
-                'schedule' => 'required|date',
+                'date' => 'required|date',
+                'time' => 'required',
                 'test_ids' => 'required|array',
                 'test_ids.*' => 'required|integer',
                 'prescription' => 'nullable|file',
@@ -39,12 +40,10 @@ class ClienteController extends Controller
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
             }
-
-            $estado = $this->controlHorarios($request->schedule);
+            $estado = $this->controlHorarios($request->time);
             if (!$estado) {
                 return back()->with('error', 'Horario no disponible');
             }
-
             $user = auth()->user();
             if ($request->idPaciente) {
                 $idUser = $request->idPaciente;
@@ -66,7 +65,8 @@ class ClienteController extends Controller
 
             $cita = listaCita::create([
                 'code' => $prefix . $code,
-                'schedule' => $request->schedule,
+                'fecha' => $request->date,
+                'horario' => $request->time,
                 'client_id' => $cli->id,
                 'status' => 0,
             ]);
@@ -75,7 +75,7 @@ class ClienteController extends Controller
                 $image = $request->file('prescription');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
                 $image->storeAs('uploads', $imageName, 'public');
-                $cita->prescription_path = 'uploads/'.$imageName;
+                $cita->prescription = 'uploads/'.$imageName;
                 $cita->save();
             }
     
@@ -84,7 +84,7 @@ class ClienteController extends Controller
                 listaPruebaCita::create([
                     'appointment_id' => $cita->id,
                     'test_id' => $test_id,
-                    'descripcion' => $prueba->description
+                    'formulario' => $prueba->description
                 ]);
             }
     
@@ -118,20 +118,19 @@ class ClienteController extends Controller
                 ]);
             }
     
-            return back()->with('success', 'Prueba agendada con éxito');
+            return back()->with('message', 'Prueba actualizada con éxito');
         } catch (\Throwable $th) {
             return back()->with('error', 'Ocurrió un error al agendar la prueba. ' . $th->getMessage());
         }
     }
 
-    public function controlHorarios($nuevaFecha)
-    {
-        // Convertir la nueva fecha a un objeto Carbon
-        $nuevaFecha = Carbon::parse($nuevaFecha);
+    public function controlHorarios($nuevaHora) {
+        // Convertir la nueva hora a un objeto Carbon
+        $nuevaHora = Carbon::parse($nuevaHora);
 
-        // Definir el rango de tiempo adicional de 15 minutos
-        $fechaInicial = $nuevaFecha->subMinutes(15);
-        $fechaFinal = $nuevaFecha->copy()->addMinutes(15);
+        // Calcular el rango de tiempo adicional de 15 minutos
+        $fechaInicial = $nuevaHora->copy()->subMinutes(15);
+        $fechaFinal = $nuevaHora->copy()->addMinutes(15);
 
         // Verificar si hay citas programadas dentro del rango de tiempo adicional
         $citas = listaPruebaCita::whereBetween('fecha', [$fechaInicial, $fechaFinal])->exists();
@@ -139,7 +138,7 @@ class ClienteController extends Controller
         // Devolver true si no hay citas programadas dentro del rango, de lo contrario, devolver false
         return !$citas;
     }
-    
+
     public function resultados() {
         $i = 1;
         $user = User::find(auth()->user()->id);
@@ -212,13 +211,10 @@ class ClienteController extends Controller
     public function deleteCita(Request $request) {
         try {
             $cita = listaCita::findOrFail($request->id);
-        
             // Eliminar pruebas asociadas
             $cita->pruebas()->delete();
-        
             // Eliminar historial asociado
             $cita->history()->delete();
-        
             // Eliminar la cita
             $cita->delete();
         

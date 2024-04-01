@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('lista_citas', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('hora_id')->nullable();
+            $table->foreign('hora_id')->references('id')->on('horarios')->onDelete('cascade');
             $table->string('code', 100);
-            $table->dateTime('schedule');
-            $table->text('prescription_path')->nullable();
+            $table->time('horario');
+            $table->date('fecha')->default(now());
+            $table->text('prescription')->nullable();
             $table->integer('status')->default(0);
-            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('lista_clientes')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

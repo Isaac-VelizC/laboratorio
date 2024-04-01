@@ -15,7 +15,8 @@ class listaPruebas extends Model
         'description',
         'cost',
         'status',
-        'delete_flag'
+        'delete',
+        'fecha'
     ];
 
     public function values()

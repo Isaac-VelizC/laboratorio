@@ -1,74 +1,85 @@
 @extends('layouts.app')
 @section('content')
-<style>
-    .img-thumb-path{
-        width:100px;
-        height:80px;
-        object-fit:scale-down;
-        object-position:center center;
-    }
-</style>
-
-@if(session('message'))
-    <div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
-       <span>{{ session('message') }}</span>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
-@if(session('error'))
-    <div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
-        <span>{{ session('error') }}</span>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
-<div class="card card-outline card-primary rounded-0 shadow">
-	<div class="card-header">
-		<h3 class="card-title">Registra Cita para Peciente</h3>
-	</div>
-	<div class="card-body">
-		<div class="container-fluid">
-            <form method="POST" action="{{ route('cliente.citas.new') }}" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <div class="row">
-                        <input type="hidden" name="idPaciente" value="{{ $cliente->user->id }}">
-                        <div class="form-group col-md-6">
-                            <label for="schedule" class="control-label">Fecha y hora (entre las 7:30 AM y las 8:00 PM)</label>
-                            <input type="datetime-local" name="schedule" id="schedule" class="form-control form-control-border" 
-                            min="2024-01-01T07:30" max="2030-12-30T20:00" onchange="TDate()" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="test_ids" class="control-label">Pruebas</label>
-                            <select class="form-control" id="tags" name="test_ids[]" multiple="multiple"></select>
-                        </div>
-                    </div>  
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="prescription" class="control-label">Prescripción <small><em>(Si hay alguna)</em></small></label>
-                            <input type="file" name="prescription" accept="application/msword, .doc, .docx, .txt, application/pdf" id="prescription" class="form-control form-control-border" >
+<div class="page-heading">
+    @if(session('message'))
+        <div class="alert alert-success alert-dismissible show fade">
+            {{ session('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible show fade">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    <!-- Basic Vertical form layout section start -->
+    <section id="basic-vertical-layouts">
+        <div class="row match-height">
+            <div class="col-md-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Registra Cita para Peciente</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form form-vertical" method="POST" action="{{ route('cliente.citas.new') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <input type="hidden" name="idPaciente" value="{{ $cliente->user->id }}">
+                                        <div class="form-group col-md-4">
+                                            <label for="date" class="control-label">Fecha</label>
+                                            <input type="date" name="date" id="date" class="form-control" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="time" class="control-label">Hora (entre las 7:30 AM y las 8:00 PM)</label>
+                                            <input type="time" name="time" id="time" class="form-control" min="07:30" max="20:00" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="test_ids" class="control-label">Pruebas</label>
+                                            <select class="choices form-select multiple-remove" id="tags" name="test_ids[]" multiple="multiple">
+                                                <optgroup label="Figures">
+                                                    @foreach ($pruebas as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    @endforeach
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>  
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label for="prescription" class="control-label">Prescripción <small><em>(Si hay alguna)</em></small></label>
+                                            <input type="file" name="prescription" accept="application/msword, .doc, .docx, .txt, application/pdf" id="prescription" class="form-control form-control-border" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <a type="button" class="btn btn-default" href="{{ route('admin.list.paciente') }}">Cancelar</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                </div>
-            </form>
-		</div>
-	</div>
+            </div>
+        </div>
+    </section>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
 <script src="{{ asset('plugins/jquery-3.6.0.min.js')}}"></script>
 
 <script>
+    // Obtenemos la fecha actual en formato yyyy-mm-dd
+    var fechaActual = new Date().toISOString().split('T')[0];
+    // Asignamos la fecha actual al atributo min del elemento input
+    document.getElementById('date').setAttribute('min', fechaActual);
+</script>
+
+<script>
     function TDate() {
-        var UserDate = new Date(document.getElementById("schedule").value);
-        var CurrentDateTime = new Date();
-        // Verificar si la fecha seleccionada es menor que la fecha actual
-        if (UserDate < CurrentDateTime) {
-            alert("La fecha y hora debe ser posterior a la fecha y hora actual.");
-            return false;
-        }
+        var UserDate = new Date(document.getElementById("time").value);
         // Obtener año, mes y día
         var year = UserDate.getFullYear();
         var month = String(UserDate.getMonth() + 1).padStart(2, '0'); // Añadir ceros iniciales si es necesario
@@ -94,7 +105,7 @@
         return true;
     }
 
-
+/*
     $(document).ready(function() {
         $("#tags").select2({
             placeholder:'Buscar Prueba',
@@ -123,6 +134,6 @@
                 },
             },
         });
-    });
+    });*/
 </script>
 @endsection

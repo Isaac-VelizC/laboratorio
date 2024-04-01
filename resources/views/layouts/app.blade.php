@@ -3,79 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Perez</title>
+  <title>Laboratorio Perez</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css')}}">
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/select2.min.css')}}"/>
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css')}}">
+
+  <link rel="stylesheet" href="{{ asset('assets/vendors/choices.js/choices.min.css')}}" />
+  <link rel="stylesheet" href="{{ asset('assets/vendors/simple-datatables/style.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/css/app.css')}}">
+  <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg')}}" type="image/x-icon">
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/auth.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/css/carousel.css')}}">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
-    @if (auth()->check())
-        <div class="wrapper">
-        @include('layouts.navbar.nav')
-        @if (in_array('Cliente', Auth::user()->getRoleNames()->toArray()))
-            @include('layouts.navbar.sidebar.cliente')
+<body>
+    <div id="app">
+        @if (auth()->check())
+            @if (in_array('Cliente', Auth::user()->getRoleNames()->toArray()))
+                @include('layouts.navbar.sidebar.cliente')
+            @else
+                @include('layouts.navbar.sidebar.admin')
+            @endif 
+                <div id="main" class="layout-navbar">
+                    <header class="mb-2">
+                        @include('layouts.navbar.nav')
+                    </header>
+                    <div id="main-content">
+                        @yield('content')
+                    </div>
+                </div>
         @else
-            @include('layouts.navbar.sidebar.admin')
-        @endif 
-            <div class="content-wrapper">
-                <br>
-                <section class="content">
-                    @yield('content')
-                </section>
-            </div>
-        </div>
-    @else
-        @yield('content')
-    @endif
-    <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
-    <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
-    <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{ asset('plugins/chart.js/Chart.min.js')}}"></script>
-    <script src="{{ asset('plugins/sparklines/sparkline.js')}}"></script>
-    <script src="{{ asset('plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-    <script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
-    <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js')}}"></script>
-    <script src="{{ asset('plugins/moment/moment.min.js')}}"></script>
-    <script src="{{ asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
-    <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-    <script src="{{ asset('dist/js/adminlte.js')}}"></script>
-    <script src="{{ asset('dist/js/pages/dashboard.js')}}"></script>
-    <script src="{{ asset('dist/js/demo.js')}}"></script>
-    <script src="{{ asset('plugins/datatables/jquery.dataTables.js')}}"></script>
-    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
-    <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-    <script src="{{ asset('plugins/toastr/toastr.min.js')}}"></script>
-    <script src="{{ asset('plugins/select2.min.js')}}"></script>
-    @yield('scripts')
+            @yield('content')
+        @endif
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/vendors/simple-datatables/simple-datatables.js')}}"></script>
+    <script src="{{ asset('assets/vendors/tinymce/tinymce.min.js')}}"></script>
+    <script src="{{ asset('assets/vendors/tinymce/plugins/code/plugin.min.js')}}"></script>
     <script>
-        $(function () {
-            $("#example1").DataTable();
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-            });
-        });
-      </script>
+        tinymce.init({ selector: '#default' });
+        tinymce.init({ selector: '#dark', toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code', plugins: 'code autoresize', width: 900});
+    </script>
+    <script src="{{ asset('assets/vendors/choices.js/choices.min.js')}}"></script>
+    <script>
+        let table1 = document.querySelector('#table1');
+        let dataTable = new simpleDatatables.DataTable(table1);
+    </script>
+    <script src="{{ asset('assets/js/main.js')}}"></script>
+    <script src="{{ asset('assets/js/carousel.js')}}"></script>
+    @yield('scripts')
 </body>
 </html>

@@ -1,85 +1,129 @@
 @extends('layouts.app')
 @section('content')
-@if(session('success'))
-       <div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
-           <span>{{ session('success') }}</span>
-           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-       </div>
-   @endif
-   @if(session('error'))
-       <div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
-           <span>{{ session('error') }}</span>
-           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-       </div>
-   @endif
-<div class="card card-outline card-primary">
-	<div class="card-body">
-		<div class="container-fluid">
-			<div id="msg"></div>
-			<form method="POST" action="{{ $isEditing ? route('admin.user.update', $user->id) : route('admin.user.store') }}" enctype="multipart/form-data">
-                @csrf
-				<div class="row">
-                    <div class="form-group col-4">
-                        <label for="nombres">Nombres</label>
-                        <input type="text" name="nombres" id="nombres" class="form-control" value="{{ $isEditing ? $user->nombres : '' }}" required>
+
+
+<div class="page-heading">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible show fade">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible show fade">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    <!-- Basic Vertical form layout section start -->
+    <section id="basic-vertical-layouts">
+        <div class="row match-height">
+            <div class="col-md-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Vertical Form with Icons</h4>
                     </div>
-                    <div class="form-group col-4">
-                        <label for="apellido_pa">Primer Apellido</label>
-                        <input type="text" name="apellido_pa" id="apellido_pa" class="form-control" value="{{ $isEditing ? $user->apellido_pa : '' }}" required>
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="apellido_ma">Segundo Apellido (Opcional)</label>
-                        <input type="text" name="apellido_ma" id="apellido_ma" class="form-control" value="{{ $isEditing ? $user->apellido_ma : '' }}">
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="ci">Cedula De Identidad</label>
-                        <input type="text" name="ci" id="ci" class="form-control" value="{{ $isEditing ? $user->ci : '' }}" required>
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="email">E-mail</label>
-                        <input type="email" name="email" id="email" class="form-control" value="{{ $isEditing ? $user->email : '' }}" required>
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="name">Usuario</label>
-                        <input type="text" name="name" id="name" class="form-control" value="{{ $isEditing ? $user->name : '' }}" required>
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="password">Contraseña</label>
-                        <input type="password" name="password" id="password" class="form-control" value="" autocomplete="off" {{ $isEditing ? '' : 'required' }}>
-                        @if ($isEditing)
-                            <small class="text-info"><i>Deja esto en blanco si no desea cambiar la contraseña</i></small>
-                        @endif
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="type">Tipo de Usuario</label>
-                        <select name="type" id="type" class="custom-select"  required>
-                            <option value="1" {{ $isEditing && $user->type == 1 ? 'selected' : '' }}>Administrador</option>
-                            <option value="2" {{ $isEditing && $user->type == 2 ? 'selected' : '' }}>Bioquimico</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="" class="control-label">Avatar</label>
-                        <div class="custom-file">
-                        <input type="file" class="custom-file-input rounded-circle" id="customFile" name="img" onchange="displayImg(this,$(this))">
-                        <label class="custom-file-label" for="customFile">Seleccionar archivo</label>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form form-vertical" method="POST" action="{{ $isEditing ? route('admin.user.update', $user->id) : route('admin.user.store') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Nombres</label>
+                                                <div class="position-relative">
+                                                    <input type="text" name="nombres" id="nombres" class="form-control" value="{{ $isEditing ? $user->nombres : '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Primer Apellido</label>
+                                                <div class="position-relative">
+                                                    <input type="text" name="apellido_pa" id="apellido_pa" class="form-control" value="{{ $isEditing ? $user->apellido_pa : '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Segundo Apellido</label>
+                                                <div class="position-relative">
+                                                    <input type="text" name="apellido_ma" id="apellido_ma" class="form-control" value="{{ $isEditing ? $user->apellido_ma : '' }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Cedula de Identidad</label>
+                                                <div class="position-relative">
+                                                    <input type="text" name="ci" id="ci" class="form-control" value="{{ $isEditing ? $user->ci : '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Correo Electronico</label>
+                                                <div class="position-relative">
+                                                    <input type="email" name="email" id="email" class="form-control" value="{{ $isEditing ? $user->email : '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Nombre de Usuario</label>
+                                                <div class="position-relative">
+                                                    <input type="text" name="name" id="name" class="form-control" value="{{ $isEditing ? $user->name : '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Contraseña</label>
+                                                <div class="position-relative">
+                                                    <input type="password" name="password" id="password" class="form-control" value="" autocomplete="off" {{ $isEditing ? '' : 'required' }}>
+                                                </div>
+                                                @if ($isEditing)
+                                                    <small class="text-info"><i>Deja esto en blanco si no desea cambiar la contraseña</i></small>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Tipo de usuario</label>
+                                                <div class="position-relative">
+                                                    <select name="type" id="type" class="form-select"  required>
+                                                        <option value="2" {{ $isEditing && $user->type == 2 ? 'selected' : '' }}>Bioquimico</option>
+                                                        <option value="1" {{ $isEditing && $user->type == 1 ? 'selected' : '' }}>Administrador</option>
+                                                    </select>                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Avatar</label>
+                                                <div class="position-relative">
+                                                    <input type="file" class="form-control" id="customFile" name="img" onchange="displayImg(this,$(this))">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+                                            <a href="{{ route('admin.list.user') }}" class="btn btn-light-secondary me-1 mb-1">Salir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 d-flex justify-content-center">
+                                    <img src="{{ $isEditing && $user->avatar ? asset('storage/'.$user->avatar) : asset('imgs/2.jpg') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-				<div class="form-group col-12 d-flex justify-content-center">
-					<img src="{{ $isEditing && $user->avatar ? asset('storage/'.$user->avatar) : asset('dist/img/default.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
-				</div>
-                <div class="card-footer">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <button class="btn btn-sm btn-primary mr-2" type="submit">Guardar</button>
-                            <a class="btn btn-sm btn-secondary" href="{{ route('admin.list.user') }}">Salir</a>
-                        </div>
-                    </div>
-                </div>
-			</form>
-		</div>
-	</div>
-</div>
+            </div>
+        </div>
+    </section>
+    <!-- // Basic Vertical form layout section end -->
 <style>
 	img#cimg{
 		height: 15vh;

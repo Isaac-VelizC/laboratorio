@@ -1,55 +1,86 @@
+<nav class="navbar navbar-expand navbar-light" style="background-color:#168a82">
+  <div class="container-fluid">
+      <a href="#" class="burger-btn d-block">
+          <i class="bi bi-justify fs-3"></i>
+      </a>
 
-<style>
-    .user-img{
-          position: absolute;
-          height: 27px;
-          width: 27px;
-          object-fit: cover;
-          left: -7%;
-          top: -12%;
-    }
-    .btn-rounded{
-          border-radius: 50px;
-    }
-</style>
-<nav class="main-header navbar navbar-expand navbar-light" style="background-color:#168a82">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        @php
-            $titulo = \App\Models\SystemInfo::find(1);
-        @endphp
-        <a href="/" class="nav-link"><b>{{ $titulo->meta_value }}</b></a>
-      </li>
-    </ul>
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <div class="btn-group nav-link">
-              <button type="button" class="btn btn-rounded badge badge-light dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                <span><img src="{{ Auth::user()->avatar ? asset('storage/'.Auth::user()->avatar) : asset('dist/img/avata-1.png') }}" class="img-circle elevation-2 user-img" alt="User Image"></span>
-                <span class="ml-4">{{ Auth::user()->name }}</span>
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <div class="dropdown-menu" role="menu">
-                @role('Cliente')
-                  <a class="dropdown-item" href="{{ route('cliente.perfil') }}"><span class="fa fa-user"></span> Mi Cuenta</a>
-                  <div class="dropdown-divider"></div>
-                @endrole
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-                      <span class="fas fa-sign-out-alt"></span>
-                      Cerrar Sesión
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <!--li class="nav-item dropdown me-1">
+                  <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <i class='bi bi-envelope bi-sub fs-4 text-gray-600'></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                      <li>
+                          <h6 class="dropdown-header">Mail</h6>
+                      </li>
+                      <li><a class="dropdown-item" href="#">No new mail</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item dropdown me-3">
+                  <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <i class='bi bi-bell bi-sub fs-4 text-gray-600'></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                      <li>
+                          <h6 class="dropdown-header">Notifications</h6>
+                      </li>
+                      <li><a class="dropdown-item">No notification available</a></li>
+                  </ul>
+              </li-->
+          </ul>
+          <div class="dropdown">
+              <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="user-menu d-flex">
+                      <div class="user-name text-end me-3">
+                          <h6 class="mb-0 text-white">{{ Auth::user()->name }}</h6>
+                          <p class="mb-0 text-sm text-white">{{ Auth::user()->getRoleNames()->first() }}</p>
+                      </div>
+                      <div class="user-img d-flex align-items-center">
+                          <div class="avatar avatar-md">
+                              <img src="{{ Auth::user()->avatar ? asset('storage/'.Auth::user()->avatar) : asset('imgs/2.jpg') }}">
+                          </div>
+                      </div>
+                  </div>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                  <li>
+                      <h6 class="dropdown-header">Hello, {{ Auth::user()->name }}!</h6>
+                  </li>
+                  @role('Cliente')
+                  <li>
+                    <a class="dropdown-item" href="{{ route('cliente.perfil') }}">
+                    <i class="icon-mid bi bi-person me-2"></i> Mi Perfil
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                      @csrf
-                    </form>
-              </div>
+                  </li>
+                  @endrole
+                    @role('Admin')
+                        <li>
+                            <a class="dropdown-item" href="{{ route('admin.system.info') }}"><i class="icon-mid bi bi-gear me-2"></i>
+                            Configuración
+                            </a>
+                        </li>
+                    @endrole
+                  <li>
+                      <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <a class="dropdown-item"  href="{{ route('logout') }}" onclick="event.preventDefault();
+                      document.getElementById('logout-form').submit();">
+                    <i class="icon-mid bi bi-box-arrow-left me-2"></i> Salir</a>
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                      </form>
+                  </li>
+              </ul>
           </div>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
+      </div>
+  </div>
+</nav>

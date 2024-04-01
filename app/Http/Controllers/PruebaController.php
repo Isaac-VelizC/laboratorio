@@ -20,7 +20,7 @@ class PruebaController extends Controller
 {
     public function pruebasList() {
         $i = 1;
-        $pruebas = listaPruebas::where('delete_flag', 0)->get();
+        $pruebas = listaPruebas::all();
         return view('admin.pruebas.index', compact('pruebas', 'i'));
     }
 
@@ -80,14 +80,16 @@ class PruebaController extends Controller
     
     public function deletePruebaNew(Request $request) {
         try {
-            $test = listaPruebas::find($request->id);
-            $test->delete_flag = 1;
-            $test->update();
-            return back()->with('message', 'Prueba eliminado correctamente');
+            $test = listaPruebas::findOrFail($request->id);
+            $test->delete = $test->delete ? 0 : 1; // Alternar entre 0 y 1
+            $test->save();
+            $message = $test->delete ? 'Se dio de Baja' : 'Se dio de Alta';
+            return back()->with('message', $message . ' la prueba correctamente');
         } catch (\Exception $e) {
-            return back()->with('error', 'Error al eliminar el Prueba: ' . $e->getMessage());
+            return back()->with('error', 'Error al eliminar la Prueba: ' . $e->getMessage());
         }
     }
+    
     public function formEditTest($id) {
         $item = listaPruebas::find($id);
         return view('admin.pruebas.edit', compact('item'));
@@ -105,7 +107,6 @@ class PruebaController extends Controller
                 FormTypeValue::where('test_id', $id)->delete();
                 $this->asignarTipo($request->valores, $id);
             }
-
             listaPruebas::find($id)->update([
                 'name' => $request->name,
                 'cost' => $request->cost,
@@ -125,7 +126,7 @@ class PruebaController extends Controller
         $prueba = listaPruebas::find($id);
         $inputs = FormTypeValue::where('test_id', $id)->get();
         $form = listaPruebaCita::where('appointment_id', $citaId)->where('test_id', $id)->first();
-        $descripcion = $form->descripcion;
+        $descripcion = $form->formulario;
         if (!$prueba) {
             return back()->with('message', 'No se encontro la prueba');
         } else if(!$cita) {
@@ -181,7 +182,7 @@ class PruebaController extends Controller
     }
     
     public function addFormularioAdmin(Request $request) {
-        try {    
+        try {
             $rules = [];
             foreach ($request->input() as $key => $value) {
                 $rules[$key] = 'required';
@@ -199,7 +200,7 @@ class PruebaController extends Controller
 
             $modificadoForm = $this->reemplazarValuesFormulario($request->valoresInputs, $request->description);
 
-            $edit->descripcion = $modificadoForm;
+            $edit->formulario = $modificadoForm;
             $edit->estado = 1;
             $edit->update();
             listaHistorial::create([
@@ -236,7 +237,7 @@ class PruebaController extends Controller
             $modificadoForm = $this->reemplazarValuesFormulario($request->valoresInputs, $request->description);
 
             $edit = listaPruebaCita::where('appointment_id', $request->cita)->where('test_id', $request->prueba)->first();
-            $edit->descripcion = $modificadoForm;
+            $edit->formulario = $modificadoForm;
             $edit->estado = 2;
             $edit->update();
             

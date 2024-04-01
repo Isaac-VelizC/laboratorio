@@ -56,4 +56,7 @@ class User extends Authenticatable
         return $this->belongsTo(ListaCliente::class);
     }
 
+    public function citas() {
+        return $this->hasMany(listaCita::class, 'user_id');
+    }
 }

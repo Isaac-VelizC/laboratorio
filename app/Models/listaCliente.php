@@ -15,7 +15,7 @@ class listaCliente extends Model
         'contact',
         'dob',
         'address',
-        'delete_flag',
+        'estado',
         'user_id'
     ];
 

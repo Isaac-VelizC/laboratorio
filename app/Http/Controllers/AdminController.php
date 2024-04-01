@@ -6,16 +6,13 @@ use App\Models\ImagenFile;
 use App\Models\listaCita;
 use App\Models\listaCliente;
 use App\Models\listaHistorial;
-use App\Models\listaPruebaCita;
 use App\Models\listaPruebas;
 use App\Models\SystemInfo;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
-use TCPDF;
 
 class AdminController extends Controller
 {
@@ -121,12 +118,14 @@ class AdminController extends Controller
             $user = User::findOrFail($request->id);
             if ($user->status == 1) {
                 $user->status = 0;
+                $message = 'Se dio de Baja';
             } else {
                 $user->status = 1;
+                $message = 'Se dio de Alta';
             }
             $user->update();
     
-            return back()->with('message', 'Usuario dado de baja correctamente');
+            return back()->with('success', $message . ' usuario correctamente');
         } catch (\Exception $e) {
             return back()->with('error', 'Error al dar de baja el usuario: ' . $e->getMessage());
         }
@@ -134,7 +133,7 @@ class AdminController extends Controller
     public function pacientesList() {
         $i = 1;
         $pacientes = listaCliente::all();
-        $pruebas = listaPruebas::where('status', 1)->where('delete_flag', 0)->get();
+        $pruebas = listaPruebas::where('status', 1)->where('delete', 0)->get();
         return view('admin.pacientes.index', compact('pacientes', 'i', 'pruebas'));
     }
     public function storePaciente(Request $request) {
@@ -185,17 +184,17 @@ class AdminController extends Controller
     public function deletepacienteNew(Request $request) {
         try {
             $cli = listaCliente::find($request->id);
-            if ($cli->user->avatar) {
-                Storage::delete('public/'.$cli->user->avatar);
-            }
-            User::find($cli->user_id)->delete();
-            $cli->delete();
-    
-            return back()->with('message', 'Usuario eliminado correctamente');
+            $cli->estado = ($cli->user->status == 1) ? 0 : 1;
+            $cli->user->update(['status' => $cli->estado]);
+            $cli->update();
+            $message = ($cli->estado == 1) ? 'Se dio de Alta' : 'Se dio de Baja';
+            
+            return back()->with('message', 'Paciente ' . $message . ' correctamente');
         } catch (\Exception $e) {
-            return back()->with('error', 'Error al eliminar el usuario: ' . $e->getMessage());
+            return back()->with('error', 'Error al eliminar el paciente: ' . $e->getMessage());
         }
     }
+    
     public function selectPruebas(Request $request) {
         $tags = [];
         if ($search = $request->name) {
@@ -212,8 +211,10 @@ class AdminController extends Controller
     public function listasCitas() {
         $i = 1;
         $citas = listaCita::all();
-        return view('admin.citas.index', compact('citas', 'i'));
+        $pruebas = listaPruebas::where('status', 1)->where('delete', 0)->get();
+        return view('admin.citas.index', compact('citas', 'i', 'pruebas'));
     }
+
     public function citaShow($id) {
         $i = 1;
         $h = 1;
@@ -283,7 +284,8 @@ class AdminController extends Controller
         return back()->with('message', 'La imagen se borro exitosamente');
     }
     public function addPacienteCita($id) {
+        $pruebas = listaPruebas::where('delete', 0)->where('status', 1)->get();
         $cliente = listaCliente::find($id);
-        return view('admin.pacientes.new_cita', compact('cliente'));
+        return view('admin.pacientes.new_cita', compact('cliente', 'pruebas'));
     }
 }

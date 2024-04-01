@@ -54,11 +54,12 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-secondary">Imprimir</button>
+                        <div class="text-center gap-2">
+                            <a type="button" href="{{ route('admin.pdf.pago', $cita->id) }}" class="btn btn-secondary">Imprimir</a>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Cerrar</button>
                         </div>
                     </div>
-                 </div>
+                </div>
             </div>
         </div>
     </div>

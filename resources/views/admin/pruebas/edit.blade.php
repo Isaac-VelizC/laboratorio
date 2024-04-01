@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <div class="card card-outline card-primary rounded-0 shadow">
-    @if(session('message'))
+    @if(session('success'))
         <div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
-        <span>{{ session('message') }}</span>
+        <span>{{ session('success') }}</span>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
@@ -14,7 +14,7 @@
         </div>
     @endif
 	<div class="card-header">
-		<h2 class="text-center text-bold">EDITAR PRUEBA</h2>
+		<h2 class="text-center text-bold">Editar Prueba {{ $item->name }}</h2>
 	</div>
 	<div class="card-body">
 		<div class="container-fluid">
@@ -36,50 +36,34 @@
                                 <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Inactivo</option>
                             </select>
                         </div>
-                        <input type="hidden" id="contenidoInput" name="description" value="{{ $item->description }}">
                         <input type="hidden" id="valores" name="valores" value="">
                     </div>
                     <div class="form-group">
                         <label for="name" class="control-label">Formulario</label>
-                        <div id="editor">
-                            {!! $item->description !!}
-                        </div>
+                        <textarea name="description" id="dark" cols="30" rows="10">{{ $item->description }}</textarea>
                     </div>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button  id="enviarFormulario" type="submit" class="btn btn-primary">Guardar</button>
+                <a type="button" class="btn btn-default" href="{{ route('admin.list.prueba') }}">Cancelar</a>
             </form>
 		</div>
 	</div>
 </div>
-<!--script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script-->
-<script src="{{ asset('assets/vendor/ckeditor5/build/ckeditor.js')}}"></script>
 
 <script>
-    var valoresExtraidos = []; // Variable global para almacenar los valores extraídos
-
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .then(editor => {
-            window.editor = editor;
-
-            // Actualiza la variable global cada vez que cambie el contenido del editor
-            editor.model.document.on('change:data', () => {
-                const contenido = editor.getData();
-                // Extrae los valores con '@' del contenido del editor y los guarda en la variable global
-                valoresExtraidos = contenido.match(/@[\w\d]+/g) || [];
-                document.getElementById('contenidoInput').value = contenido;
-            });
-        })
-        .catch(error => {
-            console.error('Error al crear el editor:', error);
-        });
-
+    var valoresExtraidos = [];
     // Manejador de eventos para el botón de enviar del formulario
-    document.getElementById('formulario').addEventListener('submit', function() {
-        // Actualiza el valor del campo oculto con los valores extraídos
+    document.getElementById('enviarFormulario').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevenir el envío del formulario por defecto
+        // Extraer valores del textarea justo antes de enviar el formulario
+        var contenido = document.querySelector('#dark').value;
+        valoresExtraidos = contenido.match(/@[\w\d]+/g) || [];
+        console.log(valoresExtraidos);
+        // Asignar los valores extraídos al campo oculto
         document.getElementById('valores').value = valoresExtraidos.join(',');
+
+        // Enviar el formulario manualmente
+        document.getElementById('formulario').submit();
     });
 </script>
-
 
 @endsection

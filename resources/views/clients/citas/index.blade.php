@@ -1,59 +1,53 @@
 @extends('layouts.app')
-
 @section('content')
-<style>
-    .img-thumb-path{
-        width:100px;
-        height:80px;
-        object-fit:scale-down;
-        object-position:center center;
-    }
-</style>
-@if(session('message'))
-       <div id="myAlert" class="alert alert-left alert-success alert-dismissible fade show mb-3 alert-fade" role="alert">
-           <span>{{ session('message') }}</span>
-           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-       </div>
-   @endif
-   @if(session('error'))
-       <div id="myAlert" class="alert alert-left alert-danger alert-dismissible fade show mb-3 alert-fade" role="alert">
-           <span>{{ session('error') }}</span>
-           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-       </div>
-   @endif
-<div class="card card-outline card-primary rounded-0 shadow">
-    <div class="card-header">
-        <h3 class="card-title">Lista de mis Citas</h3>
-        <div class="card-tools">
-            <button id="create_new" class="btn btn-flat btn-sm btn-primary" data-toggle="modal" data-target="#modal-lg"><span class="fas fa-plus"></span> Nueva Cita</button>
+
+<div class="page-heading">
+    @if(session('message'))
+        <div class="alert alert-success alert-dismissible show fade">
+            {{ session('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible show fade">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @include('clients.citas.modal_new')
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Lista de mis Citas</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <div class="float-start float-lg-end">
+                    <button id="create_new" class="btn btn-flat btn-sm btn-primary" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-lg"> Nueva Cita</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        <div class="container-fluid">
-            <table id="example1" class="table table-bordered table-hover table-striped">
-                <colgroup>
-                    <col width="5%">
-                    <col width="20%">
-                    <col width="15%">
-                    <col width="30%">
-                    <col width="15%">
-                    <col width="15%">
-                </colgroup>
-                <tr class="bg-gradient-primary text-light">
-                    <th>#</th>
-                    <th>Fecha de Creación</th>
-                    <th>Código</th>
-                    <th>Prueba</th>
-                    <th>Estado</th>
-                    <th>Acción</th>
-                </tr>
-                <tbody>
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha de Creación</th>
+                            <th>Código</th>
+                            <th>Prueba</th>
+                            <th>Estado</th>
+                            <tr></tr>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @foreach ($citas as $item)
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
-                                <td class="">{{ date("Y-m-d H:i",strtotime($item->created_at)) }}</td>
-                                <td class="">{{ $item->code }}</td>
-                                <td class="">
+                                <td>{{ date("Y-m-d H:i",strtotime($item->created_at)) }}</td>
+                                <td>{{ $item->code }}</td>
+                                <td>
                                     @foreach ($item->pruebas as $h)
                                     <p class="m-0 truncate-1">{{ $h->test->name }}, </p>
                                     @endforeach
@@ -62,54 +56,54 @@
                                     <?php 
 									switch ($item->status){
 										case 0:
-											echo '<span class="rounded-pill badge badge-secondary ">Pendiente</span>';
+											echo '<span class="badge bg-secondary ">Pendiente</span>';
 											break;
 										case 1:
-											echo '<span class="rounded-pill badge badge-primary ">Aprobado</span>';
+											echo '<span class="badge bg-primary ">Aprobado</span>';
 											break;
                                         case 2:
-                                            echo '<span class="rounded-pill badge badge-warning ">Muestra Recolectada</span>';
+                                            echo '<span class="badge bg-warning ">Muestra Recolectada</span>';
                                             break;
                                         case 3:
-                                            echo '<span class="rounded-pill badge badge-primary bg-teal ">Entregado al laboratorio</span>';
+                                            echo '<span class="badge bg-primary bg-teal ">Entregado al laboratorio</span>';
                                             break;
                                         case 4:
-                                            echo '<span class="rounded-pill badge badge-success ">Finalizada</span>';
+                                            echo '<span class="badge bg-success ">Finalizada</span>';
                                             break;
                                         case 5:
-                                            echo '<span class="rounded-pill badge badge-danger ">Cancelada</span>';
+                                            echo '<span class="badge bg-danger ">Cancelada</span>';
                                             break;
 										case 6:
-											echo '<span class="rounded-pill badge-light badge border text-dark ">Informe subido</span>';
+											echo '<span class="badge lg-success ">Informe subido</span>';
 											break;
 									}
 								?>
                                 </td>
-                                <td align="center">
-                                    <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                            Acción
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu" role="menu">
-                                        <a class="dropdown-item" href="{{ route('admin.cita.show', $item->id) }}"><span class="fa fa-eye text-dark"></span> Ver</a>
+                                <td class="text-center">
+                                    <div class="flex align-items-center">
+                                        <a class="px-1" href="{{ route('admin.cita.show', $item->id) }}">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
                                         @if ($item->status <= 1)
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item edit_data" href="javascript:void(0)" data-id ="{{ $item->id }}" data-toggle="modal" data-target="#modal-edit{{ $item->id }}"><span class="fa fa-edit text-primary"></span> Editar</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item delete_data" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-toggle="modal" data-target="#modal-confirmacion">
-                                                <span class="fa fa-trash text-danger"></span> Eliminar
+                                            <a class="px-2" href="javascript:void(0)" data-id ="{{ $item->id }}" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-edit{{ $item->id }}">
+                                                <span class="bi bi-pen"></span>
                                             </a>
-                                            @endif
+                                            <a class="px-2" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
+                                                <span class="bi bi-trash"></span>
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
                             @include('clients.citas.edit')
                         @endforeach
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    </section>
 </div>
+
 @include('clients.citas.modal_new')
 <div class="modal fade" id="modal-confirmacion">
     <div class="modal-dialog">
@@ -126,7 +120,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Continuar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </form>
         </div>
@@ -138,5 +132,12 @@
         // Actualizar el valor del campo 'id' en el formulario antes de mostrar el modal
         $('#modal-confirmacion').find('input[name="id"]').val(userId);
     }
+</script>
+
+<script>
+    // Obtenemos la fecha actual en formato yyyy-mm-dd
+    var fechaActual = new Date().toISOString().split('T')[0];
+    // Asignamos la fecha actual al atributo min del elemento input
+    document.getElementById('date').setAttribute('min', fechaActual);
 </script>
 @endsection
