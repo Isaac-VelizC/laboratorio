@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
 <div class="page-heading">
     @if(session('message'))
@@ -84,7 +85,7 @@
                         </div>
                         <br>
                         <div class="d-flex justify-content-center align-items-center">
-                            <div style="width: 21cm; height: 29.7cm; border: 1px solid black;">{!! $formulario !!}</div>
+                            <div id="editor" style="width: 21cm; height: 29.7cm; border: 1px solid black;">{!! $formulario !!}</div>
                         </div>                
                     </form>
                     <hr>
@@ -93,31 +94,32 @@
         </div>
     </section>
 </div>
+<button onclick="generarPDF()">Generar PDF</button>
 
-<script src="{{ asset('build/ckeditor5/build/ckeditor.js')}}"></script>
-<script>
-    InlineEditor
-        .create(document.querySelector('#editor'))
-        .then(editor => {
-            window.editor = editor;
-        })
-        .catch(error => {
-            console.error('Error al crear el editor:', error);
-        });
-    function guardarValores() {
-        var valores = {};
+    <script>
+        // Crear el editor de texto
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error('Error al crear el editor:', error);
+            });
 
-        // Obtener todos los inputs dentro del bucle foreach
-        var inputs = document.querySelectorAll('.form-group.col-3 input');
+        // Función para generar el PDF
+        function generarPDF() {
+            // Capturar el contenido del editor
+            var contenido = document.querySelector('.ck-editor__editable').innerHTML;
 
-        inputs.forEach(function(input) {
-            valores[input.name] = input.value;
-        });
+            // Crear un nuevo documento PDF
+            var doc = new jsPDF();
 
-        // Establecer los valores en el campo oculto
-        document.getElementById('valoresInputs').value = JSON.stringify(valores);
-    }
-
-</script>
+            // Insertar el contenido en el PDF
+            doc.html(contenido, {
+                callback: function(doc) {
+                    // Descargar el PDF
+                    doc.save('documento.pdf');
+                }
+            });
+        }
+    </script>
 
 @endsection

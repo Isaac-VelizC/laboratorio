@@ -236,7 +236,7 @@ class PruebaController extends Controller
             ]);
 
             $modificadoForm = $this->reemplazarValuesFormulario($request->valoresInputs, $request->description);
-
+            //dd($modificadoForm);
             $edit = listaPruebaCita::where('appointment_id', $request->cita)->where('test_id', $request->prueba)->first();
             $edit->formulario = $modificadoForm;
             $edit->estado = 2;
@@ -250,21 +250,35 @@ class PruebaController extends Controller
             $fecha = Carbon::now()->format('Y-m-d_H-i-s');
             
             $html = $modificadoForm;
-            $pdf = new TCPDF();
+            
+            // Crear un nuevo objeto TCPDF con orientación horizontal y formato personalizado
+            $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
+
+            // Agregar una nueva página al PDF
             $pdf->AddPage();
+
+            // Escribir el HTML en el PDF
             $pdf->writeHTML($html, true, false, true, false, '');
+
+            // Definir el nombre del archivo PDF
             $filename = $fecha . '.pdf';
+
+            // Guardar el PDF en el directorio de almacenamiento público
             $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
+
+            // Actualizar el campo 'pdf' en la base de datos
             listaPruebaCita::where('appointment_id', $request->cita)
                 ->where('test_id', $request->prueba)->update([
                 'pdf' => 'pdfs/' . $filename,
             ]);
 
+            // Verificar si todos los formularios están completos
             $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();
             $estadoForm = $todos->every(function ($item) {
                 return $item->estado == 2;
             });
             if ($estadoForm) {
+                // Actualizar el estado de la cita si todos los formularios están completos
                 $citaEdit = listaCita::find($request->cita);
                 $citaEdit->status = 4;
                 $citaEdit->update();
