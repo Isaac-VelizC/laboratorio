@@ -107,6 +107,7 @@ class PruebaController extends Controller
                 FormTypeValue::where('test_id', $id)->delete();
                 $this->asignarTipo($request->valores, $id);
             }
+            
             listaPruebas::find($id)->update([
                 'name' => $request->name,
                 'cost' => $request->cost,
@@ -256,7 +257,7 @@ class PruebaController extends Controller
             $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
             listaPruebaCita::where('appointment_id', $request->cita)
                 ->where('test_id', $request->prueba)->update([
-                'informe' => 'pdfs/' . $filename,
+                'pdf' => 'pdfs/' . $filename,
             ]);
 
             $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();

@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="name" class="control-label">Formulario</label>
-                                    <textarea name="description" id="dark" cols="30" rows="10"></textarea>
+                                    <textarea name="description" id="dark" cols="30" rows="10">{!! $valorDefecto !!}</textarea>
                                 </div>
                             <button  id="enviarFormulario" type="submit" class="btn btn-primary">Guardar</button>
                             <button type="button" class="btn btn-default">Cancelar</button>

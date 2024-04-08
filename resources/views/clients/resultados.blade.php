@@ -46,12 +46,12 @@
 								</td>
 								<td>
 									@foreach ($item->pruebas as $brt)
-										<a href='{{ asset('storage/'.$brt->informe) }}' target="_blank">{{ $brt->informe }} , </a>
+										<a href='{{ asset('storage/'.$brt->pdf) }}' target="_blank">{{ $brt->pdf }} , </a>
 									@endforeach
 								</td>
 								<td>
 									@foreach ($item->pruebas as $brt)
-										<a class="btn btn-primary" href='{{ asset('storage/'.$brt->informe) }}' download='{{ $brt->informe }}'>Descargar</a>
+										<a class="btn btn-primary" href='{{ asset('storage/'.$brt->pdf) }}' download='{{ $brt->pdf }}'>Descargar</a>
 									@endforeach
 								</td>
 							</tr>

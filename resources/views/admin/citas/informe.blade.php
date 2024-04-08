@@ -84,7 +84,7 @@
                         </div>
                         <br>
                         <div class="d-flex justify-content-center align-items-center">
-                            <div id="editor" style="width: 21cm; height: 29.7cm; border: 1px solid black;">{!! $formulario !!}</div>
+                            <div style="width: 21cm; height: 29.7cm; border: 1px solid black;">{!! $formulario !!}</div>
                         </div>                
                     </form>
                     <hr>
