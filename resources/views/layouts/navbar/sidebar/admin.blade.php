@@ -51,8 +51,6 @@
                         <span>Usuarios</span>
                     </a>
                 </li>
-              @endrole
-
                 <li class="sidebar-item has-sub {{ Route::is('admin.system.info') || Route::is('admin.informe.info') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-pen-fill"></i>
@@ -75,6 +73,7 @@
                         </li>
                     </ul>
                 </li>
+                @endrole
           </ul>
       </div>
       <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>

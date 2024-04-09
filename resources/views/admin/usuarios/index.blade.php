@@ -65,7 +65,7 @@
                                                 <i class="bi bi-pen"></i>
                                             </a>
                                             <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-default">
-                                                @if ($item->status == 0) <i class="bi bi-arrow-up-circle"></i> @else <i class="bi bi-trash"></i> @endif
+                                                {{$item->status == 0 ? 'Activar' : 'Inhabilitar'}}
                                             </a>
                                         </div>
                                     </td>

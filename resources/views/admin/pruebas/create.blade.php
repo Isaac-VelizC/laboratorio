@@ -51,7 +51,7 @@
                                     <input type="hidden" id="valores" name="valores" value="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="name" class="control-label">Formulario</label>
+                                    <label for="name" class="control-label">Formulario (Llenar con <strong>S</strong> para texto, <strong>N</strong> para enteros) </label>
                                     <textarea name="description" id="dark" cols="30" rows="10">{!! $valorDefecto !!}</textarea>
                                 </div>
                             <button  id="enviarFormulario" type="submit" class="btn btn-primary">Guardar</button>
@@ -59,7 +59,31 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div><script src="{{ asset('build/ckeditor5/build/ckeditor.js')}}"></script>
+            <script>
+                InlineEditor
+                    .create(document.querySelector('#editor'))
+                    .then(editor => {
+                        window.editor = editor;
+                    })
+                    .catch(error => {
+                        console.error('Error al crear el editor:', error);
+                    });
+                function guardarValores() {
+                    var valores = {};
+            
+                    // Obtener todos los inputs dentro del bucle foreach
+                    var inputs = document.querySelectorAll('.form-group.col-3 input');
+            
+                    inputs.forEach(function(input) {
+                        valores[input.name] = input.value;
+                    });
+            
+                    // Establecer los valores en el campo oculto
+                    document.getElementById('valoresInputs').value = JSON.stringify(valores);
+                }
+            
+            </script>
         </div>  
     </section>
 </div>

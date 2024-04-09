@@ -39,7 +39,7 @@
                         <input type="hidden" id="valores" name="valores" value="">
                     </div>
                     <div class="form-group">
-                        <label for="name" class="control-label">Formulario</label>
+                        <label for="name" class="control-label">Formulario (Llenar con <strong>S</strong> para texto, <strong>N</strong> para enteros)</label>
                         <textarea name="description" id="dark" cols="30" rows="10">{{ $item->description }}</textarea>
                     </div>
                 <button  id="enviarFormulario" type="submit" class="btn btn-primary">Guardar</button>

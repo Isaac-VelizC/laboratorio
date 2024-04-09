@@ -69,14 +69,14 @@
                                         <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-default">
                                             @if ($item->status == 0) <i class="bi bi-activity"></i> @else <i class="bi bi-trash"></i> @endif
                                         </a>
-                                        @if (auth()->user()->type == 1)
-                                            <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
-                                                <span class="bi bi-trash"></span>
-                                            </a>
-                                        @endif
                                         <a class="px-1" href="{{ route('admin.cita.new.add', $item->id) }}">
                                             <i class="bi bi-file-earmark-plus"></i>
                                         </a>
+                                        @if (auth()->user()->type == 1)
+                                            <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
+                                                {{$item->user->status == 0 ? 'Activar' : 'Inhabilitar'}}
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>                                    
                             </tr>
