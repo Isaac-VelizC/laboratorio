@@ -47,7 +47,7 @@
                         @foreach ($users as $item)
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
-                                <td class="text-center"><img src="{{ $item->avatar ? asset('storage/'.$item->avatar) : asset('imgs/2.jpg') }}" class="avatar" width="30" height="30" alt="user_avatar"></td>
+                                <td class="text-center"><img src="{{ $item->avatar ? asset('storage/'.$item->avatar) : asset('imgs/3.png') }}" class="avatar" width="30" height="30" alt="user_avatar"></td>
                                 <td>{{ $item->nombres }} {{ $item->apellido_pa }} {{ $item->apellido_ma }}</td>
                                 <td ><p class="m-0 truncate-1">{{ $item->ci }} </p></td>
                                 <td ><p class="m-0"> {{ $item->type == 1 ? "Administrador" : "Bioquimico"}}</p></td>

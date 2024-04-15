@@ -45,14 +45,14 @@
                       </div>
                       <div class="user-img d-flex align-items-center">
                           <div class="avatar avatar-md">
-                              <img src="{{ Auth::user()->avatar ? asset('storage/'.Auth::user()->avatar) : asset('imgs/2.jpg') }}">
+                              <img src="{{ Auth::user()->avatar ? asset('storage/'.Auth::user()->avatar) : asset('imgs/3.png') }}">
                           </div>
                       </div>
                   </div>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                   <li>
-                      <h6 class="dropdown-header">Hello, {{ Auth::user()->name }}!</h6>
+                      <h6 class="dropdown-header">Hola, {{ Auth::user()->name }}!</h6>
                   </li>
                   @role('Cliente')
                   <li>

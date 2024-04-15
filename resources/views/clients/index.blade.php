@@ -42,8 +42,8 @@
                     </div>
                     <div class="form-group col-md-4">
                         <select name="gender" id="gender" class="form-control form-control-sm form-control-border" required>
-                            <option value="Male" {{ isset($cliente->gender) && $cliente->gender =='Male' ? 'selected' : '' }}>Masculino</option>
-                            <option value="Female" {{ isset($cliente->gender) && $cliente->gender =='Female' ? 'selected' : '' }}>Femenino</option>
+                            <option value="Masculino" {{ isset($cliente->gender) && $cliente->gender =='Masculino' ? 'selected' : '' }}>Masculino</option>
+                            <option value="Femenino" {{ isset($cliente->gender) && $cliente->gender =='Femenino' ? 'selected' : '' }}>Femenino</option>
                         </select>
                         <small class="mx-2">Sexo</small>
                     </div>
@@ -84,7 +84,7 @@
                   <div class="form-group">
                       <label for="" class="control-label">Avatar</label>
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input rounded-circle" id="customFile" name="img" onchange="displayImg(this,$(this))">
+                        <input type="file" class="form-control" id="customFile" name="img" onchange="displayImg(this,$(this))">
                         <label class="custom-file-label" for="customFile">Seleccionar archivo</label>
                       </div>
                   </div>
@@ -92,7 +92,7 @@
                     @if (isset($user->avatar))
                         <img src="{{ asset('storage/'.$user->avatar) }}" alt="" id="cimg" class="img-fluid img-thumbnail">
                     @else
-                        <img src="{{ asset('dist/img/no-image-available.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
+                        <img src="{{ asset('imgs/3.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
                     @endif
                     </div>
                     <div class="col-md-12">

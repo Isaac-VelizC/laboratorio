@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-12 d-flex justify-content-center">
-                                    <img src="{{ $isEditing && $user->avatar ? asset('storage/'.$user->avatar) : asset('imgs/2.jpg') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
+                                    <img src="{{ $isEditing && $user->avatar ? asset('storage/'.$user->avatar) : asset('imgs/3.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
                                 </div>
                             </form>
                         </div>

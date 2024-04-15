@@ -15,7 +15,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="stats-icon purple">
-                                                <i class="bi bi-filest"></i>
+                                                <i class="bi bi-clipboard-data"></i>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -32,7 +32,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="stats-icon blue">
-                                                <i class="iconly-boldProfile"></i>
+                                                <i class="bi bi-person-check"></i>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -49,7 +49,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="stats-icon green">
-                                                <i class="iconly-boldAdd-User"></i>
+                                                <i class="bi bi-calendar-event"></i>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -66,7 +66,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="stats-icon red">
-                                                <i class="iconly-boldBookmark"></i>
+                                                <i class="bi bi-people"></i>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -83,7 +83,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="stats-icon red">
-                                                <i class="iconly-boldBookmark"></i>
+                                                <i class="bi bi-card-checklist"></i>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -102,7 +102,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="stats-icon green">
-                                                <i class="iconly-boldAdd-User"></i>
+                                                <i class="bi bi-calendar3-week"></i>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -119,7 +119,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="stats-icon red">
-                                                <i class="iconly-boldBookmark"></i>
+                                                <i class="bi bi-calendar-event"></i>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -136,7 +136,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="stats-icon red">
-                                                <i class="iconly-boldBookmark"></i>
+                                                <i class="bi bi-card-checklist"></i>
                                             </div>
                                         </div>
                                         <div class="col-md-8">

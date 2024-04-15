@@ -32,14 +32,29 @@
                         <div class="form-group col-4">
                             <label for="status" class="control-label">Estado</label>
                             <select name="status" id="status" class="form-control form-control-border" placeholder="Enter test Name" required>
-                                <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>Activo</option>
-                                <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Inactivo</option>
+                                <option value="0" {{ $item->delete == 0 ? 'selected' : '' }}>Activo</option>
+                                <option value="1" {{ $item->delete == 1 ? 'selected' : '' }}>Inactivo</option>
                             </select>
                         </div>
                         <input type="hidden" id="valores" name="valores" value="">
                     </div>
                     <div class="form-group">
-                        <label for="name" class="control-label">Formulario (Llenar con <strong>S</strong> para texto, <strong>N</strong> para enteros)</label>
+                        <div for="name" class="control-label" style="color: #168a82">
+                            <p>Nota: Para llenar el formulario (<strong>S</strong> para texto, <strong>N</strong> para enteros)</p>
+                            <div class="text-center"> <!-- Div para centrar el contenido -->
+                                <div class="w-50 mx-auto"> <!-- Div con el contenido -->
+                                    <table class="table">
+                                        <thead>
+                                            <tr><th>Tipo</th><th>Ejemplo</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>Texto, String</td><td>@valorS</td></tr>
+                                            <tr><td>Numerico, Decimal</td><td>@valorN</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                         <textarea name="description" id="dark" cols="30" rows="10">{{ $item->description }}</textarea>
                     </div>
                 <button  id="enviarFormulario" type="submit" class="btn btn-primary">Guardar</button>

@@ -66,7 +66,7 @@
                                             <i class="bi bi-pen"></i>
                                         </a>
                                         <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
-                                            @if ($item->delete == 1) <i class="bi bi-arrow-up-circle"></i> @else <i class="bi bi-trash"></i> @endif
+                                            <i class="bi bi-trash"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -94,7 +94,7 @@ aria-labelledby="myModalLabel4" aria-hidden="true">
                 <i data-feather="x"></i>
             </button>
         </div>
-        <form id="deleteForm" method="post" action="{{ route('admin.prueba.delete') }}">
+        <form id="deleteForm" method="post" action="{{ route('admin.delete') }}">
             @csrf
             @method('DELETE')
             <div class="modal-body">

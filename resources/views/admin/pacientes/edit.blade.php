@@ -68,7 +68,7 @@
                                         <div class="form-group col-md-4">
                                             <select name="gender" id="gender" class="form-control form-control-sm form-control-border @error('gender') is-invalid @enderror" required>
                                                 <option value="Masculino" @if ($cliente->gender == 'Masculino') selected @endif>Masculino</option>
-                                                <option value="Femenino" @if ($cliente->gender == 'Male') selected @endif>Femenino</option>
+                                                <option value="Femenino" @if ($cliente->gender == 'Femenino') selected @endif>Femenino</option>
                                             </select>
                                             <small class="mx-2">Sexo</small>
                                             @error('gender')

@@ -8,9 +8,9 @@
                 <div class="container-fluid">
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            <img src="{{ $item->avatar ? asset('storage/'.$item->user->avatar) : asset('imgs/2.jpg') }}" alt="Imagen de Cliente" class="img-circle border bg-gradient-dark" height="200" width="200">
+                            <img src="{{ $item->user->avatar ? asset('storage/'.$item->user->avatar) : asset('imgs/'. ($item->gender === 'Masculino' ? 2 : 1) .'.jpg') }}" alt="Imagen de Cliente" class="img-circle border bg-gradient-dark" height="200" width="200">
                         </div>
-                    </div>
+                    </div>                    
                     <div class="row">
                         <div class="col-md-12">
                             <dl>

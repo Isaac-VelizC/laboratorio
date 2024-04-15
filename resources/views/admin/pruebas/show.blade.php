@@ -39,10 +39,10 @@
                         <dd class='pl-4 fs-4 fw-bold'>{{ isset($prueba->cost) ? number_format($prueba->cost,2) : '0.00' }}</dd>
                         <dt class="text-muted">Estado</dt>
                         <dd class='pl-4 fs-4 fw-bold'>
-                            @if ($prueba->status === 1)
-                                <span class="badge bg-primary">Activo</span>
+                            @if ($prueba->delete === 1)
+                                <span class="badge bg-primary">Inactivo</span>
                             @else
-                                <span class="badge-danger">Inactivo</span>
+                                <span class="badge-danger">Activo</span>
                             @endif
                         </dd>
                 </div>

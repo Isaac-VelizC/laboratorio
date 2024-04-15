@@ -5,16 +5,17 @@
 <div id="sidebar" class="active">
   <div class="sidebar-wrapper active" style="background-color:#168a82">
       <div class="sidebar-header">
-          <div class="d-flex justify-content-between">
-              <div class="logo flex">
-                  <a href="{{ url('/') }}">
+        <div class="d-flex justify-content-between">
+            <div class="logo flex">
+                <a href="{{ url('/') }}" class="d-flex justify-center gap-2">
+                    <img src="{{ asset('storage/'.$logo->meta_value) }}" class="avatar avatar-md" alt="Logo">
                     <h5 class="">{{ $short_name->meta_value }}</h5>
-                  </a>
-              </div>
-              <div class="toggler">
-                  <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-              </div>
-          </div>
+                </a>
+            </div>
+            <div class="toggler">
+                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+            </div>
+        </div>
       </div>
       <div class="sidebar-menu">
           <ul class="menu">

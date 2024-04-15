@@ -38,11 +38,11 @@ class PruebaController extends Controller
                 'status' => 'required|numeric',
                 'description' => 'required|string',
             ]);
-            
+
             $prueba = listaPruebas::create([
                 'name' => $request->name,
                 'cost' => $request->cost,
-                'status' => $request->status,
+                'delete' => $request->status,
                 'description' => $request->description,
             ]);
             
@@ -89,6 +89,19 @@ class PruebaController extends Controller
             return back()->with('error', 'Error al eliminar la Prueba: ' . $e->getMessage());
         }
     }
+
+    public function deletePrueba(Request $request) {
+        try {
+            $lista = listaPruebas::findOrFail($request->id);
+            // Eliminar los valores asociados a la prueba
+            $lista->values()->delete();
+            // Ahora puedes eliminar la prueba
+            $lista->delete();
+            return back()->with('message', 'Prueba eliminada correctamente');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al eliminar la Prueba: ' . $e->getMessage());
+        }
+    }    
     
     public function formEditTest($id) {
         $item = listaPruebas::find($id);
@@ -103,6 +116,7 @@ class PruebaController extends Controller
                 'status' => 'required|numeric',
                 'description' => 'required|string',
             ]);
+            //dd($request);
             if ($request->valores !== null) {
                 FormTypeValue::where('test_id', $id)->delete();
                 $this->asignarTipo($request->valores, $id);
@@ -111,7 +125,7 @@ class PruebaController extends Controller
             listaPruebas::find($id)->update([
                 'name' => $request->name,
                 'cost' => $request->cost,
-                'status' => $request->status,
+                'delete' => $request->status,
                 'description' => $request->description,
             ]);
 
