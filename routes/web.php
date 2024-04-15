@@ -74,8 +74,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/pacientes/{id}/edit', [ClienteController::class, 'updatePacienteNew'])->name('admin.paciente.update');
     
     Route::get('/cita/ver/add/{id}', [AdminController::class, 'addPacienteCita'])->name('admin.cita.new.add');
+    Route::get('/cita/edit/apge/{id}', [ClienteController::class, 'pageEditCitas'])->name('admin.cita.edit.page');
     
     Route::post('/select',[AdminController::class, 'selectPruebas'])->name('search.pruebas');
+    Route::post('/search/horarios/disponibles',[AdminController::class, 'verificarhorarios'])->name('search.horarios');
 
     //Informes
     Route::get('/admin/informes/info', [InformeController:: class, 'index'])->name('admin.informe.info');

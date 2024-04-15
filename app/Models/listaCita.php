@@ -17,8 +17,13 @@ class listaCita extends Model
         'client_id',
         'prescription',
         'status',
-        'user_id'
+        'user_id',
     ];
+    // Relación con el modelo Horario
+    public function HorarioId()
+    {
+        return $this->belongsTo(Horario::class, 'hora_id');
+    }
 
     // Relación con el modelo Client
     public function client()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Horario;
 use App\Models\listaCita;
 use App\Models\listaCliente;
 use App\Models\listaPruebaCita;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Expr\List_;
 
 class ClienteController extends Controller
 {
@@ -40,10 +42,6 @@ class ClienteController extends Controller
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
             }
-            $estado = $this->controlHorarios($request->time);
-            if (!$estado) {
-                return back()->with('error', 'Horario no disponible');
-            }
             $user = auth()->user();
             if ($request->idPaciente) {
                 $idUser = $request->idPaciente;
@@ -63,10 +61,13 @@ class ClienteController extends Controller
                 $code = sprintf("%'.04d", 1);
             }
 
+            $hora = Horario::find($request->time);
+
             $cita = listaCita::create([
                 'code' => $prefix . $code,
                 'fecha' => $request->date,
-                'horario' => $request->time,
+                'hora_id' => $request->time,
+                'horario' => $hora->hora,
                 'client_id' => $cli->id,
                 'status' => 0,
             ]);
@@ -94,28 +95,60 @@ class ClienteController extends Controller
         }
     }
 
-    public function updateCitas(Request $request, $id) {
+    public function pageEditCitas($id) {
+        $cita = listaCita::find($id);
+        $i = 1;
+        $user = User::find(auth()->user()->id);
+        $cliente = listaCliente::where('user_id', $user->id)->first();
+        $pruebas = listaPruebas::where('status', 1)->where('delete', 0)->get();
+        return view('clients.citas.edit', compact('cita', 'pruebas'));
+    }
+
+    public function updateCitas(Request $request, $id)
+    {
         try {
-            $validator = Validator::make($request->all(), [
-                'schedule' => 'required|date',
-                'test_ids' => 'required|array',
-                'test_ids.*' => 'required|integer',
+            
+            $request->validate([
+                'test_ids' => 'array',
+                'test_ids.*' => 'integer',
                 'prescription' => 'nullable|string',
+                'date' => 'required|date',
             ]);
-            // Manejar errores de validación
-            if ($validator->fails()) {
-                return back()->withErrors($validator)->withInput();
+
+            // Encontrar y actualizar la cita
+            $cita = listaCita::find($id);
+            $cita->fecha = $request->date;
+            if ($request->time) {
+                $cita->hora_id = $request->time;
+                $hora = Horario::find($request->time);
+                $cita->horario = $hora->hora;
             }
-            $cita = listaCita::find($id)->update([
-                'schedule' => $request->schedule,
-                'status' => 0,
-            ]);
     
-            foreach ($request->test_ids as $test_id) {
-                listaPruebaCita::where([
-                    'appointment_id' => $cita->id,
-                    'test_id' => $test_id,
-                ]);
+            $cita->save();
+    
+            // Manejar la receta médica
+            if ($request->hasFile('prescription')) {
+                $image = $request->file('prescription');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('uploads', $imageName, 'public');
+                $cita->prescription = 'uploads/' . $imageName;
+                $cita->save();
+            }
+    
+            // Manejar las pruebas
+            if ($request->test_ids) {
+                // Eliminar las pruebas existentes para la cita
+                listaPruebaCita::where('appointment_id', $cita->id)->delete();
+    
+                // Asignar nuevas pruebas a la cita
+                foreach ($request->test_ids as $test_id) {
+                    $prueba = listaPruebas::find($test_id);
+                    listaPruebaCita::create([
+                        'appointment_id' => $cita->id,
+                        'test_id' => $test_id,
+                        'formulario' => $prueba->description
+                    ]);
+                }
             }
     
             return back()->with('message', 'Prueba actualizada con éxito');
@@ -123,7 +156,7 @@ class ClienteController extends Controller
             return back()->with('error', 'Ocurrió un error al agendar la prueba. ' . $th->getMessage());
         }
     }
-
+    
     public function controlHorarios($nuevaHora) {
         // Convertir la nueva hora a un objeto Carbon
         $nuevaHora = Carbon::parse($nuevaHora);

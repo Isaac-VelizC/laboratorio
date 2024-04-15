@@ -85,7 +85,7 @@
                                             <i class="bi bi-eye"></i>
                                         </a>
                                         @if ($item->status <= 1)
-                                            <a class="px-2" href="javascript:void(0)" data-id ="{{ $item->id }}" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-edit{{ $item->id }}">
+                                            <a class="px-2" href="{{ route('admin.cita.edit.page', $item->id) }}">
                                                 <span class="bi bi-pen"></span>
                                             </a>
                                             <a class="px-2" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
@@ -95,7 +95,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            @include('clients.citas.edit')
                         @endforeach
                     </tbody>
                 </table>
@@ -140,4 +139,5 @@
     // Asignamos la fecha actual al atributo min del elemento input
     document.getElementById('date').setAttribute('min', fechaActual);
 </script>
+
 @endsection

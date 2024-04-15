@@ -13,8 +13,10 @@
                             <input type="date" name="date" id="date" class="form-control" required>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="time" class="control-label">Hora (entre 7:30 AM a 8:00 PM)</label>
-                            <input type="time" name="time" id="time" class="form-control" min="07:30" max="20:00" required>
+                            <label for="horarios" class="control-label">De 7:30 AM a 8:00 PM</label>
+                            <select name="time" class="form-select" id="horarios" required>
+                                <option value="" selected disabled>Seleccionar fecha</option>
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="test_ids" class="control-label">Pruebas</label>

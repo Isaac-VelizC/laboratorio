@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Horario;
 use App\Models\ImagenFile;
 use App\Models\listaCita;
 use App\Models\listaCliente;
@@ -9,6 +10,7 @@ use App\Models\listaHistorial;
 use App\Models\listaPruebas;
 use App\Models\SystemInfo;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -284,8 +286,46 @@ class AdminController extends Controller
         return back()->with('message', 'La imagen se borro exitosamente');
     }
     public function addPacienteCita($id) {
+        $horariosDisponibles = [];
         $pruebas = listaPruebas::where('delete', 0)->where('status', 1)->get();
         $cliente = listaCliente::find($id);
-        return view('admin.pacientes.new_cita', compact('cliente', 'pruebas'));
+        return view('admin.pacientes.new_cita', compact('cliente', 'pruebas', 'horariosDisponibles'));
     }
+
+    public function verificarhorarios(Request $request) {
+        try {
+            $fechaActual = $request->fecha;
+
+            // Obtener todos los horarios para la fecha actual
+            $horarios = Horario::all();
+
+            // Obtener todas las citas para la fecha actual
+            $citas = listaCita::where('fecha', $fechaActual)->get();
+
+            // Filtrar los horarios disponibles
+            $horariosDisponibles = [];
+
+            foreach ($horarios as $horario) {
+                $citaProgramada = $citas->first(function ($cita) use ($horario) {
+                    return $cita->hora_id === $horario->id;
+                });
+
+                if (!$citaProgramada) {
+                    $horariosDisponibles[] = $horario;
+                }
+            }
+
+            // Devolver los horarios disponibles como respuesta JSON
+            return response()->json([
+                'horariosDisponibles' => $horariosDisponibles,
+                'message' => 'Horarios disponibles obtenidos correctamente'
+            ]);
+        } catch (\Throwable $th) {
+            // Manejar errores y devolver respuesta JSON con el mensaje de error
+            return response()->json([
+                'error' => 'Ocurrió un error al obtener los horarios disponibles: ' . $th->getMessage()
+            ], 500);
+        }
+    }
+
 }

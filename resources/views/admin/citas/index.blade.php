@@ -82,7 +82,7 @@
                                         <a class="px-1" href="{{ route('admin.cita.show', $item->id) }}">
                                             <i class="bi bi-eye"></i>
                                         </a>
-										<a class="px-1" href="javascript:void(0)" data-id ="{{ $item->id }}" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-edit{{ $item->id }}">
+										<a class="px-1" href="{{ route('admin.cita.edit.page', $item->id) }}">
 											<i class="bi bi-pen"></i>
 										</a>
 										@can('Cliente')
@@ -93,7 +93,6 @@
                                     </div>
                                 </td>
 							</tr>
-							@include('clients.citas.edit')
 						@endforeach
                     </tbody>
                 </table>

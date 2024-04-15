@@ -14,4 +14,10 @@ class Horario extends Model
         'fecha',
         'estado',
     ];
+
+    // Relación con el modelo AppointmentTestList
+    public function citas()
+    {
+        return $this->hasMany(listaCita::class, 'hora_id');
+    }
 }

@@ -33,8 +33,10 @@
                                             <input type="date" name="date" id="date" class="form-control" required>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="time" class="control-label">Hora (entre las 7:30 AM y las 8:00 PM)</label>
-                                            <input type="time" name="time" id="time" class="form-control" min="07:30" max="20:00" required>
+                                            <label for="horarios" class="control-label">Horarios diponibles ( de 7:30 AM a 8:00 PM)</label>
+                                            <select name="time" class="form-select" id="horarios" required>
+                                                <option value="" selected disabled>Seleccionar fecha</option>
+                                            </select>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="test_ids" class="control-label">Pruebas</label>
@@ -104,36 +106,38 @@
         
         return true;
     }
+</script>
+<script>
+    document.getElementById('date').addEventListener('change', function() {
+    // Obtener el valor de la fecha seleccionada
+    let fechaSeleccionada = this.value;
 
-/*
-    $(document).ready(function() {
-        $("#tags").select2({
-            placeholder:'Buscar Prueba',
-            allowClear:true,
-            theme: "classic",
-            ajax:{
-                url:"{{ route('search.pruebas') }}",
-                type: "post",
-                $delay:250,
-                dataType:'json',
-                data: function(params) {
-                    return{
-                        name:params.term,
-                        "_token":"{{ csrf_token() }}",
-                    };
-                },
-                processResults:function(data){
-                    return {
-                        results: $.map(data, function(item) {
-                            return {
-                                id: item.id,
-                                text:item.name
-                            }
-                        })
-                    };
-                },
-            },
+    // Enviar una solicitud POST al servidor utilizando Axios
+    axios.post('/search/horarios/disponibles', {
+        fecha: fechaSeleccionada
+    })
+    .then(function (response) {
+        // Limpiar el campo de selección de horarios
+        document.getElementById('horarios').innerHTML = '';
+        // Obtener los horarios disponibles de la respuesta
+        let horariosDisponibles = response.data.horariosDisponibles;
+
+        // Actualizar dinámicamente el campo de selección de horarios
+        let selectTag = document.getElementById('horarios');
+        let optgroup = document.createElement('optgroup');
+        optgroup.label = 'Horarios disponibles';
+        horariosDisponibles.forEach(function(horario) {
+            let option = document.createElement('option');
+            option.value = horario.id;
+            option.textContent = horario.hora;
+            optgroup.appendChild(option);
         });
-    });*/
+        selectTag.appendChild(optgroup);
+    })
+    .catch(function (error) {
+        console.error('Error al obtener los horarios disponibles:', error);
+    });
+    });
+
 </script>
 @endsection
