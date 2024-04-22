@@ -9,7 +9,7 @@
     <div class="row h-100">
         <div class="col-lg-6 d-none d-lg-block">
             <div><br><br><br><br><br><br><br>
-                <center><img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" alt="" class="avatar"></center>
+                <center><img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" height="100" width="100" alt="" class="avatar"></center>
                 <h1 class="text-center py-5 login-title"><b>{{ $name->meta_value }}</b></h1>
             </div>
         </div>

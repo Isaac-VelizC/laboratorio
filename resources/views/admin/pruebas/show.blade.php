@@ -20,7 +20,10 @@
                 <h3>Pruebas {{ isset($prueba->name) ? $prueba->name : 'N/A' }}</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
-                <div class="float-start float-lg-end">
+                <div class="float-start float-lg-end gap-1">
+                    <a href="{{ route('admin.list.prueba') }}" class="btn btn-sm btn-info gap-2" >
+                        <span>Salir</span>
+                    </a>
                     <a href="{{ route('admin.form.edit.prueba', $prueba->id) }}" class="btn btn-sm btn-primary gap-2" >
                         <i class="bi bi-clipboard-plus"></i>
                         <span>Editar Prueba</span>

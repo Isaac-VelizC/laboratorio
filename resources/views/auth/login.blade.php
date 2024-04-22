@@ -21,7 +21,7 @@
               <li style="background-image: url({{ asset('storage/publicidad/' . $item->path) }}); z-index:0; opacity: 1;">
                 <div class="content_slider" >
                   <div>
-                    <center><img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" alt="" class="avatar"></center>
+                    <center><img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" height="100" width="100" alt="" class="avatar"></center>
                     <h1 class="text-center py-5 login-title"><b>{{ $name->meta_value }}</b></h1>
                   </div>
                 </div>

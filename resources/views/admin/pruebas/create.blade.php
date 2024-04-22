@@ -70,7 +70,7 @@
                                     <textarea name="description" id="dark" cols="30" rows="10">{!! $valorDefecto !!}</textarea>
                                 </div>
                             <button  id="enviarFormulario" type="submit" class="btn btn-primary">Guardar</button>
-                            <button type="button" class="btn btn-default">Cancelar</button>
+                            <a type="button" class="btn btn-default" href="{{ route('admin.list.prueba') }}" >Cancelar</a>
                         </form>
                     </div>
                 </div>
