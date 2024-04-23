@@ -28,7 +28,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-							<th>Fecha de Creación</th>
+							<th>Fecha de Cita</th>
 							<th>Código</th>
 							<th>Paciente</th>
 							<th>Prueba</th>
@@ -40,7 +40,7 @@
 						@foreach ($citas as $item)
 							<tr>
 								<td class="text-center">{{ $i++ }}</td>
-								<td>{{ date("Y-m-d H:i",strtotime($item->created_at)) }}</td>
+								<td>{{ $item->fecha }} - {{ $item->horario }}</td>
 								<td>{{ $item->code }}</td>
 								<td><p class="m-0 truncate-1">{{ $item->client->user->nombres }} {{ $item->client->user->apellido_pa }} {{ $item->client->user->apellido_ma }}</p></td>
 								<td>
@@ -82,9 +82,11 @@
                                         <a class="px-1" href="{{ route('admin.cita.show', $item->id) }}">
                                             <i class="bi bi-eye"></i>
                                         </a>
-										<a class="px-1" href="{{ route('admin.cita.edit.page', $item->id) }}">
-											<i class="bi bi-pen"></i>
-										</a>
+										@if ($item->status == 0)
+											<a class="px-1" href="{{ route('admin.cita.edit.page', $item->id) }}">
+												<i class="bi bi-pen"></i>
+											</a>
+										@endif
 										@can('Cliente')
 											<a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
 												<i class="bi bi-trash"></i>

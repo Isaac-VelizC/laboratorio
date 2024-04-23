@@ -89,8 +89,8 @@
                         </div>   
                         <div class="col-2 border bg-primary text-light">Prescripción</div>
                         <div class="col-4 border ">
-                            @if (isset($cita->prescription_path))
-                                <a href='{{ asset('storage/'.$cita->prescription_path) }}' target='_blank' download='{{ $cita->prescription_path }}'>{{ $cita->prescription_path }}</a>
+                            @if (isset($cita->prescription))
+                                <a href='{{ asset('storage/'.$cita->prescription) }}' target='_blank' download='{{ $cita->prescription }}'>{{ $cita->prescription }}</a>
                             @else
                                 N/A
                             @endif
@@ -115,37 +115,32 @@
                                             <th>Llenar Informe</th>
                                         @endif
                                     @endif
+                                    <th>Estado</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($cita->pruebas as $item)
                                     <tr>
-                                        <td class="py-1 px-2 text-center">{{ $i++ }}</td>
-                                        <td class="py-1 px-2">{{ $item->test->name }}</td>
-                                        <td class="py-1 px-2 text-right">{{ number_format($item->test->cost ,2) }}</td>
+                                        <td class="text-center">{{ $i++ }}</td>
+                                        <td>{{ $item->test->name }}</td>
+                                        <td class="text-right">{{ number_format($item->test->cost ,2) }}</td>
                                         @if ($cita->status >= 1)
-                                            @if(auth()->user()->type == 1)
-                                                <td><a href="{{ route('admin.llenar.form', [$item->test->id, $cita->id]) }}">Llenar</a>
-                                                    @if ($item->estado == 0 )
-                                                        <span class="rounded-pill badge badge-secondary ">Falta</span>
-                                                    @else
-                                                        <span class="rounded-pill badge badge-primary ">Listo</span>
-                                                    @endif
-                                                </td>
-                                            @endif
+                                            <td><a href="{{ route('admin.llenar.form', [$item->test->id, $cita->id]) }}">Llenar</a></td>
+                                            <td>
+                                                @if ($item->estado == 0 )
+                                                    <span style="padding: 2px 10px; color: white; background: red; font-size: 12px; border-radius: 20px;">Falta</span>
+                                                @else
+                                                    <span style="padding: 5px 10px; background: blue; color: white; font-size: 12px; border-radius: 20px; ">Listo</span>
+                                                @endif
+                                            </td>
+                                        @else
+                                            <td>
+                                                <span style="padding: 2px 10px; color: white; background: red; font-size: 12px; border-radius: 20px;">En espera</span>
+                                            </td>
                                         @endif
-                                        @if ($cita->status >= 2)
-                                            @if(auth()->user()->type == 2)
-                                                <td><a href="{{ route('admin.llenar.form', [$item->test->id, $cita->id]) }}">Llenar</a>
-                                                    @if ($item->estado == 2 )
-                                                        <span class="rounded-pill badge badge-success">Listo</span>
-                                                    @endif
-                                                </td>
-                                            @endif
-                                        @endif
-                                        @if ($item->informe)
-                                            <td><a href="{{ asset('storage/'.$item->informe) }}" download='{{ $item->informe }}'>{{ $item->informe }}</a></td>
+                                        @if ($item->pdf)
+                                            <td><a href="{{ asset('storage/'.$item->pdf) }}" download='{{ $item->pdf }}'>{{ $item->pdf }}</a></td>
                                         @endif
                                     </tr>
                                 @endforeach
@@ -161,14 +156,14 @@
                                     <th class="text-center">#</th>
                                     <th>Fecha</th>
                                     <th>Observaciones</th>
-                                    <th>Nuevo Estado</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($hists as $item)
                                 <tr>
                                     <td class="py-1 px-2 text-center">{{ $h++ }}</td>
-                                    <td class="py-1 px-2">{{date("M d, Y H:i",strtotime($item->created_at))}}</td>
+                                    <td class="py-1">{{ $item->fecha }}</td>
                                     <td class="py-1 px-2">{{ $item->remarks }}</td>
                                     <td class="py-1 px-2">
                                     <?php 
@@ -230,7 +225,6 @@
         </div>
     </div>
 </div>
-
 <script>
     function confirmDelete(userId) {
         // Actualizar el valor del campo 'id' en el formulario antes de mostrar el modal

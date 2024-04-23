@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('status')->default(0);
             $table->text('remarks');
+            $table->dateTime('fecha')->default(now());
             $table->unsignedBigInteger('appointment_id');
             $table->foreign('appointment_id')->references('id')->on('lista_citas')->onDelete('cascade');
             $table->timestamps();

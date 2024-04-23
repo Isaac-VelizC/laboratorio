@@ -15,7 +15,7 @@ class HorariosSeeder extends Seeder
     public function run(): void
     {
         // Define la hora de inicio y fin
-        $horaInicio = Carbon::parse('08:30:00');
+        $horaInicio = Carbon::parse('07:30:00');
         $horaFin = Carbon::parse('20:00:00');
 
         // Itera sobre cada hora desde la hora de inicio hasta la hora de fin

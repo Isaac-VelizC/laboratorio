@@ -236,6 +236,7 @@ class AdminController extends Controller
             listaHistorial::create([
                 'appointment_id' => $id,
                 'status' => $request->status,
+                'fecha' => date('Y-m-d H:i:s'),
                 'remarks' => $request->remarks ?: 'Sin observaciones',
             ]);
 

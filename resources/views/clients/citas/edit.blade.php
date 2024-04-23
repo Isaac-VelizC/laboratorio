@@ -60,7 +60,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
+                        <a type="button" class="btn btn-default" href="{{ route('cliente.citas') }}">Cancelar</a>
                     </div>
                 </form>
             </div>

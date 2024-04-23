@@ -51,9 +51,27 @@
                 </div>
                 <br>
                 <div class="row">
+                    @foreach ($prueba->values as $item)
+                        @php
+                            $cleanedName = str_replace('@', '', $item->name);
+                        @endphp
+                        <div class="form-group col-3">
+                            <label for="{{ $cleanedName }}" class="control-label">{{ $cleanedName }}</label>
+                            <input class="form-control form-control-border" required 
+                                type="{{ $item->type }}"
+                                name="{{ $item->name }}"
+                                id="{{ $item->name }}"
+                                disabled
+                                @if ($item->type == 'number') step="any" @endif
+                            />
+                        </div>
+                    @endforeach
+                </div>
+                <br>
+                <div class="row">
                     <div class="col-md-12">
                         <h2 class="text-muted">Formulario</h2>
-                        <div>{!! $prueba->description !!}</div>
+                        <div class="">{!! $prueba->description !!}</div>
                     </div>
                 </div>
             </div>

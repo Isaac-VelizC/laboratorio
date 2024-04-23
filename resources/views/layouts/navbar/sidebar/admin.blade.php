@@ -38,8 +38,8 @@
                     <span>Pacientes</span>
                 </a>
               </li>
-              <li class="sidebar-title">Mantenimiento</li>
               @role('Admin')
+                <li class="sidebar-title">Mantenimiento</li>
                 <li class="sidebar-item {{ Route::is('admin.list.prueba') ? 'active' : '' }}">
                     <a href="{{ route('admin.list.prueba') }}" class='sidebar-link'>
                         <i class="bi bi-file-earmark-medical-fill"></i>

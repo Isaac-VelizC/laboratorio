@@ -43,13 +43,22 @@
                             <p>Nota: Para llenar el formulario (<strong>S</strong> para texto, <strong>N</strong> para enteros)</p>
                             <div class="text-center"> <!-- Div para centrar el contenido -->
                                 <div class="w-50 mx-auto"> <!-- Div con el contenido -->
-                                    <table class="table">
-                                        <thead>
-                                            <tr><th>Tipo</th><th>Ejemplo</th></tr>
+                                    <table class="table" style="border-collapse: collapse; width: 100%;">
+                                        <thead style="background-color: #168a82; color: white;">
+                                            <tr>
+                                                <th style="padding: 8px;">Tipo</th>
+                                                <th style="padding: 8px;">Ejemplo</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                            <tr><td>Texto, String</td><td>@valorS</td></tr>
-                                            <tr><td>Numerico, Decimal</td><td>@valorN</td></tr>
+                                            <tr>
+                                                <td style="padding: 8px; background-color: #f4f4f4;">Texto, String</td>
+                                                <td style="padding: 8px; background-color: #e6f7f6;">@valorS</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px; background-color: #f4f4f4;">Numérico, Decimal</td>
+                                                <td style="padding: 8px; background-color: #e6f7f6;">@valorN</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

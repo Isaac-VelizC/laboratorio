@@ -36,7 +36,7 @@ class ClienteController extends Controller
                 'time' => 'required',
                 'test_ids' => 'required|array',
                 'test_ids.*' => 'required|integer',
-                'prescription' => 'nullable|file',
+                'prescription' => 'nullable|file|mimes:jpeg,png,jpg,gif,doc,docx,pdf,txt',
             ]);
             // Manejar errores de validación
             if ($validator->fails()) {

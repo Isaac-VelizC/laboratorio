@@ -35,7 +35,7 @@
                                         <div class="form-group col-md-4">
                                             <label for="horarios" class="control-label">Horarios diponibles ( de 7:30 AM a 8:00 PM)</label>
                                             <select name="time" class="form-select" id="horarios" required>
-                                                <option value="" selected disabled>Seleccionar fecha</option>
+                                                <option value="" selected disabled>Seleccionar hora</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
@@ -52,7 +52,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label for="prescription" class="control-label">Prescripción <small><em>(Si hay alguna)</em></small></label>
-                                            <input type="file" name="prescription" accept="application/msword, .doc, .docx, .txt, application/pdf" id="prescription" class="form-control form-control-border" >
+                                            <input type="file" name="prescription" accept="application/msword, .doc, .docx, .txt, application/pdf, image/*" id="prescription" class="form-control form-control-border">
                                         </div>
                                     </div>
                                 </div>

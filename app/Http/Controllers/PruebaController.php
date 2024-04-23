@@ -266,7 +266,8 @@ class PruebaController extends Controller
             $html = $modificadoForm;
             
             // Crear un nuevo objeto TCPDF con orientación horizontal y formato personalizado
-            $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
+            //$pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
+            $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
             // Agregar una nueva página al PDF
             $pdf->AddPage();

@@ -13,6 +13,7 @@ class listaHistorial extends Model
     protected $fillable = [
         'appointment_id',
         'status',
+        'fecha',
         'remarks',
     ];
 

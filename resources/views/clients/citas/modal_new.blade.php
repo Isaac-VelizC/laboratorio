@@ -15,7 +15,7 @@
                         <div class="form-group col-md-4">
                             <label for="horarios" class="control-label">De 7:30 AM a 8:00 PM</label>
                             <select name="time" class="form-select" id="horarios" required>
-                                <option value="" selected disabled>Seleccionar fecha</option>
+                                <option value="" selected disabled>Seleccionar hora</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
@@ -44,3 +44,37 @@
       </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('date').addEventListener('change', function() {
+    // Obtener el valor de la fecha seleccionada
+    let fechaSeleccionada = this.value;
+
+    // Enviar una solicitud POST al servidor utilizando Axios
+    axios.post('/search/horarios/disponibles', {
+        fecha: fechaSeleccionada
+    })
+    .then(function (response) {
+        // Limpiar el campo de selección de horarios
+        document.getElementById('horarios').innerHTML = '';
+        // Obtener los horarios disponibles de la respuesta
+        let horariosDisponibles = response.data.horariosDisponibles;
+
+        // Actualizar dinámicamente el campo de selección de horarios
+        let selectTag = document.getElementById('horarios');
+        let optgroup = document.createElement('optgroup');
+        optgroup.label = 'Horarios disponibles';
+        horariosDisponibles.forEach(function(horario) {
+            let option = document.createElement('option');
+            option.value = horario.id;
+            option.textContent = horario.hora;
+            optgroup.appendChild(option);
+        });
+        selectTag.appendChild(optgroup);
+    })
+    .catch(function (error) {
+        console.error('Error al obtener los horarios disponibles:', error);
+    });
+    });
+
+</script>
