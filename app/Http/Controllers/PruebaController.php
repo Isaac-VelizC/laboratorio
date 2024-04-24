@@ -14,6 +14,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Karriere\PdfMerge\PdfMerge;
 use TCPDF;
 
 class PruebaController extends Controller
@@ -262,31 +263,23 @@ class PruebaController extends Controller
                 'remarks' => 'Prueba finalizada',
             ]);
             $fecha = Carbon::now()->format('Y-m-d_H-i-s');
-            
             $html = $modificadoForm;
-            
             // Crear un nuevo objeto TCPDF con orientación horizontal y formato personalizado
             //$pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
             $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-
             // Agregar una nueva página al PDF
             $pdf->AddPage();
-
             // Escribir el HTML en el PDF
             $pdf->writeHTML($html, true, false, true, false, '');
-
             // Definir el nombre del archivo PDF
             $filename = $fecha . '.pdf';
-
             // Guardar el PDF en el directorio de almacenamiento público
             $pdf->Output(public_path('storage/pdfs/' . $filename), 'F');
-
             // Actualizar el campo 'pdf' en la base de datos
             listaPruebaCita::where('appointment_id', $request->cita)
                 ->where('test_id', $request->prueba)->update([
                 'pdf' => 'pdfs/' . $filename,
             ]);
-
             // Verificar si todos los formularios están completos
             $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();
             $estadoForm = $todos->every(function ($item) {
@@ -298,7 +291,7 @@ class PruebaController extends Controller
                 $citaEdit->status = 4;
                 $citaEdit->update();
             }
-            
+
             return redirect()->back()->with('message', 'Guardado correctamente');
         } catch (\Throwable $th) {
             return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
@@ -316,5 +309,26 @@ class PruebaController extends Controller
         // Devolver la descripción modificada
         return $descripcion;
     }
-    
+
+    function unirPdf(Request $request, $idCita) {
+        // Obtén todos los PDF asociados con la cita
+        //$pdfs = listaPruebaCita::where('appointment_id', $idCita)->pluck('pdf')->toArray();
+        // Crea una nueva instancia de TCPDI
+        $pdf = new PdfMerge();
+        // Agrega cada PDF al PDF final
+        foreach ($request->pdfs as $key => $pdfFile) {
+            //$nombreArchivo = substr($pdfFile, strpos($pdfFile, '/'));
+            ///$pdfPath = $nombreArchivo;
+            $pdf->add($pdfFile->getPathName());
+        }
+
+        $nombre_pdf = Carbon::now()->format('Y-m-d_H-i-s').'.pdf';
+        $path = public_path('storage/pdfs/' . $nombre_pdf);
+        $cooc = $pdf->merge($path);
+        // Retorna la ruta del PDF unido
+        listaCita::find($idCita)->update([
+            'pdf_general' => 'pdfs/' . $nombre_pdf,
+        ]);
+        return back()->with('message', 'Pdfs unidos exitosamente');
+    }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8112fe8cde56e60ea928e1d622dfb3e1",
+    "content-hash": "eefc710063c13566c076bd4797b9fd42",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1183,6 +1183,62 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
+        },
+        {
+            "name": "karriere/pdf-merge",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/karriereat/pdf-merge.git",
+                "reference": "35497ed80548cc4dc1b7a9edd6b945bfc672c882"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/karriereat/pdf-merge/zipball/35497ed80548cc4dc1b7a9edd6b945bfc672c882",
+                "reference": "35497ed80548cc4dc1b7a9edd6b945bfc672c882",
+                "shasum": ""
+            },
+            "require": {
+                "php": "8.0.* | 8.1.* | 8.2.* | 8.3.*",
+                "tecnickcom/tcpdf": "^6.3"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.5 | ^1.6",
+                "pestphp/pest": "^1.22",
+                "phpstan/phpstan": "^1.10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Karriere\\PdfMerge\\": "src/"
+                },
+                "classmap": [
+                    "tcpi/fpdf_tpl.php",
+                    "tcpi/tcpdi.php",
+                    "tcpi/tcpdi_parser.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Lentner",
+                    "email": "alexander.lentner@karriere.at",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A wrapper for the TCPDF class that provides an elegant API for merging PDFs",
+            "keywords": [
+                "merge",
+                "pdf"
+            ],
+            "support": {
+                "issues": "https://github.com/karriereat/pdf-merge/issues",
+                "source": "https://github.com/karriereat/pdf-merge/tree/v3.1.0"
+            },
+            "time": "2024-02-05T11:30:34+00:00"
         },
         {
             "name": "laravel/framework",

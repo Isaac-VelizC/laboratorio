@@ -45,14 +45,22 @@
 									@endforeach
 								</td>
 								<td>
-									@foreach ($item->pruebas as $brt)
-										<a href='{{ asset('storage/'.$brt->pdf) }}' target="_blank">{{ $brt->pdf }} , </a>
-									@endforeach
+                                    @if ($item->pdf_general)
+                                        <a href='{{ asset('storage/'.$item->pdf_general) }}' target="_blank">{{ $item->pdf_general }} , </a>
+                                    @else
+                                        @foreach ($item->pruebas as $brt)
+                                            <a href='{{ asset('storage/'.$brt->pdf) }}' target="_blank">{{ $brt->pdf }} , </a>
+                                        @endforeach
+                                    @endif
 								</td>
 								<td>
-									@foreach ($item->pruebas as $brt)
-										<a class="btn btn-primary" href='{{ asset('storage/'.$brt->pdf) }}' download='{{ $brt->pdf }}'>Descargar</a>
-									@endforeach
+                                    @if ($item->pdf_general)
+                                        <a  class="btn btn-primary"  href='{{ asset('storage/'.$item->pdf_general) }}' download='{{ $item->pdf_general }}''>Descargar </a>
+                                    @else
+                                        @foreach ($item->pruebas as $brt)
+                                            <a class="btn btn-primary" href='{{ asset('storage/'.$brt->pdf) }}' download='{{ $brt->pdf }}'>Descargar</a>
+                                        @endforeach
+                                    @endif
 								</td>
 							</tr>
 						@endforeach

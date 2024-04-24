@@ -18,6 +18,7 @@ class listaCita extends Model
         'prescription',
         'status',
         'user_id',
+        'pdf_general'
     ];
     // Relación con el modelo Horario
     public function HorarioId()

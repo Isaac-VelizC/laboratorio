@@ -144,6 +144,11 @@
                                         @endif
                                     </tr>
                                 @endforeach
+                                <form action="{{ route('unir.pdf.form', $cita->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="pdfs[]" multiple>
+                                    <button type="submit">Unir PDFs</button>
+                                </form>
                             </tbody>
                         </table>
                     </fieldset>

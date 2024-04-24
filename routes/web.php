@@ -90,3 +90,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/pago/{id}/pdf', [InformeController::class, 'generatePDFPago'])->name('admin.pdf.pago');
 });
+
+
+Route::get('/unir/pdf/{id}', [PruebaController::class, 'unirPdf'])->name('unir.pdf');
+Route::post('/unir/pdf/{id}', [PruebaController::class, 'unirPdf'])->name('unir.pdf.form');

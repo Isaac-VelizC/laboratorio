@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreign('client_id')->references('id')->on('lista_clientes')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('pdf_general')->nullable();
             $table->timestamps();
         });
     }
