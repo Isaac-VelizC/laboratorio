@@ -82,16 +82,14 @@
                                         <a class="px-1" href="{{ route('admin.cita.show', $item->id) }}">
                                             <i class="bi bi-eye"></i>
                                         </a>
-										@if ($item->status == 0)
+										@if ($item->status == 0 && auth()->user()->type != 2)
 											<a class="px-1" href="{{ route('admin.cita.edit.page', $item->id) }}">
 												<i class="bi bi-pen"></i>
 											</a>
-										@endif
-										@can('Cliente')
 											<a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
 												<i class="bi bi-trash"></i>
 											</a>
-										@endcan
+										@endif
                                     </div>
                                 </td>
 							</tr>

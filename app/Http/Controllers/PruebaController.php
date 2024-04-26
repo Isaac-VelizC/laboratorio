@@ -282,11 +282,7 @@ class PruebaController extends Controller
             ]);
             // Verificar si todos los formularios están completos
             $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();
-            $estadoForm = $todos->every(function ($item) {
-                return $item->estado == 2;
-            });
-            if ($estadoForm) {
-                // Actualizar el estado de la cita si todos los formularios están completos
+            if (count($todos) == 1) {
                 $citaEdit = listaCita::find($request->cita);
                 $citaEdit->status = 4;
                 $citaEdit->update();
@@ -311,24 +307,57 @@ class PruebaController extends Controller
     }
 
     function unirPdf(Request $request, $idCita) {
-        // Obtén todos los PDF asociados con la cita
-        //$pdfs = listaPruebaCita::where('appointment_id', $idCita)->pluck('pdf')->toArray();
-        // Crea una nueva instancia de TCPDI
-        $pdf = new PdfMerge();
-        // Agrega cada PDF al PDF final
-        foreach ($request->pdfs as $key => $pdfFile) {
-            //$nombreArchivo = substr($pdfFile, strpos($pdfFile, '/'));
-            ///$pdfPath = $nombreArchivo;
-            $pdf->add($pdfFile->getPathName());
-        }
+        try {
+            $request->validate([
+                'pdfs' => 'required',
+                'pdfs.*' => 'file|mimes:pdf',
+            ]);
+            // Obtener la lista de pruebas de la cita
+            $lista = listaPruebaCita::where('appointment_id', $idCita)->get();
 
-        $nombre_pdf = Carbon::now()->format('Y-m-d_H-i-s').'.pdf';
-        $path = public_path('storage/pdfs/' . $nombre_pdf);
-        $cooc = $pdf->merge($path);
-        // Retorna la ruta del PDF unido
-        listaCita::find($idCita)->update([
-            'pdf_general' => 'pdfs/' . $nombre_pdf,
-        ]);
-        return back()->with('message', 'Pdfs unidos exitosamente');
+            // Obtener los nombres de los PDFs de la lista
+            $nombresPDFLista = $lista->pluck('pdf')->toArray();
+
+            // Obtener los nombres de los archivos subidos
+            $nombresArchivosSubidos = [];
+            foreach ($request->file('pdfs') as $archivo) {
+                // Obtener el nombre del archivo subido
+                $nombreArchivo = $archivo->getClientOriginalName();
+            
+                // Convertir el nombre del archivo subido al mismo formato que los nombres de PDFs en la lista
+                // Reemplazar solo el primer '_' por '/' en el nombre del archivo subido
+                $nombreArchivoFormateado = preg_replace('/_/', '/', $nombreArchivo, 1);
+            
+                // Agregar el nombre del archivo subido formateado al array
+                $nombresArchivosSubidos[] = $nombreArchivoFormateado;
+            }            
+            // Verificar que los nombres de los archivos subidos coincidan con los nombres de los PDFs de la lista
+            foreach ($nombresArchivosSubidos as $nombreArchivo) {
+                if (!in_array($nombreArchivo, $nombresPDFLista)) {
+                    // Si un archivo subido no coincide con ningún PDF de la lista, devuelve un error o realiza alguna acción
+                    return back()->with('error', 'El archivo subido no coincide con ningún PDF de la lista.');
+                }
+            }
+
+            $cantidad = count($lista);
+            if (count($request->pdfs) != $cantidad) {
+                return back()->with('error', 'Debe de ingresar '. $cantidad. ' pdfs.');
+            }
+            $pdf = new PdfMerge();
+            foreach ($request->pdfs as $key => $pdfFile) {
+                $pdf->add($pdfFile->getPathName());
+            }
+            $nombre_pdf = Carbon::now()->format('Y-m-d_H-i-s').'.pdf';
+            $path = public_path('storage/pdfs/' . $nombre_pdf);
+            $pdf->merge($path);
+            // Retorna la ruta del PDF unido
+            listaCita::find($idCita)->update([
+                'pdf_general' => 'pdfs/' . $nombre_pdf,
+                'status' => 4,
+            ]);
+            return back()->with('message', 'Pdfs unidos exitosamente');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Error el unir los pdfs: ' . $th->getMessage());
+        }
     }
 }

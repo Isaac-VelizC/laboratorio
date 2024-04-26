@@ -60,6 +60,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/pruebas/borrar', [PruebaController::class, 'deletePruebaNew'])->name('admin.prueba.delete');
     Route::delete('/admin/delete/prueba', [PruebaController::class, 'deletePrueba'])->name('admin.delete');
 
+    Route::get('/admin/paciente/show/{id}', [ClienteController::class, 'showPaciente'])->name('admin.paciente.show');
+    
     Route::get('/admin/citas/all', [AdminController::class, 'listasCitas'])->name('admin.list.citas');
     Route::get('/admin/citas/show/{id}', [AdminController::class, 'citaShow'])->name('admin.cita.show');
     Route::post('/admin/appointment/status/{id}', [AdminController::class, 'update_appointment_status'])->name('admin.cita.status');

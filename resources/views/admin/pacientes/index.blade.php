@@ -60,19 +60,20 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="flex align-items-center">
-                                        <a class="px-1" href="{{ route('admin.paciente.edit', $item->id) }}">
-                                            <i class="bi bi-pen"></i>
-                                        </a>
-                                        <a class="px-1" href="javascript:void(0)" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal_show_paciente{{$item->id}}">
+                                        
+                                        <a class="px-1" href="{{ route('admin.paciente.show', $item->id) }}">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-default">
-                                            @if ($item->status == 0) <i class="bi bi-activity"></i> @else <i class="bi bi-trash"></i> @endif
-                                        </a>
-                                        <a class="px-1" href="{{ route('admin.cita.new.add', $item->id) }}">
-                                            <i class="bi bi-file-earmark-plus"></i>
-                                        </a>
                                         @if (auth()->user()->type == 1)
+                                            <a class="px-1" href="{{ route('admin.paciente.edit', $item->id) }}">
+                                                <i class="bi bi-pen"></i>
+                                            </a>
+                                            <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-default">
+                                                @if ($item->status == 0) <i class="bi bi-activity"></i> @else <i class="bi bi-trash"></i> @endif
+                                            </a>
+                                            <a class="px-1" href="{{ route('admin.cita.new.add', $item->id) }}">
+                                                <i class="bi bi-file-earmark-plus"></i>
+                                            </a>
                                             <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
                                                 {{$item->user->status == 0 ? 'Activar' : 'Inhabilitar'}}
                                             </a>
@@ -80,7 +81,6 @@
                                     </div>
                                 </td>                                    
                             </tr>
-                            @include('admin.pacientes.show')
                         @endforeach
                     </tbody>
                 </table>

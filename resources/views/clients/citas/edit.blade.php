@@ -60,7 +60,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Guardar</button>
-                        <a type="button" class="btn btn-default" href="{{ route('cliente.citas') }}">Cancelar</a>
+                        <a type="button" class="btn btn-default" href="{{ auth()->user()->type != 1 ? route('cliente.citas') : route('admin.list.citas') }}">Cancelar</a>
                     </div>
                 </form>
             </div>

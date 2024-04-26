@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use PhpParser\Node\Expr\List_;
 
 class ClienteController extends Controller
 {
@@ -21,6 +20,7 @@ class ClienteController extends Controller
         $cliente = listaCliente::where('user_id', $user->id)->first();
         return view('clients.index', compact('cliente', 'user'));
     }
+
     public function misCitas() {
         $i = 1;
         $user = User::find(auth()->user()->id);
@@ -29,6 +29,7 @@ class ClienteController extends Controller
         $pruebas = listaPruebas::where('status', 1)->where('delete', 0)->get();
         return view('clients.citas.index', compact('citas', 'i', 'pruebas'));
     }
+
     public function storeCitas(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
@@ -176,9 +177,7 @@ class ClienteController extends Controller
         $i = 1;
         $user = User::find(auth()->user()->id);
         $cliente = listaCliente::where('user_id', $user->id)->first();
-        $citas = listaCita::where('client_id', $cliente->id)
-        ->where('status', 4)
-        ->get();
+        $citas = listaCita::where('client_id', $cliente->id)->where('status', 4)->get();
         return view('clients.resultados', compact('citas', 'i'));
     }
     
@@ -298,4 +297,39 @@ class ClienteController extends Controller
             return back()->with('error', 'Ocurrió un error al actualizar el usuario. ' . $th->getMessage());
         }
     }
+
+    public function showPaciente($id) {
+        $cliente = listaCliente::find($id);
+        
+        if (!$cliente) {
+            return back()->with('error', 'No se encontró al paciente');
+        }
+    
+        // Obtener todas las citas del cliente
+        $citas = listaCita::where('client_id', $id)->get();
+    
+        // Inicializar un array para almacenar los resultados de las pruebas
+        $pruebas = [];
+    
+        // Iterar sobre cada cita y obtener las pruebas asociadas
+        foreach ($citas as $cita) {
+            // Obtener las pruebas asociadas a esta cita
+            $pruebasCita = listaPruebaCita::where('appointment_id', $cita->id)->get();
+    
+            // Agregar las pruebas a la lista
+            foreach ($pruebasCita as $pruebaCita) {
+                $pruebas[] = $pruebaCita->test->name;
+            }
+        }
+    
+        // Contar la cantidad de veces que aparece cada prueba
+        $cantidadPruebas = array_count_values($pruebas);
+    
+        // Eliminar duplicados
+        $pruebasUnicas = array_unique($pruebas);
+    
+        return view('admin.pacientes.show', compact('cliente', 'cantidadPruebas', 'pruebasUnicas', 'pruebas'));
+    }
+    
+    
 }

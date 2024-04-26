@@ -22,12 +22,14 @@
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <div class="float-start float-lg-end">
-                    @if ($cita->status >= 1)
+                    @if ($cita->status >= 1 && auth()->user()->type != 2)
                         <button class="btn btn-sm btn-danger" type="button" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal_show_pago"><i class="fa fa-upload"></i> Pago</button>
                     @endif
-                    @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
-                        <button class="btn btn-sm btn-info" type="button" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-estado"> Cambiar Estado</button>
-                    @endif
+                    @role('Admin')
+                        @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
+                            <button class="btn btn-sm btn-info" type="button" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-estado"> Cambiar Estado</button>
+                        @endif
+                    @endrole
                     @role('Cliente')
                         <?php if(isset($cita->status) && $cita->status == 0): ?>
                             <button class="btn btn-sm btn-danger" type="button"  onclick="confirmDelete({{ $cita->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
@@ -97,6 +99,23 @@
                         </div>
                     </div>
                     <hr>
+                    @if (auth()->user()->type == 1)
+                        <div for="name" class="control-label" style="color: #168a82">
+                            <p class="font-bold">Nota: Descargar los pdfs de la pruebas, y subir los mismos al para unir los pdfs.</p>
+                        </div>
+                        <form action="{{ route('unir.pdf.form', $cita->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input class="form-control" type="file" name="pdfs[]" multiple>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button class="btn btn-info" type="submit">Unir PDFs</button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
+                    @endif
                     <fieldset>
                         <legend class="text-muted">Lista de Pruebas</legend>
                         <table class="table table-striped table-bordered">
@@ -105,11 +124,6 @@
                                     <th class="text-center">#</th>
                                     <th>Nombre</th>
                                     <th>Costo</th>
-                                    @if ($cita->status >= 1)
-                                        @if(auth()->user()->type == 1)
-                                            <th>Llenar Informe</th>
-                                        @endif
-                                    @endif
                                     @if ($cita->status >= 2)
                                         @if(auth()->user()->type == 2)
                                             <th>Llenar Informe</th>
@@ -126,12 +140,14 @@
                                         <td>{{ $item->test->name }}</td>
                                         <td class="text-right">{{ number_format($item->test->cost ,2) }}</td>
                                         @if ($cita->status >= 1)
-                                            <td><a href="{{ route('admin.llenar.form', [$item->test->id, $cita->id]) }}">Llenar</a></td>
+                                            @if (auth()->user()->type == 2)
+                                                <td><a href="{{ route('admin.llenar.form', [$item->test->id, $cita->id]) }}">Llenar</a></td>
+                                            @endif
                                             <td>
                                                 @if ($item->estado == 0 )
                                                     <span style="padding: 2px 10px; color: white; background: red; font-size: 12px; border-radius: 20px;">Falta</span>
                                                 @else
-                                                    <span style="padding: 5px 10px; background: blue; color: white; font-size: 12px; border-radius: 20px; ">Listo</span>
+                                                    <span style="padding: 5px 10px; background: blue; color: white; font-size: 12px; border-radius: 20px; ">{{ auth()->user()->type != 3 ? 'Listo' : 'Terminado'}}</span>
                                                 @endif
                                             </td>
                                         @else
@@ -144,11 +160,6 @@
                                         @endif
                                     </tr>
                                 @endforeach
-                                <form action="{{ route('unir.pdf.form', $cita->id) }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="file" name="pdfs[]" multiple>
-                                    <button type="submit">Unir PDFs</button>
-                                </form>
                             </tbody>
                         </table>
                     </fieldset>
