@@ -7,6 +7,7 @@ use App\Models\ImagenFile;
 use App\Models\listaCita;
 use App\Models\listaCliente;
 use App\Models\listaHistorial;
+use App\Models\listaPruebaCita;
 use App\Models\listaPruebas;
 use App\Models\SystemInfo;
 use App\Models\User;
@@ -288,7 +289,10 @@ class AdminController extends Controller
     }
     public function addPacienteCita($id) {
         $horariosDisponibles = [];
-        $pruebas = listaPruebas::where('delete', 0)->where('status', 1)->get();
+        $pruebas = listaPruebas::where('delete', 0)
+            ->where('status', 1)
+            ->whereHas('values')
+            ->get();
         $cliente = listaCliente::find($id);
         return view('admin.pacientes.new_cita', compact('cliente', 'pruebas', 'horariosDisponibles'));
     }
@@ -328,5 +332,4 @@ class AdminController extends Controller
             ], 500);
         }
     }
-
 }

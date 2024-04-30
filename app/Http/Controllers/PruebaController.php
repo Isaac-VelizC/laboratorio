@@ -251,7 +251,6 @@ class PruebaController extends Controller
             ]);
 
             $modificadoForm = $this->reemplazarValuesFormulario($request->valoresInputs, $request->description);
-            //dd($modificadoForm);
             $edit = listaPruebaCita::where('appointment_id', $request->cita)->where('test_id', $request->prueba)->first();
             $edit->formulario = $modificadoForm;
             $edit->estado = 2;
@@ -280,13 +279,19 @@ class PruebaController extends Controller
                 ->where('test_id', $request->prueba)->update([
                 'pdf' => 'pdfs/' . $filename,
             ]);
+            
+            $citaEdit = listaCita::find($request->cita);
             // Verificar si todos los formularios están completos
-            $todos = listaPruebaCita::where('appointment_id', $request->cita)->get();
-            if (count($todos) == 1) {
-                $citaEdit = listaCita::find($request->cita);
-                $citaEdit->status = 4;
-                $citaEdit->update();
+            $cat = listaPruebaCita::where('appointment_id', $request->cita)->count();
+            $todos = listaPruebaCita::where('appointment_id', $request->cita)->where('estado', 2)->get();
+            if ($cat == count($todos)) {
+                $citaEdit->status = 3;
+            } else {
+                if ($cat == 1 && count($todos) == 1 ) {
+                    $citaEdit->status = 4;
+                }
             }
+            $citaEdit->update();
 
             return redirect()->back()->with('message', 'Guardado correctamente');
         } catch (\Throwable $th) {
@@ -314,10 +319,8 @@ class PruebaController extends Controller
             ]);
             // Obtener la lista de pruebas de la cita
             $lista = listaPruebaCita::where('appointment_id', $idCita)->get();
-
             // Obtener los nombres de los PDFs de la lista
             $nombresPDFLista = $lista->pluck('pdf')->toArray();
-
             // Obtener los nombres de los archivos subidos
             $nombresArchivosSubidos = [];
             foreach ($request->file('pdfs') as $archivo) {

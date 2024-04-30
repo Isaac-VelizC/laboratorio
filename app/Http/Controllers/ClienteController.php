@@ -243,16 +243,20 @@ class ClienteController extends Controller
     public function deleteCita(Request $request) {
         try {
             $cita = listaCita::findOrFail($request->id);
-            // Eliminar pruebas asociadas
+            // Verificar si la cita existe
+            if (!$cita) {
+                return back()->with('error', 'La cita no existe.');
+            }
             $cita->pruebas()->delete();
             // Eliminar historial asociado
             $cita->history()->delete();
             // Eliminar la cita
             $cita->delete();
-        
-            return back()->with('message', 'Cita eliminada correctamente');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Error al eliminar la cita: ' . $e->getMessage());
+            return back()->with('message', 'La cita se eliminó con éxito');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $ex) {
+            return back()->with('error', 'La cita con ID '.$request->id.' no se pudo encontrar.');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Ocurrió un error al eliminar la cita: '. $th->getMessage());
         }
     }
 

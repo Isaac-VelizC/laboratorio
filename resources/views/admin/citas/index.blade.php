@@ -62,17 +62,11 @@
 											case 2:
 												echo '<span class="badge bg-warning ">Muestra Recogida</span>';
 												break;
-											case 3:
-												echo '<span class="badge bg-primary bg-teal ">Entregado al laboratorio</span>';
+                                            case 3:
+												echo '<span class="badge bg-info ">Unir Pdfs</span>';
 												break;
 											case 4:
 												echo '<span class="badge bg-success ">Finalizado</span>';
-												break;
-											case 5:
-												echo '<span class="badge bg-danger ">Cancelado</span>';
-												break;
-											case 6:
-												echo '<span class="badge bg-success">Informe subido</span>';
 												break;
 										}
 									?>
@@ -82,14 +76,14 @@
                                         <a class="px-1" href="{{ route('admin.cita.show', $item->id) }}">
                                             <i class="bi bi-eye"></i>
                                         </a>
-										@if ($item->status == 0 && auth()->user()->type != 2)
-											<a class="px-1" href="{{ route('admin.cita.edit.page', $item->id) }}">
-												<i class="bi bi-pen"></i>
-											</a>
-											<a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
-												<i class="bi bi-trash"></i>
-											</a>
-										@endif
+										@if ($item->status <= 1 && auth()->user()->type != 2)
+                                            <a class="px-1" href="{{ route('admin.cita.edit.page', $item->id) }}">
+                                                <i class="bi bi-pen"></i>
+                                            </a>
+                                            <a class="px-1" href="javascript:void(0)" onclick="confirmDelete({{ $item->id }})" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-confirmacion">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
 							</tr>
@@ -98,7 +92,34 @@
                 </table>
             </div>
         </div>
-
     </section>
 </div>
+
+<div class="modal fade" id="modal-confirmacion">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación</h4>
+            </div>
+            <form id="deleteForm" method="post" action="{{ route('admin.citas.delete') }}">
+                @csrf
+                @method('DELETE')
+                <input type="hidden" name="id" value="">
+                <div class="modal-body">
+                    <p>¿Estás seguro de eliminar este usuario de forma permanente?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Continuar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function confirmDelete(userId) {
+        // Actualizar el valor del campo 'id' en el formulario antes de mostrar el modal
+        $('#modal-confirmacion').find('input[name="id"]').val(userId);
+    }
+</script>
 @endsection
