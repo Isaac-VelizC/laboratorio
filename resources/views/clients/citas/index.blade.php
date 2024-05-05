@@ -17,10 +17,10 @@
     @include('clients.citas.modal_new')
     <div class="page-title">
         <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
+            <div class="col-8 col-md-6">
                 <h3>Lista de mis Citas</h3>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
+            <div class="col-4 col-md-6">
                 <div class="float-start float-lg-end">
                     <button id="create_new" class="btn btn-flat btn-sm btn-primary" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-lg"> Nueva Cita</button>
                 </div>
@@ -34,7 +34,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Fecha de Creación</th>
+                            <th>Registro</th>
                             <th>Código</th>
                             <th>Prueba</th>
                             <th>Estado</th>

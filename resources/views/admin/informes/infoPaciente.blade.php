@@ -29,8 +29,8 @@
                                     @csrf
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-4 border bg-primary text-light">Seleccionar un Paciente</div>
-                                            <div class="col-8 border">
+                                            <div class="col-md-4 border bg-primary text-light">Seleccionar un Paciente</div>
+                                            <div class="col-md-8 border">
                                                 <select class="form-control" style="border: none;" name="paciente" id="paciente">
                                                     <option value="" disabled selected>Seleccionar Paciente</option>
                                                     @foreach ($pacientes as $item)

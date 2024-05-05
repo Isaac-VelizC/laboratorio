@@ -16,10 +16,10 @@
     @endif
     <div class="page-title">
         <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
+            <div class="col-12 col-md-6 order-md-1">
                 <h3>Pruebas {{ isset($prueba->name) ? $prueba->name : 'N/A' }}</h3>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
+            <div class="col-12 col-md-6 order-md-2">
                 <div class="float-start float-lg-end gap-1">
                     <a href="{{ route('admin.list.prueba') }}" class="btn btn-sm btn-info gap-2" >
                         <span>Salir</span>
@@ -31,6 +31,7 @@
                 </div>
             </div>
         </div>
+    <br>
     </div>
     <section class="section">
         <div class="card">
@@ -49,13 +50,12 @@
                             @endif
                         </dd>
                 </div>
-                <br>
                 <div class="row">
                     @foreach ($prueba->values as $item)
                         @php
                             $cleanedName = str_replace('@', '', $item->name);
                         @endphp
-                        <div class="form-group col-3">
+                        <div class="form-group col-md-3">
                             <label for="{{ $cleanedName }}" class="control-label">{{ $cleanedName }}</label>
                             <input class="form-control form-control-border" required 
                                 type="{{ $item->type }}"

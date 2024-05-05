@@ -126,7 +126,7 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-4">
+                                        <div class="form-group col-md-4">
                                             <input type="password" name="password" id="password" class="form-control form-control-sm form-control-border" autocomplete="off">
                                             <small class="mx-2"><i>Deja esto en blanco si no desea cambiar la contraseña</i></small>
                                             @error('password')

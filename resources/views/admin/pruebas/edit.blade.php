@@ -21,15 +21,15 @@
             <form id="formulario" method="POST" action="{{ route('admin.edit.prueba', $item->id) }}">
                 @csrf
                     <div class="row">
-                        <div class="form-group col-4">
+                        <div class="form-group col-md-4">
                             <label for="name" class="control-label">Nombre</label>
                             <input type="text" name="name" id="name" class="form-control form-control-border" placeholder="Ingresar nombre" value ="{{ $item->name }}" required>
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-md-4">
                             <label for="cost" class="control-label">Precio</label>
                             <input type="number" step="any" name="cost" id="cost" class="form-control form-control-border text-right" value ="{{ $item->cost }}" required>
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-md-4">
                             <label for="status" class="control-label">Estado</label>
                             <select name="status" id="status" class="form-control form-control-border" placeholder="Enter test Name" required>
                                 <option value="0" {{ $item->delete == 0 ? 'selected' : '' }}>Activo</option>
@@ -42,7 +42,7 @@
                         <div for="name" class="control-label" style="color: #168a82">
                             <p>Nota: Para llenar el formulario (<strong>S</strong> para texto, <strong>N</strong> para enteros)</p>
                             <div class="text-center"> <!-- Div para centrar el contenido -->
-                                <div class="w-50 mx-auto"> <!-- Div con el contenido -->
+                                <div class="w-md-50 mx-auto"> <!-- Div con el contenido -->
                                     <table class="table" style="border-collapse: collapse; width: 100%;">
                                         <thead style="background-color: #168a82; color: white;">
                                             <tr>

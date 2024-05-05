@@ -125,13 +125,12 @@
                             <small class="mx-2">Confirma Contraseña</small>
                         </div>
                     </div>
-                    <div class="row align-items-center">
-                        <div class="col-8">
-                            <a href="{{ route('login') }}">¿Ya tienes una cuenta?</a>
-                        </div>
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Regístrate</button>
-                        </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Regístrate</button>
+                    </div>
+                    <br>
+                    <div class="col-md-8">
+                        <a href="{{ route('login') }}">¿Ya tienes una cuenta?</a>
                     </div>
                 </form>
             </div>

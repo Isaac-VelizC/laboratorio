@@ -24,8 +24,8 @@
                                     @csrf
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-1 border bg-primary text-light">Prueba</div>
-                                            <div class="col-3 border">
+                                            <div class="col-md-1 border bg-primary text-light">Prueba</div>
+                                            <div class="col-md-3 border">
                                                 <select class="form-control" style="border: none;" name="prueba" id="prueba" required>
                                                     <option value="" disabled selected>Seleccionar una Prueba</option>
                                                     @foreach ($pruebas as $item)
@@ -33,12 +33,12 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-1 border bg-primary text-light">Mes</div>
-                                            <div class="col-3 border">
+                                            <div class="col-md-1 border bg-primary text-light">Mes</div>
+                                            <div class="col-md-3 border">
                                                 <input type="month" class="form-control" style="border: none;" name="mes" id="mes">
                                             </div>
-                                            <div class="col-1 border bg-primary text-light">Fecha</div>
-                                            <div class="col-3 border">
+                                            <div class="col-md-1 border bg-primary text-light">Fecha</div>
+                                            <div class="col-md-3 border">
                                                 <input type="date" class="form-control" style="border: none;" name="fecha" id="fecha">
                                             </div>
                                         </div>

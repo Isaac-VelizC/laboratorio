@@ -30,24 +30,24 @@
                     <form method="POST" action="{{ auth()->user()->type == 1 ? route('admin.guardar.admin') : route('admin.guardar.informe') }}">
                         @csrf
                         <div class="row">
-                            <div class="col-2 border bg-primary text-light">Código de Cita</div>
-                            <div class="col-4 border">{{ isset($cita->code) ? $cita->code :"" }}</div>
-                            <div class="col-2 border bg-primary text-light">Calendario</div>
-                            <div class="col-4 border">{{ isset($cita->fecha) ? $cita->fecha.' '.$cita->horario :"" }}</div>    
-                            <div class="col-2 border bg-primary text-light">Nombre Paciente</div>
-                            <div class="col-6 border">{{ isset($cliente) ? $cliente->user->nombres .' '. $cliente->user->apellido_pa.' '. $cliente->user->apellido_ma :"" }}</div>
-                            <div class="col-2 border bg-primary text-light">Cedula Identidad</div>
-                            <div class="col-2 border">{{ isset($cliente) ? $cliente->user->ci :"" }}</div>
-                            <div class="col-1 border bg-primary text-light">Sexo</div>
-                            <div class="col-2 border">{{ isset($cliente) ? $cliente->gender :"" }}</div>
-                            <div class="col-2 border bg-primary text-light">Fecha Nacimiento</div>
-                            <div class="col-2 border">{{ isset($cliente) ? $cliente->dob :"" }}</div>
-                            <div class="col-1 border bg-primary text-light">Correo</div>
-                            <div class="col-4 border">{{ isset($cliente) ? $cliente->user->email :"" }}</div>
-                            <div class="col-2 border bg-primary text-light">Dirección</div>
-                            <div class="col-4 border">{{ isset($cliente) ? $cliente->address :"" }}</div>
-                            <div class="col-2 border bg-primary text-light">Teléfono</div>
-                            <div class="col-4 border">{{ isset($cliente) ? $cliente->contact :"" }}</div>
+                            <div class="col-md-2 border bg-primary text-light">Código de Cita</div>
+                            <div class="col-md-4 border">{{ isset($cita->code) ? $cita->code :"" }}</div>
+                            <div class="col-md-2 border bg-primary text-light">Calendario</div>
+                            <div class="col-md-4 border">{{ isset($cita->fecha) ? $cita->fecha.' '.$cita->horario :"" }}</div>    
+                            <div class="col-md-2 border bg-primary text-light">Nombre Paciente</div>
+                            <div class="col-md-6 border">{{ isset($cliente) ? $cliente->user->nombres .' '. $cliente->user->apellido_pa.' '. $cliente->user->apellido_ma :"" }}</div>
+                            <div class="col-md-2 border bg-primary text-light">Cedula Identidad</div>
+                            <div class="col-md-2 border">{{ isset($cliente) ? $cliente->user->ci :"" }}</div>
+                            <div class="col-md-1 border bg-primary text-light">Sexo</div>
+                            <div class="col-md-2 border">{{ isset($cliente) ? $cliente->gender :"" }}</div>
+                            <div class="col-md-2 border bg-primary text-light">Fecha Nacimiento</div>
+                            <div class="col-md-2 border">{{ isset($cliente) ? $cliente->dob :"" }}</div>
+                            <div class="col-md-1 border bg-primary text-light">Correo</div>
+                            <div class="col-md-4 border">{{ isset($cliente) ? $cliente->user->email :"" }}</div>
+                            <div class="col-md-2 border bg-primary text-light">Dirección</div>
+                            <div class="col-md-4 border">{{ isset($cliente) ? $cliente->address :"" }}</div>
+                            <div class="col-md-2 border bg-primary text-light">Teléfono</div>
+                            <div class="col-md-4 border">{{ isset($cliente) ? $cliente->contact :"" }}</div>
                         </div>
                         @if (auth()->user()->type == 2)
                             <input type="hidden" name="codigo" value="{{ $cita->code }}">
@@ -58,7 +58,7 @@
                         <div for="name" class="control-label" style="color: #168a82">
                             <p>Nota: Para llenar el formulario (Los campos para llenar que terminen en <strong>S</strong> para texto, <strong>N</strong> para números)</p>
                             <div class="text-center"> <!-- Div para centrar el contenido -->
-                                <div class="w-50 mx-auto"> <!-- Div con el contenido -->
+                                <div class="w-md-50 mx-auto"> <!-- Div con el contenido -->
                                     <table class="table" style="border-collapse: collapse; width: 100%;">
                                         <thead style="background-color: #168a82; color: white;">
                                             <tr>
@@ -85,7 +85,7 @@
                                 @php
                                     $cleanedName = str_replace('@', '', $item->name);
                                 @endphp
-                                <div class="form-group col-3">
+                                <div class="form-group col-md-3">
                                     <label for="{{ $cleanedName }}" class="control-label">{{ $cleanedName }}</label>
                                     <input class="form-control form-control-border" required 
                                         type="{{ $item->type }}"

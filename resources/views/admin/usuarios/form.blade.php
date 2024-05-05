@@ -21,7 +21,7 @@
             <div class="col-md-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Vertical Form with Icons</h4>
+                        <h4 class="card-title">Informaación del Usuario</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
@@ -29,7 +29,7 @@
                                 @csrf
                                 <div class="form-body">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Nombres</label>
                                                 <div class="position-relative">
@@ -37,7 +37,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Primer Apellido</label>
                                                 <div class="position-relative">
@@ -45,7 +45,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Segundo Apellido</label>
                                                 <div class="position-relative">
@@ -53,7 +53,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Cedula de Identidad</label>
                                                 <div class="position-relative">
@@ -61,7 +61,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Correo Electronico</label>
                                                 <div class="position-relative">
@@ -69,7 +69,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Nombre de Usuario</label>
                                                 <div class="position-relative">
@@ -77,7 +77,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Contraseña</label>
                                                 <div class="position-relative">
@@ -88,7 +88,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Tipo de usuario</label>
                                                 <div class="position-relative">
@@ -99,7 +99,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <div class="form-group has-icon-left">
                                                 <label for="first-name-icon">Avatar</label>
                                                 <div class="position-relative">
@@ -107,14 +107,15 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group col-12 d-flex justify-content-center">
+                                            <img src="{{ $isEditing && $user->avatar ? asset('storage/'.$user->avatar) : asset('imgs/3.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
+                                        </div>
+                                        <br>
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
                                             <a href="{{ route('admin.list.user') }}" class="btn btn-light-secondary me-1 mb-1">Salir</a>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group col-12 d-flex justify-content-center">
-                                    <img src="{{ $isEditing && $user->avatar ? asset('storage/'.$user->avatar) : asset('imgs/3.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
                                 </div>
                             </form>
                         </div>

@@ -16,14 +16,14 @@
     @endif
     <div class="page-title">
         <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
+            <div class="col-10 col-md-6">
                 <h3>Lista de Pruebas</h3>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
+            <div class="col-2 col-md-6">
                 <div class="float-start float-lg-end">
                     <a href="{{ route('admin.form.new.prueba') }}" class="btn btn-sm btn-primary gap-2" >
-                        <i class="bi bi-clipboard-plus"></i>
-                        <span>Nueva Prueba</span>
+                        <i class="bi bi-clipboard-plus d-sm-none"></i>
+                        <span class="d-none d-sm-block">Nuevo</span>
                     </a>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Fecha de Creación</th>
+                            <th>Registro</th>
                             <th>Nombre</th>
                             <th>Precio</th>
                             <th>Estado</th>
@@ -106,11 +106,11 @@ aria-labelledby="myModalLabel4" aria-hidden="true">
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-secondary"
                     data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
+                    <i class="bi bi-x d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Cerrar</span>
                 </button>
                 <button type="submit" class="btn btn-primary ml-1">
-                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <i class="bi bi-check d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Continuar</span>
                 </button>
             </div>

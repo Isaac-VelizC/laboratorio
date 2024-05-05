@@ -28,7 +28,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-							<th>Fecha de Cita</th>
+							<th>Fecha Cita</th>
 							<th>Código</th>
 							<th>Paciente</th>
 							<th>Prueba</th>

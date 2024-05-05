@@ -16,13 +16,13 @@
     @endif
     <div class="page-title">
         <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
+            <div class="col-8 col-md-6 order-md-1">
                 <h3>Lista de Usuarios</h3>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
+            <div class="col-4 col-md-6 order-md-2">
                 <div class="float-start float-lg-end">
                     <a href="{{ route('admin.user.create') }}" class="btn btn-sm btn-primary gap-2" >
-                        <span>Registrar Nuevo</span>
+                        Registrar
                     </a>
                 </div>
             </div>
@@ -37,8 +37,8 @@
                             <th>#</th>
                             <th>Avatar</th>
                             <th>Nombre</th>
-                            <th>Cedula de Identidad</th>
-                            <th>Tipo de Usuario</th>
+                            <th>CI/NIT</th>
+                            <th>Rol</th>
                             <th>Estado</th>
                             <tr></tr>
                         </tr>
@@ -99,13 +99,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary"
-                        data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
+                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle d-sm-none"></i>
                         <span class="d-none d-sm-block">Cerrar</span>
                     </button>
                     <button type="submit" class="btn btn-primary ml-1">
-                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <i class="bi bi-check d-sm-none"></i>
                         <span class="d-none d-sm-block">Continuar</span>
                     </button>
                 </div>

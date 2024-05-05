@@ -42,7 +42,7 @@
 					@csrf
 					<div class="form-body">
 						<div class="row">
-							<div class="col-4">
+							<div class="col-md-4">
 								<div class="form-group has-icon-left">
 									<label for="first-name-icon">Nombre del Sistema</label>
 									<div class="position-relative">
@@ -50,7 +50,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-4">
+							<div class="col-md-4">
 								<div class="form-group has-icon-left">
 									<label for="first-name-icon">Nombre Corto del Sistema</label>
 									<div class="position-relative">
@@ -58,7 +58,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-4">
+							<div class="col-md-4">
 								<div class="form-group has-icon-left">
 									<label for="first-name-icon">Logo del Sistema</label>
 									<div class="position-relative">
@@ -69,7 +69,7 @@
 							<div class="form-group d-flex justify-content-center">
 								<img src="{{ $logo->meta_value ? asset('storage/'.$logo->meta_value) : asset('dist/img/avata-1.png') }}" alt="" id="cimg" class="img-fluid img-thumbnail">
 							</div>
-							<div class="col-4">
+							<div class="col-md-4">
 								<div class="form-group has-icon-left">
 									<label for="first-name-icon">Publicidad</label>
 									<div class="position-relative">

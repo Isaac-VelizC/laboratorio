@@ -16,18 +16,19 @@
     @endif
     <div class="page-title">
         <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
+            <div class="col-8 col-md-6">
                 <h3>Lista de Pacientes</h3>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
+            <div class="col-4 col-md-6">
                 <div class="float-start float-lg-end">
                     <a href="javascript:void(0)" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal_create_pacientes">
-                        Nuevo Paciente
+                        Nuevo
                     </a>
                 </div>
             </div>
         </div>
     </div>
+
     <section class="section">
         <div class="card">
             <div class="card-body">
@@ -36,8 +37,8 @@
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>CI</th>
-                            <th>Correo electrónico</th>
+                            <th>CI/NIT</th>
+                            <th>Correo</th>
                             <th>Teléfono</th>
                             <th>Estado</th>
                             <tr></tr>
@@ -110,11 +111,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-secondary"
                         data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <i class="bi bi-x d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Cerrar</span>
                     </button>
                     <button type="submit" class="btn btn-primary ml-1">
-                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <i class="bi bi-check d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Continuar</span>
                     </button>
                 </div>

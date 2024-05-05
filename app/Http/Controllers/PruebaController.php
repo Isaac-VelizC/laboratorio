@@ -39,14 +39,15 @@ class PruebaController extends Controller
                 'status' => 'required|numeric',
                 'description' => 'required|string',
             ]);
-
             $prueba = listaPruebas::create([
                 'name' => $request->name,
                 'cost' => $request->cost,
                 'delete' => $request->status,
                 'description' => $request->description,
             ]);
-            
+            if (empty($request->valores)) {
+                return back()->with('error', 'La prueba no tiene campos para ser llenado');
+            }
             $this->asignarTipo($request->valores, $prueba->id);
 
             return back()->with('message', 'Prueba creado con éxito');

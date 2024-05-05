@@ -12,7 +12,7 @@
     <!-- Basic Vertical form layout section start -->
     <section id="basic-vertical-layouts">
         <div class="row match-height">
-            <div class="col-md-12 col-12">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Pruebas Finalizadas por bioquimico</h4>
@@ -24,8 +24,8 @@
                                     @csrf
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-2 border bg-primary text-light">Bioquimico</div>
-                                            <div class="col-3 border">
+                                            <div class="col-md-2 border bg-primary text-light">Bioquimico</div>
+                                            <div class="col-md-3 border">
                                                 <select class="form-control" style="border: none;" name="bioquimico" id="bioquimico">
                                                     <option value="" disabled selected>Seleccionar Bioquimico</option>
                                                     @foreach ($bioquimicos as $item)
@@ -33,8 +33,8 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-1 border bg-primary text-light">Prueba</div>
-                                            <div class="col-2 border">
+                                            <div class="col-md-1 border bg-primary text-light">Prueba</div>
+                                            <div class="col-md-2 border">
                                                 <select class="form-control" style="border: none;" name="prueba" id="prueba" required>
                                                     <option value="" disabled selected>Seleccionar una Prueba</option>
                                                     @foreach ($pruebas as $item)
@@ -42,8 +42,8 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-1 border bg-primary text-light">Mes</div>
-                                            <div class="col-3 border">
+                                            <div class="col-md-1 border bg-primary text-light">Mes</div>
+                                            <div class="col-md-3 border">
                                                 <input type="month" class="form-control" style="border: none;" name="mes" id="mes">
                                             </div>
                                         </div>

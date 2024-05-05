@@ -32,15 +32,15 @@
                         <form id="formulario" method="POST" action="{{ route('admin.new.prueba') }}">
                             @csrf
                                 <div class="row">
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-md-4">
                                         <label for="name" class="control-label">Nombre</label>
                                         <input type="text" name="name" id="name" class="form-control form-control-border" placeholder="Ingresar nombre" value ="" required>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-md-4">
                                         <label for="cost" class="control-label">Precio</label>
                                         <input type="number" step="any" name="cost" id="cost" class="form-control form-control-border text-right" value ="" required>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-md-4">
                                         <label for="status" class="control-label">Estado</label>
                                         <select name="status" id="status" class="form-control form-control-border" placeholder="Enter test Name" required>
                                             <option value="0">Activo</option>
@@ -54,7 +54,7 @@
                                     <div for="name" class="control-label" style="color: #168a82">
                                         <p>Nota: Para llenar el formulario (<strong>S</strong> para texto, <strong>N</strong> para enteros)</p>
                                         <div class="text-center"> <!-- Div para centrar el contenido -->
-                                            <div class="w-50 mx-auto"> <!-- Div con el contenido -->
+                                            <div class=" w-md-50 mx-auto"> <!-- Div con el contenido -->
                                                 <table class="table" style="border-collapse: collapse; width: 100%;">
                                                     <thead style="background-color: #168a82; color: white;">
                                                         <tr>
@@ -76,36 +76,28 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <textarea name="description" id="dark" cols="30" rows="10">{!! $valorDefecto !!}</textarea>
+                                    <textarea name="description" id="dark">{!! $valorDefecto !!}</textarea>
                                 </div>
                             <button  id="enviarFormulario" type="submit" class="btn btn-primary">Guardar</button>
                             <a type="button" class="btn btn-default" href="{{ route('admin.list.prueba') }}" >Cancelar</a>
                         </form>
                     </div>
                 </div>
-            </div><script src="{{ asset('build/ckeditor5/build/ckeditor.js')}}"></script>
             <script>
-                InlineEditor
-                    .create(document.querySelector('#editor'))
-                    .then(editor => {
-                        window.editor = editor;
-                    })
-                    .catch(error => {
-                        console.error('Error al crear el editor:', error);
-                    });
-                function guardarValores() {
-                    var valores = {};
-            
-                    // Obtener todos los inputs dentro del bucle foreach
-                    var inputs = document.querySelectorAll('.form-group.col-3 input');
-            
-                    inputs.forEach(function(input) {
-                        valores[input.name] = input.value;
-                    });
-            
-                    // Establecer los valores en el campo oculto
-                    document.getElementById('valoresInputs').value = JSON.stringify(valores);
-                }
+                var valoresExtraidos = [];
+                // Manejador de eventos para el botón de enviar del formulario
+                document.getElementById('enviarFormulario').addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevenir el envío del formulario por defecto
+                    // Extraer valores del textarea justo antes de enviar el formulario
+                    var contenido = document.querySelector('#dark').value;
+                    valoresExtraidos = contenido.match(/@[\w\d]+/g) || [];
+                    console.log(valoresExtraidos);
+                    // Asignar los valores extraídos al campo oculto
+                    document.getElementById('valores').value = valoresExtraidos.join(',');
+
+                    // Enviar el formulario manualmente
+                    document.getElementById('formulario').submit();
+                });
             
             </script>
         </div>  
