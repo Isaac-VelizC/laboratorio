@@ -134,7 +134,7 @@
         var valores = {};
 
         // Obtener todos los inputs dentro del bucle foreach
-        var inputs = document.querySelectorAll('.form-group.col-3 input');
+        var inputs = document.querySelectorAll('.form-group.col-md-3 input');
 
         inputs.forEach(function(input) {
             valores[input.name] = input.value;

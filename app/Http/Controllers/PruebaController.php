@@ -292,6 +292,10 @@ class PruebaController extends Controller
                     $citaEdit->status = 4;
                 }
             }
+            if ($cat == 1) {
+                $citaEdit->status = 4;
+            }
+            
             $citaEdit->update();
 
             return redirect()->back()->with('message', 'Guardado correctamente');
