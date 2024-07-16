@@ -81,12 +81,14 @@ class ClienteController extends Controller
                 $cita->save();
             }
     
-            foreach ($request->test_ids as $test_id) {
+            foreach ($request->test_ids as $key => $test_id) {
                 $prueba = listaPruebas::find($test_id);
                 listaPruebaCita::create([
                     'appointment_id' => $cita->id,
                     'test_id' => $test_id,
-                    'formulario' => $prueba->description
+                    'formulario' => $prueba->description,
+                    'fecha' => $request->date,
+                    'code' => $key + 1,
                 ]);
             }
     
@@ -196,7 +198,7 @@ class ClienteController extends Controller
                 'password' => 'nullable|string|min:8',
                 'apellido_pa' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
                 'apellido_ma' => 'nullable|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
-                'ci' => 'required|string|max:255|min:7|unique:users,ci,' . $id,
+                'ci' => 'required|string|max:255|regex:/^\d{7,10}(?:-[0-9A-Z]{1,2})?$/|min:7|unique:users,ci,' . $id,
                 'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             
@@ -279,7 +281,7 @@ class ClienteController extends Controller
                 'password' => 'nullable|string|min:8',
                 'apellido_pa' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
                 'apellido_ma' => 'nullable|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
-                'ci' => 'required|string|max:255|unique:users,ci,' . $cliente->user_id,
+                'ci' => 'required|string|max:255|regex:/^\d{7,10}(?:-[0-9A-Z]{1,2})?$/|unique:users,ci,' . $cliente->user_id,
                 'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             dd($request);

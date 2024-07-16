@@ -149,7 +149,130 @@
                         </div>
                     @endrole
                 </div>
+                @role('Admin')
+                <div class="row">
+                    <div class="col-md-4">
+                        <canvas id="patientsChart"></canvas>
+                    </div>
+                    <div class="col-md-4">
+                        <canvas id="patientsChartTest"></canvas>
+                    </div>
+                    <div class="col-md-4">
+                        <canvas id="clientsChartTest"></canvas>
+                    </div>
+                </div>
+                @endrole
             </div>
         </section>
     </div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Obtener los datos de los pacientes por periodo
+        fetch('/admin/informe/pacientes-por-periodo')
+            .then(response => response.json())
+            .then(data => {
+                const patientsChart = new Chart(document.getElementById('patientsChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Hoy', 'Esta semana', 'Este mes'],
+                        datasets: [{
+                            label: 'Citas por periodo',
+                            data: [data.pacientesPorDia, data.pacientesPorSemana, data.pacientesPorMes],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+    <script>
+        // Obtener los datos de los pacientes por periodo
+        fetch('/admin/informe/pruebas-terminadas-periodo')
+            .then(response => response.json())
+            .then(data => {
+                const patientsChart = new Chart(document.getElementById('patientsChartTest'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Hoy', 'Esta semana', 'Este mes'],
+                        datasets: [{
+                            label: 'Pruebas terminadas por periodo',
+                            data: [data.completedTestsByDay, data.completedTestsByWeek, data.completedTestsByMonth],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+
+<script>
+    // Obtener los datos de los pacientes por periodo
+    fetch('/admin/informe/clientes-registros-periodo')
+        .then(response => response.json())
+        .then(data => {
+            const patientsChart = new Chart(document.getElementById('clientsChartTest'), {
+                type: 'bar',
+                data: {
+                    labels: ['Hoy', 'Esta semana', 'Este mes'],
+                    datasets: [{
+                        label: 'Registro de Clientes por Periodo',
+                        data: [data.completedTestsByDay, data.completedTestsByWeek, data.completedTestsByMonth],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+</script>
+    
 @endsection

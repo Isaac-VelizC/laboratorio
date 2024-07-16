@@ -39,15 +39,15 @@ class PruebaController extends Controller
                 'status' => 'required|numeric',
                 'description' => 'required|string',
             ]);
-            $prueba = listaPruebas::create([
-                'name' => $request->name,
-                'cost' => $request->cost,
-                'delete' => $request->status,
-                'description' => $request->description,
-            ]);
+            $prueba = new listaPruebas();
+            $prueba->name = $request->name;
+            $prueba->cost = $request->cost;
+            $prueba->delete = $request->status;
+            $prueba->description = $request->description;
             if (empty($request->valores)) {
                 return back()->with('error', 'La prueba no tiene campos para ser llenado');
             }
+            $prueba->save();
             $this->asignarTipo($request->valores, $prueba->id);
 
             return back()->with('message', 'Prueba creado con éxito');
@@ -153,31 +153,31 @@ class PruebaController extends Controller
         } else {
 
             if ($descripcion) {
-                $formulario =  $this->reemplazarValues($descripcion, $cliente);
+                $formulario =  $this->reemplazarValues($descripcion, $cliente, $cita, $form);
             }
             return view('admin.citas.informe',compact('prueba', 'cliente', 'cita', 'formulario', 'inputs'));
         }
     }
 
-    function reemplazarValues($formulario, $cliente) {
+    function reemplazarValues($formulario, $cliente, $cita, $form) {
         $nombreDoctor = Auth::user()->nombres . ' ' . Auth::user()->apellido_pa . ' ' . Auth::user()->apellido_ma;
-        $valuePeticion = 232;
+        $valuePeticion = $cita->fecha;
         $valueSexo = $cliente->gender;
         $valueEdad = $this->calcularEdad($cliente->dob);
-        $nHistoria = 79;
+        $nHistoria = 'LP-'.$cita->id;
         $paciente = $cliente->user->nombres . ' ' . $cliente->user->apellido_pa . ' ' . $cliente->user->apellido_ma;
-        $asegurado = 765;
-        $consulta = 876;
-        $cliente = 97;
-        $nOrden = 45;
+        //$asegurado = '-';
+        $consulta = $cita->code;
+        $cliente = $cliente->id;
+        $nOrden = $form->code;
     
         // Reemplazar los valores en el formulario
         $formulario = str_replace('#nombreDoctor', $nombreDoctor, $formulario);
-        $formulario = str_replace('#ePeticion', $valuePeticion, $formulario);
+        $formulario = str_replace('#fPeticion', $valuePeticion, $formulario);
         $formulario = str_replace('#edad', $valueEdad, $formulario);
         $formulario = str_replace('#nHistoria', $nHistoria, $formulario);
         $formulario = str_replace('#paciente', $paciente, $formulario);
-        $formulario = str_replace('#asegurado', $asegurado, $formulario);
+        //$formulario = str_replace('#asegurado', $asegurado, $formulario);
         $formulario = str_replace('#sexo', $valueSexo, $formulario);
         $formulario = str_replace('#consulta', $consulta, $formulario);
         $formulario = str_replace('#cliente', $cliente, $formulario);
@@ -279,6 +279,7 @@ class PruebaController extends Controller
             listaPruebaCita::where('appointment_id', $request->cita)
                 ->where('test_id', $request->prueba)->update([
                 'pdf' => 'pdfs/' . $filename,
+                'bio_id' => auth()->user()->id,
             ]);
             
             $citaEdit = listaCita::find($request->cita);

@@ -46,11 +46,15 @@
                                     <div class="form-group mt-4 text-center">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="tipo" id="inlineradio1" value="1" checked>
-                                            <label class="form-check-label" for="inlineradio1">Solo Pruebas</label>
+                                            <label class="form-check-label" for="inlineradio1">Informe Por Prueba</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="tipo" id="inlineradio2" value="2">
-                                            <label class="form-check-label" for="inlineradio2">Pruebas con Clientes</label>
+                                            <label class="form-check-label" for="inlineradio2">Informe Por Edad</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="tipo" id="inlineradio2" value="3">
+                                            <label class="form-check-label" for="inlineradio2">Informe Por Sexo</label>
                                         </div>
                                     </div>
                                     <br>
@@ -138,5 +142,29 @@
                 document.getElementById("error").innerHTML = htmlError;
             });
     }
+
+    const mesInput = document.getElementById('mes');
+    const fechaInput = document.getElementById('fecha');
+    const cancelButton = document.querySelector('button[type="reset"]');
+
+    mesInput.addEventListener('input', () => {
+    if (mesInput.value) {
+        fechaInput.disabled = true;
+    } else {
+        fechaInput.disabled = false;
+    }
+    });
+
+    fechaInput.addEventListener('input', () => {
+    if (fechaInput.value) {
+        mesInput.disabled = true;
+    } else {
+        mesInput.disabled = false;
+    }
+    });
+    cancelButton.addEventListener('click', () => {
+        mesInput.disabled = false;
+        fechaInput.disabled = false;
+    });
 </script>
 @endsection

@@ -21,6 +21,9 @@ return new class extends Migration
             $table->text('formulario');
             $table->integer('estado')->default(0);
             $table->dateTime('fecha')->default(now());
+            $table->integer('code')->default(1);
+            $table->unsignedBigInteger('bio_id')->nullable();
+            $table->foreign('bio_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

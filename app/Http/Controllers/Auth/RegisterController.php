@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'apellido_pa' => ['required', 'string', 'max:255'],
             'apellido_ma' => ['nullable', 'string', 'max:255'],
-            'ci' => ['required', 'string', 'max:255', 'unique:users'],
+            'ci' => ['required', 'string', 'max:255', 'regex:/^\d{7,10}(?:-[0-9A-Z]{1,2})?$/', 'unique:users'],
             'gender' => ['required', 'in:Masculino,Femenino'],
             'dob' => ['nullable', 'date'],
             'contact' => ['required', 'string', 'max:255'],

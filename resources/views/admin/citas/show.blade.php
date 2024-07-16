@@ -26,7 +26,7 @@
                         <button class="btn btn-sm btn-danger" type="button" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal_show_pago"><i class="fa fa-upload"></i> Pago</button>
                     @endif
                     @role('Admin')
-                        @if(auth()->user()->type == 1 || auth()->user()->type == 2 )
+                        @if((auth()->user()->type == 1 || auth()->user()->type == 2) && $cita->status < 3)
                             <button class="btn btn-sm btn-info" type="button" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#modal-estado"> Cambiar Estado</button>
                         @endif
                     @endrole
@@ -129,7 +129,9 @@
                                     @endif
                                 @endif
                                 <th>Estado</th>
-                                <th></th>
+                                @if ($cita->status == 4 || auth()->user()->type != 3)
+                                    <th></th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -154,8 +156,10 @@
                                             <span style="padding: 2px 10px; color: white; background: red; font-size: 12px; border-radius: 20px;">En espera</span>
                                         </td>
                                     @endif
-                                    @if ($item->pdf)
-                                        <td><a href="{{ asset('storage/'.$item->pdf) }}" download='{{ $item->pdf }}'>{{ $item->pdf }}</a></td>
+                                    @if ($cita->status == 4 || auth()->user()->type != 3)
+                                        @if ($item->pdf)
+                                            <td><a href="{{ asset('storage/'.$item->pdf) }}" download='{{ $item->pdf }}'>{{ $item->pdf }}</a></td>
+                                        @endif
                                     @endif
                                 </tr>
                             @endforeach

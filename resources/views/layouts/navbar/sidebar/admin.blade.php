@@ -62,6 +62,9 @@
                         <li class="submenu-item {{ Route::is('admin.system.info') ? 'active' : '' }}">
                             <a href="{{ route('admin.system.info') }}">Configuración & Publicidad</a>
                         </li>
+                        <li class="submenu-item {{ Route::is('admin.page.packups') ? 'active' : '' }}">
+                            <a href="{{ route('admin.page.packups') }}">Copias de Seguridad</a>
+                        </li>
                         @endrole
                         <li class="submenu-item {{ Route::is('admin.informe.info') ? 'active' : '' }}">
                             <a href="{{ route('admin.informe.info') }}">Informes</a>

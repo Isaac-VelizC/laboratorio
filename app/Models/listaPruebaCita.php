@@ -16,7 +16,9 @@ class listaPruebaCita extends Model
         'test_id',
         'pdf',
         'fecha',
-        'estado'
+        'estado',
+        'bio_id',
+        'code'
     ];
 
     // Relación con el modelo AppointmentList
@@ -29,5 +31,11 @@ class listaPruebaCita extends Model
     public function test()
     {
         return $this->belongsTo(listaPruebas::class, 'test_id');
+    }
+
+    // Relación con el modelo TestList
+    public function bioquimico()
+    {
+        return $this->belongsTo(User::class, 'bio_id');
     }
 }

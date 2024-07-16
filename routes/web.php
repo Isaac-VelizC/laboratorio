@@ -2,21 +2,11 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformeController;
 use App\Http\Controllers\PruebaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     $redirectPath = auth()->guest() ? 'login' : route('home');
@@ -91,8 +81,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/informes3/info', [InformeController:: class, 'informePacienteList'])->name('admin.informe1.info33');
 
     Route::get('/admin/pago/{id}/pdf', [InformeController::class, 'generatePDFPago'])->name('admin.pdf.pago');
-});
 
+    Route::get('/admin/informe/pacientes-por-periodo', [InformeController::class, 'pacientesPorPeriodo']);
+    Route::get('/admin/informe/pruebas-terminadas-periodo', [InformeController::class, 'getCompletedTestsByPeriod']);
+    Route::get('/admin/informe/clientes-registros-periodo', [InformeController::class, 'getRegisterClientsByPeriod']);
+    
+    Route::get('/admin/copias-de-seguridad', [HomeController::class, 'pageCopiasSeguridad'])->name('admin.page.packups');
+    Route::post('/backups/run', [HomeController::class, 'runBackup'])->name('backup.run');
+    Route::get('/backups/download/{file}', [HomeController::class, 'downloadBackup'])->name('backup.download');
+    
+    Route::get('/backup/delete/{name}', [HomeController::class, 'deleteBackup'])->name('backup.delete');
+});
 
 Route::get('/unir/pdf/{id}', [PruebaController::class, 'unirPdf'])->name('unir.pdf');
 Route::post('/unir/pdf/{id}', [PruebaController::class, 'unirPdf'])->name('unir.pdf.form');

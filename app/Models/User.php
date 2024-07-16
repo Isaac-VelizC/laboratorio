@@ -59,4 +59,8 @@ class User extends Authenticatable
     public function citas() {
         return $this->hasMany(listaCita::class, 'user_id');
     }
+
+    public function citasRealizadas() {
+        return $this->hasMany(listaPruebaCita::class, 'bio_id');
+    }
 }

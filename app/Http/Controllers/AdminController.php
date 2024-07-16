@@ -7,11 +7,9 @@ use App\Models\ImagenFile;
 use App\Models\listaCita;
 use App\Models\listaCliente;
 use App\Models\listaHistorial;
-use App\Models\listaPruebaCita;
 use App\Models\listaPruebas;
 use App\Models\SystemInfo;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -42,7 +40,7 @@ class AdminController extends Controller
                 'password' => 'required|string|min:8',
                 'apellido_pa' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
                 'apellido_ma' => 'nullable|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
-                'ci' => 'required|string|regex:/^\d{7}(?:-[0-9A-Z]{1,2})?$/|unique:users',
+                'ci' => 'required|string|regex:/^\d{7,10}(?:-[0-9A-Z]{1,2})?$/|unique:users',
                 'type' => 'required|in:1,2',
                 'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -80,7 +78,7 @@ class AdminController extends Controller
                 'password' => 'nullable|string|min:8',
                 'apellido_pa' => 'required|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
                 'apellido_ma' => 'nullable|string|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
-                'ci' => 'required|string|max:255|unique:users,ci,' . $id,
+                'ci' => 'required|string|max:255|regex:/^\d{7,10}(?:-[0-9A-Z]{1,2})?$/|unique:users,ci,' . $id,
                 'type' => 'required|in:1,2',
                 'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -278,14 +276,14 @@ class AdminController extends Controller
                     ImagenFile::create(['path' => $nombreArchivo]);
                 }
             }
-            return back()->with('message', 'La actualización se realizo con éxito');
+            return back()->with('success', 'La actualización se realizo con éxito');
         } catch (\Throwable $th) {
             return back()->with('error', 'Ocurrió un error. ' . $th->getMessage());
         }
     }
     public function deleteImg($id) {
         ImagenFile::find($id)->delete();
-        return back()->with('message', 'La imagen se borro exitosamente');
+        return back()->with('success', 'La imagen se borro exitosamente');
     }
     public function addPacienteCita($id) {
         $horariosDisponibles = [];
@@ -300,26 +298,24 @@ class AdminController extends Controller
     public function verificarhorarios(Request $request) {
         try {
             $fechaActual = $request->fecha;
-
+            
             // Obtener todos los horarios para la fecha actual
             $horarios = Horario::all();
-
+            
             // Obtener todas las citas para la fecha actual
             $citas = listaCita::where('fecha', $fechaActual)->get();
-
+            
             // Filtrar los horarios disponibles
             $horariosDisponibles = [];
-
             foreach ($horarios as $horario) {
-                $citaProgramada = $citas->first(function ($cita) use ($horario) {
+                $citasProgramadas = $citas->filter(function ($cita) use ($horario) {
                     return $cita->hora_id === $horario->id;
                 });
-
-                if (!$citaProgramada) {
+                if ($citasProgramadas->count() < 2) {
                     $horariosDisponibles[] = $horario;
                 }
             }
-
+            
             // Devolver los horarios disponibles como respuesta JSON
             return response()->json([
                 'horariosDisponibles' => $horariosDisponibles,
@@ -332,4 +328,5 @@ class AdminController extends Controller
             ], 500);
         }
     }
+    
 }

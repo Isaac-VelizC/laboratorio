@@ -22,6 +22,8 @@
                             <div class="text-center">
                                 <p class="font-bold">Rango de edades de pacientes</p>
                                 <p>Menores: {{$mayores_de_18}} | Mayores: {{$menores_de_18}}</p>
+                                <br>
+                                <strong class="text-danger">Solo seleccione MES o FECHA, solo uno</strong>
                             </div>
                             <br>
                             <div class="container-fluid">
@@ -29,8 +31,8 @@
                                     @csrf
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-md-4 border bg-primary text-light">Seleccionar un Paciente</div>
-                                            <div class="col-md-8 border">
+                                            <div class="col-md-2 border bg-primary text-light">Paciente</div>
+                                            <div class="col-md-4 border">
                                                 <select class="form-control" style="border: none;" name="paciente" id="paciente">
                                                     <option value="" disabled selected>Seleccionar Paciente</option>
                                                     @foreach ($pacientes as $item)
@@ -38,29 +40,14 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <!--div class="col-2 border bg-primary text-light">Prueba</div>
-                                            <div class="col-4 border">
-                                                <select class="form-control" style="border: none;" name="prueba" id="prueba">
-                                                    <option value="" disabled selected>Seleccionar una Prueba</option>
-                                                    @foreach ($pruebas as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-1 border bg-primary text-light">Mes</div>
-                                            <div class="col-3 border">
+                                            <div class="col-md-1 border bg-primary text-light">Mes</div>
+                                            <div class="col-md-2 border">
                                                 <input type="month" class="form-control" style="border: none;" name="mes" id="mes">
-                                            </div-->
-                                        </div>
-                                    </div>
-                                    <div class="form-group mt-4 text-center">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="tipo" id="inlineradio1" value="1">
-                                            <label class="form-check-label" for="inlineradio1">Registro de Pacientes Por Mes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="tipo" id="inlineradio2" value="2">
-                                            <label class="form-check-label" for="inlineradio2">Cantidad de pacientes por prueba</label>
+                                            </div>
+                                            <div class="col-md-1 border bg-primary text-light">Fecha</div>
+                                            <div class="col-md-2 border">
+                                                <input type="date" class="form-control" style="border: none;" name="date" id="date">
+                                            </div>
                                         </div>
                                     </div>
                                     <br>
@@ -70,7 +57,7 @@
                                     </div>
                                 </form>
                                 <hr>
-                                <div id="resultados"></div> <!-- Contenedor para mostrar los resultados -->
+                                <div id="resultados"></div>
                             </div>
                         </div>
                     </div>
@@ -85,8 +72,8 @@
         // Obtener los datos del formulario
         var formData = new FormData(document.getElementById("informeForm"));
         var paciente = document.getElementById("paciente").value;
-        //var mes = document.getElementById("mes").value;
-        //var prueba = document.getElementById("prueba").value;
+        var mes = document.getElementById("mes").value;
+        var fecha = document.getElementById("date").value;
 
         axios.post('/admin/informes3/info', formData)
             .then(function (response) {
@@ -144,5 +131,29 @@
                 document.getElementById("error").innerHTML = htmlError;
             });
     }
+
+    const mesInput = document.getElementById('mes');
+    const fechaInput = document.getElementById('date');
+    const cancelButton = document.querySelector('button[type="reset"]');
+
+    mesInput.addEventListener('input', () => {
+    if (mesInput.value) {
+        fechaInput.disabled = true;
+    } else {
+        fechaInput.disabled = false;
+    }
+    });
+
+    fechaInput.addEventListener('input', () => {
+    if (fechaInput.value) {
+        mesInput.disabled = true;
+    } else {
+        mesInput.disabled = false;
+    }
+    });
+    cancelButton.addEventListener('click', () => {
+        mesInput.disabled = false;
+        fechaInput.disabled = false;
+    });
 </script>
 @endsection

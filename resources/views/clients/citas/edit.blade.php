@@ -107,35 +107,47 @@
 
 <script>
     document.getElementById('date').addEventListener('change', function() {
-    // Obtener el valor de la fecha seleccionada
-    let fechaSeleccionada = this.value;
+        // Obtener el valor de la fecha seleccionada
+        let fechaSeleccionada = this.value;
 
-    // Enviar una solicitud POST al servidor utilizando Axios
-    axios.post('/search/horarios/disponibles', {
-        fecha: fechaSeleccionada
-    })
-    .then(function (response) {
-        // Limpiar el campo de selección de horarios
-        document.getElementById('horarios').innerHTML = '';
-        // Obtener los horarios disponibles de la respuesta
-        let horariosDisponibles = response.data.horariosDisponibles;
+        // Enviar una solicitud POST al servidor utilizando Axios
+        axios.post('/search/horarios/disponibles', {
+            fecha: fechaSeleccionada
+        })
+        .then(function (response) {
+            // Limpiar el campo de selección de horarios
+            document.getElementById('horarios').innerHTML = '';
 
-        // Actualizar dinámicamente el campo de selección de horarios
-        let selectTag = document.getElementById('horarios');
-        let optgroup = document.createElement('optgroup');
-        optgroup.label = 'Horarios disponibles';
-        horariosDisponibles.forEach(function(horario) {
+            // Obtener los horarios disponibles de la respuesta
+            let horariosDisponibles = response.data.horariosDisponibles;
+
+            // Verificar si hay horarios disponibles
+            if (horariosDisponibles.length === 0) {
+            // Mostrar un mensaje de error
+            let selectTag = document.getElementById('horarios');
             let option = document.createElement('option');
-            option.value = horario.id;
-            option.textContent = horario.hora;
-            optgroup.appendChild(option);
+            option.value = '';
+            option.textContent = 'No hay horarios disponibles, seleccione otra fecha';
+            option.disabled = true;
+            option.selected = true;
+            selectTag.appendChild(option);
+            } else {
+            // Actualizar dinámicamente el campo de selección de horarios
+            let selectTag = document.getElementById('horarios');
+            let optgroup = document.createElement('optgroup');
+            optgroup.label = 'Horarios disponibles';
+            horariosDisponibles.forEach(function(horario) {
+                let option = document.createElement('option');
+                option.value = horario.id;
+                option.textContent = horario.hora;
+                optgroup.appendChild(option);
+            });
+            selectTag.appendChild(optgroup);
+            }
+        })
+        .catch(function (error) {
+            console.error('Error al obtener los horarios disponibles:', error);
         });
-        selectTag.appendChild(optgroup);
-    })
-    .catch(function (error) {
-        console.error('Error al obtener los horarios disponibles:', error);
     });
-    });
-
 </script>
 @endsection
